@@ -7,5 +7,6 @@ val networkManager = NetworkManager()
 
 val networkModule = module {
     single { networkManager.provideRetrofit() }
+
     factory { networkManager.provideApi(get()) }
 }

@@ -10,8 +10,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 class NetworkManager {
     fun provideRetrofit(): Retrofit {
         return Retrofit.Builder()
-            .client(getOkHttpClient())
             .baseUrl(BASE_URL)
+            .client(getOkHttpClient())
             .addConverterFactory(GsonConverterFactory.create(getGson()))
             .build()
     }
