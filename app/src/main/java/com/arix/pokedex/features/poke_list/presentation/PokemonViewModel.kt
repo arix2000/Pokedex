@@ -50,9 +50,17 @@ class PokemonViewModel(
 
     private fun setProperlyLoadingBasedOnPokemonList() {
         if (_state.value.pokemonList == null)
-            _state.value = _state.value.copy(isInitialLoading = true, isLoadingNext = false)
+            _state.value = _state.value.copy(
+                isInitialLoading = true,
+                isLoadingNext = false,
+                errorMessage = null
+            )
         else
-            _state.value = _state.value.copy(isInitialLoading = false, isLoadingNext = true)
+            _state.value = _state.value.copy(
+                isInitialLoading = false,
+                isLoadingNext = true,
+                errorMessage = null
+            )
     }
 
     private fun getPokemonDetailsList(pokemonBasicDataList: List<PokemonBasicData>) {

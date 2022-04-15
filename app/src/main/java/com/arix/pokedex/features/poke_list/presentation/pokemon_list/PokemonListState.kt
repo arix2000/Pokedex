@@ -6,5 +6,7 @@ data class PokemonListState(
     val pokemonList: MutableList<PokemonDetails>? = null,
     val isInitialLoading: Boolean = false,
     val isLoadingNext: Boolean = false,
-    val errorMessage: String? = null //TODO react on error in the UI
-)
+    val errorMessage: String? = null
+) {
+    fun isErrorOnInitial() = errorMessage != null && pokemonList == null
+}
