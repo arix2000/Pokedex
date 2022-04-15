@@ -2,7 +2,6 @@ package com.arix.pokedex.features.poke_list.presentation.pokemon_list.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
@@ -19,13 +18,15 @@ import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.intl.LocaleList
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.arix.pokedex.R
 import com.arix.pokedex.features.poke_list.domain.model.details.PokemonDetails
 import com.arix.pokedex.features.poke_list.domain.model.details.Type
 import com.arix.pokedex.theme.PokedexTheme
-import com.arix.pokedex.views.ShimmerAnimatedBox
+import com.arix.pokedex.theme.Shapes
+import com.arix.pokedex.theme.TextSize
+import com.arix.pokedex.views.FadingHorizontalDivider
+import com.arix.pokedex.views.shimmer_effect.ShimmerAnimatedBox
 import com.google.gson.Gson
 
 @Composable
@@ -36,11 +37,8 @@ fun PokemonItem(pokemonDetails: PokemonDetails, modifier: Modifier = Modifier) {
         modifier = Modifier
             .padding(5.dp)
             .background(
-                shape = RoundedCornerShape(12.dp),
-                brush = getBrushBasedOn(
-                    isImageLoading,
-                    pokemonDetails.types
-                )
+                shape = Shapes.medium,
+                brush = getBrushBasedOn(isImageLoading, pokemonDetails.types)
             )
     ) {
         Column(
@@ -56,8 +54,11 @@ fun PokemonItem(pokemonDetails: PokemonDetails, modifier: Modifier = Modifier) {
                 placeholder = painterResource(id = R.drawable.scyther),
                 onSuccess = { isImageLoading = false }
             )
-            FadingDivider()
-            Text(text = pokemonDetails.name.capitalize(LocaleList.current), fontSize = 20.sp)
+            FadingHorizontalDivider()
+            Text(
+                text = pokemonDetails.name.capitalize(LocaleList.current),
+                fontSize = TextSize.large
+            )
             TypesSection(pokemonDetails.types)
             Spacer(modifier = Modifier.height(10.dp))
         }
@@ -85,37 +86,19 @@ fun ShowShimmerIf(imageLoading: Boolean) {
         )
 }
 
-@Composable
-private fun FadingDivider() {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(0.7.dp)
-            .padding(horizontal = 10.dp)
-            .background(
-                brush = Brush.linearGradient(
-                    colors = listOf(
-                        Color.Transparent,
-                        Color.Gray,
-                        Color.Transparent
-                    )
-                )
-            )
-    )
-}
-
 @Preview
 @Composable
 fun PokemonItemPreview() {
+    val pokemonDetailsJson =
+        LocalContext.current.resources.openRawResource(R.raw.pokemon_details_example)
+            .reader()
+            .readText()
+    val pokemonDetails: PokemonDetails =
+        Gson().fromJson(pokemonDetailsJson, PokemonDetails::class.java)
+
     PokedexTheme {
         Surface() {
-            val pokemonDetailsJson =
-                LocalContext.current.resources.openRawResource(R.raw.pokemon_details_example)
-                    .reader()
-                    .readText()
-            val pokemonDetails: PokemonDetails =
-                Gson().fromJson(pokemonDetailsJson, PokemonDetails::class.java)
-            PokemonItem(pokemonDetails, Modifier.width(150.dp))
+            PokemonItem(pokemonDetails, Modifier.width(180.dp))
         }
     }
 }

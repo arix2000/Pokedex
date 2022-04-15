@@ -1,8 +1,8 @@
 package com.arix.pokedex.core
 
 import android.app.Application
-import com.arix.pokedex.BuildConfig
 import androidx.appcompat.app.AppCompatDelegate
+import com.arix.pokedex.BuildConfig
 import com.arix.pokedex.core.di.*
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
