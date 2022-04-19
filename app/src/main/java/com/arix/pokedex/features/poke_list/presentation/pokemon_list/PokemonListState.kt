@@ -3,9 +3,11 @@ package com.arix.pokedex.features.poke_list.presentation.pokemon_list
 import com.arix.pokedex.features.poke_list.domain.model.details.PokemonDetails
 
 data class PokemonListState(
-    val pokemonList: MutableList<PokemonDetails>? = null,
+    val pokemonList: List<PokemonDetails>? = null,
     val isInitialLoading: Boolean = false,
     val isLoadingNext: Boolean = false,
+    val isSearching: Boolean = false,
+    val isListEndedReached: Boolean = false,
     val errorMessage: String? = null
 ) {
     fun isErrorOnInitial() = errorMessage != null && pokemonList == null

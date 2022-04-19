@@ -5,13 +5,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.arix.pokedex.core.Constants.PokemonListScreen.POKEMON_LIST_INITIAL_OFFSET
+import com.arix.pokedex.core.Constants.PokemonListScreen.POKEMON_SEARCH_LIST_ITEM_LIMIT
 import com.arix.pokedex.features.poke_list.domain.model.details.PokemonDetails
-import com.arix.pokedex.features.poke_list.domain.model.list.PokemonBasicData
 import com.arix.pokedex.features.poke_list.domain.use_cases.GetPokemonListUseCase
 import com.arix.pokedex.features.poke_list.domain.use_cases.GetPokemonUseCase
 import com.arix.pokedex.features.poke_list.presentation.pokemon_list.PokemonListState
 import com.arix.pokedex.utils.Resource
 import kotlinx.coroutines.*
+import java.io.InputStream
 
 class PokemonViewModel(
     val getPokemonListUseCase: GetPokemonListUseCase,
@@ -21,7 +22,16 @@ class PokemonViewModel(
     private val _state = mutableStateOf(PokemonListState())
     val state: State<PokemonListState> = _state
 
+    private lateinit var pokemonNames: List<String>
+    var actualSearchQuery = ""
+        set(value) {
+            field = value
+            searchPokemon()
+        }
+    var previousQuery: String = ""
+
     private var getNextOrInitialPokemonListJob: Job? = null
+    private var getPokemonDetailsListJob: Job? = null
 
     init {
         getNextOrInitialPokemonList()
@@ -35,7 +45,11 @@ class PokemonViewModel(
                 _state.value.pokemonList?.size ?: POKEMON_LIST_INITIAL_OFFSET
             ).run {
                 when (this) {
-                    is Resource.Success -> getPokemonDetailsList(data?.pokemonList!!)
+                    is Resource.Success -> {
+                        getPokemonDetailsList(data?.pokemonList?.map { it.name }!!) {
+                            _state.value = _state.value.copy(isListEndedReached = data.next == null)
+                        }
+                    }
                     is Resource.Error -> {
                         _state.value = _state.value.copy(
                             isInitialLoading = false,
@@ -47,6 +61,60 @@ class PokemonViewModel(
             }
         }
     }
+
+    private fun searchPokemon() {
+        if (actualSearchQuery == previousQuery) return
+        if (actualSearchQuery.isBlank() && previousQuery.isNotBlank()) {
+            _state.value = _state.value.copy(
+                pokemonList = null,
+                isSearching = false
+            )
+            getNextOrInitialPokemonList()
+            return
+        }
+        _state.value = _state.value.copy(pokemonList = null)
+        previousQuery = actualSearchQuery
+        _state.value = _state.value.copy(
+            isSearching = true,
+            isInitialLoading = false,
+            isLoadingNext = true,
+            errorMessage = null
+        )
+        getNextOrInitialSearchedList()
+    }
+
+    fun getNextOrInitialSearchedList() {
+        val filteredPokemonNames = pokemonNames.filter { it.contains(actualSearchQuery) }
+
+        getPokemonDetailsList(
+            filteredPokemonNames.subList(
+                (_state.value.pokemonList?.size ?: 0), getDefaultLimitOrHowManyLeft(
+                    filteredPokemonNames
+                )
+            )
+        ) {
+            _state.value =
+                _state.value.copy(isListEndedReached = _state.value.pokemonList?.size ?: 0 >= filteredPokemonNames.size)
+        }
+    }
+
+    private fun getDefaultLimitOrHowManyLeft(filteredPokemonNames: List<String>): Int {
+        val actualList = _state.value.pokemonList ?: emptyList()
+
+        return when {
+            isSizeEqualOrLowerThanLimit(filteredPokemonNames.size) ->
+                filteredPokemonNames.size
+            canTakeNextItems(actualList.size, filteredPokemonNames.size) ->
+                POKEMON_SEARCH_LIST_ITEM_LIMIT + actualList.size
+            else ->
+                filteredPokemonNames.size
+        }
+    }
+
+    private fun isSizeEqualOrLowerThanLimit(size: Int) = POKEMON_SEARCH_LIST_ITEM_LIMIT >= size
+
+    private fun canTakeNextItems(actualListSize: Int, allItemsListSize: Int) =
+        actualListSize < allItemsListSize - POKEMON_SEARCH_LIST_ITEM_LIMIT
 
     private fun setProperlyLoadingBasedOnPokemonList() {
         if (_state.value.pokemonList == null)
@@ -63,21 +131,20 @@ class PokemonViewModel(
             )
     }
 
-    private fun getPokemonDetailsList(pokemonBasicDataList: List<PokemonBasicData>) {
+    private fun getPokemonDetailsList(pokemonNames: List<String>, onJobCompleted: () -> Unit) {
         viewModelScope.launch {
-            val pokemonDetailsResponses = pokemonBasicDataList.map {
-                async(Dispatchers.IO) { getPokemon(it.name) }
+            val pokemonDetailsResponses = pokemonNames.map {
+                async(Dispatchers.IO) { getPokemon(it) }
             }
 
             _state.value = _state.value.copy(
-                pokemonList = _state.value.pokemonList?.apply { addAll(pokemonDetailsResponses.awaitAll()) }
-                    ?: pokemonDetailsResponses.awaitAll().toMutableList(),
+                pokemonList = (_state.value.pokemonList
+                    ?: emptyList()).plus(pokemonDetailsResponses.awaitAll()),
                 isInitialLoading = false,
                 isLoadingNext = false
             )
-        }
+        }.invokeOnCompletion { onJobCompleted() }
     }
-
 
     private suspend fun getPokemon(name: String): PokemonDetails {
         getPokemonUseCase(name).run {
@@ -92,6 +159,10 @@ class PokemonViewModel(
             }
         }
         return PokemonDetails.EMPTY
+    }
+
+    fun cachePokemonNames(pokemonNamesInputStream: InputStream) {
+        pokemonNames = pokemonNamesInputStream.reader().readLines()
     }
 
 }
