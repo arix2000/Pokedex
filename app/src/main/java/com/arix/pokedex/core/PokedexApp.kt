@@ -1,17 +1,15 @@
 package com.arix.pokedex.core
 
 import android.app.Application
-import com.arix.pokedex.BuildConfig
 import androidx.appcompat.app.AppCompatDelegate
-import com.arix.pokedex.core.di.appModule
-import com.arix.pokedex.core.di.repositoryModule
-import com.arix.pokedex.core.di.viewModelModule
+import com.arix.pokedex.BuildConfig
+import com.arix.pokedex.core.di.*
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.GlobalContext.startKoin
 import org.koin.core.logger.Level
 
-class PokedexApp: Application() {
+class PokedexApp : Application() {
     override fun onCreate() {
         super.onCreate()
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
@@ -19,7 +17,16 @@ class PokedexApp: Application() {
         startKoin {
             androidLogger(if (BuildConfig.DEBUG) Level.ERROR else Level.NONE)
             androidContext(this@PokedexApp)
-            modules(listOf(appModule, repositoryModule, viewModelModule))
+            modules(
+                listOf(
+                    appModule,
+                    repositoryModule,
+                    viewModelModule,
+                    networkModule,
+                    dataSourceModule,
+                    useCaseModule
+                )
+            )
         }
     }
 }

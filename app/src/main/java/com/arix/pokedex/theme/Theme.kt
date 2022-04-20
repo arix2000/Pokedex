@@ -14,8 +14,8 @@ private val DarkColorPalette = darkColors(
 fun PokedexTheme(content: @Composable () -> Unit) {
     MaterialTheme(
         colors = DarkColorPalette,
-        typography = Typography,
-        shapes = Shapes,
+        typography = AppTypography,
+        shapes = AppShapes,
         content = content
     )
 }
