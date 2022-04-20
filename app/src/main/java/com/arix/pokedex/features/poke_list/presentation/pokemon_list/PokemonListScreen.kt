@@ -9,6 +9,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.intl.LocaleList
+import androidx.compose.ui.text.toLowerCase
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.arix.pokedex.R
@@ -20,6 +22,7 @@ import com.arix.pokedex.views.DefaultProgressIndicatorScreen
 import com.arix.pokedex.views.ErrorScreenWithRetryButton
 import com.arix.pokedex.views.ErrorScreenWithRetryButtonCondensed
 import org.koin.androidx.compose.getViewModel
+import java.util.*
 
 @Composable
 fun PokemonListScreen(
@@ -48,7 +51,10 @@ private fun PokemonGridView(
 ) {
     val state = viewModel.state.value
     Column(modifier = Modifier.fillMaxSize()) {
-        SearchBar(onValueChange = { viewModel.actualSearchQuery = it })
+        SearchBar(
+            onValueChange = { viewModel.actualSearchQuery = it.toLowerCase(LocaleList.current) },
+            modifier = Modifier.padding(bottom = 6.dp, start = 10.dp, end = 10.dp)
+        )
         if (state.isSearchResultsEmpty) NoResultsView()
         LazyColumn(modifier = Modifier.fillMaxSize()) {
             gridItems(state.pokemonList ?: emptyList(), cells = 2) {
