@@ -3,6 +3,7 @@ package com.arix.pokedex.features.poke_list.presentation.pokemon_list
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
@@ -48,6 +49,7 @@ private fun PokemonGridView(
     val state = viewModel.state.value
     Column(modifier = Modifier.fillMaxSize()) {
         SearchBar(onValueChange = { viewModel.actualSearchQuery = it })
+        if (state.isSearchResultsEmpty) NoResultsView()
         LazyColumn(modifier = Modifier.fillMaxSize()) {
             gridItems(state.pokemonList ?: emptyList(), cells = 2) {
                 PokemonItem(pokemonDetails = it)
@@ -56,7 +58,10 @@ private fun PokemonGridView(
                 item {
                     if (!state.pokemonList.isNullOrEmpty())
                         LaunchedEffect(true) {
-                            if (state.isSearching) viewModel.getNextOrInitialSearchedList() else viewModel.getNextOrInitialPokemonList()
+                            if (state.isSearching)
+                                viewModel.getNextOrInitialSearchedList()
+                            else
+                                viewModel.getNextOrInitialPokemonList()
                         }
                     LoadingOrError(state, viewModel)
                 }
@@ -72,12 +77,25 @@ private fun LoadingOrError(state: PokemonListState, viewModel: PokemonViewModel)
             .padding(vertical = 25.dp),
         contentAlignment = Alignment.Center
     ) {
-        if (state.errorMessage == null)
-            CircularProgressIndicator()
-        else
+        if (state.errorMessage != null)
             ErrorScreenWithRetryButtonCondensed(
                 onRetryClicked = { viewModel.getNextOrInitialPokemonList() },
                 modifier = Modifier.fillMaxWidth()
             )
+        else
+            CircularProgressIndicator()
+
+    }
+}
+
+@Composable
+fun NoResultsView() {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 25.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(text = "No results :(")
     }
 }

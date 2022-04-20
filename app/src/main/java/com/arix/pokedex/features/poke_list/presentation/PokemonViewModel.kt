@@ -1,11 +1,13 @@
 package com.arix.pokedex.features.poke_list.presentation
 
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.arix.pokedex.core.Constants.PokemonListScreen.POKEMON_LIST_INITIAL_OFFSET
 import com.arix.pokedex.core.Constants.PokemonListScreen.POKEMON_SEARCH_LIST_ITEM_LIMIT
+import com.arix.pokedex.extensions.isSizeEqualsOrGreaterThan
 import com.arix.pokedex.features.poke_list.domain.model.details.PokemonDetails
 import com.arix.pokedex.features.poke_list.domain.use_cases.GetPokemonListUseCase
 import com.arix.pokedex.features.poke_list.domain.use_cases.GetPokemonUseCase
@@ -28,7 +30,7 @@ class PokemonViewModel(
             field = value
             searchPokemon()
         }
-    var previousQuery: String = ""
+    private var previousSearchQuery: String = ""
 
     private var getNextOrInitialPokemonListJob: Job? = null
     private var getPokemonDetailsListJob: Job? = null
@@ -39,6 +41,7 @@ class PokemonViewModel(
 
     fun getNextOrInitialPokemonList() {
         getNextOrInitialPokemonListJob?.cancel()
+        getPokemonDetailsListJob?.cancel()
         setProperlyLoadingBasedOnPokemonList()
         getNextOrInitialPokemonListJob = viewModelScope.launch {
             getPokemonListUseCase(
@@ -63,28 +66,38 @@ class PokemonViewModel(
     }
 
     private fun searchPokemon() {
+        val previousQuery = previousSearchQuery
+        previousSearchQuery = actualSearchQuery
         if (actualSearchQuery == previousQuery) return
         if (actualSearchQuery.isBlank() && previousQuery.isNotBlank()) {
             _state.value = _state.value.copy(
                 pokemonList = null,
-                isSearching = false
+                isListEndedReached = false,
+                isSearchResultsEmpty = false
             )
             getNextOrInitialPokemonList()
+            _state.value = _state.value.copy(isSearching = false)
             return
         }
         _state.value = _state.value.copy(pokemonList = null)
-        previousQuery = actualSearchQuery
         _state.value = _state.value.copy(
             isSearching = true,
             isInitialLoading = false,
             isLoadingNext = true,
+            isSearchResultsEmpty = false,
+            isListEndedReached = false,
             errorMessage = null
         )
         getNextOrInitialSearchedList()
     }
 
     fun getNextOrInitialSearchedList() {
-        val filteredPokemonNames = pokemonNames.filter { it.contains(actualSearchQuery) }
+        val filteredPokemonNames = getFilteredAndSortedPokemonList()
+
+        _state.value = _state.value.copy(
+            isSearchResultsEmpty = filteredPokemonNames.isEmpty(),
+            isLoadingNext = filteredPokemonNames.isNotEmpty()
+        )
 
         getPokemonDetailsList(
             filteredPokemonNames.subList(
@@ -94,8 +107,22 @@ class PokemonViewModel(
             )
         ) {
             _state.value =
-                _state.value.copy(isListEndedReached = _state.value.pokemonList?.size ?: 0 >= filteredPokemonNames.size)
+                _state.value.copy(
+                    isListEndedReached = _state.value.pokemonList
+                        .isSizeEqualsOrGreaterThan(filteredPokemonNames)
+                )
         }
+    }
+
+    private fun getFilteredAndSortedPokemonList(): List<String> {
+        val filteredList = pokemonNames.filter { it.contains(actualSearchQuery) }
+        val filteredAndSorted = filteredList
+            .filter { it.startsWith(actualSearchQuery) }
+            .toMutableList()
+        filteredList.forEach {
+            if (!filteredAndSorted.contains(it)) filteredAndSorted.add(it)
+        }
+        return filteredAndSorted
     }
 
     private fun getDefaultLimitOrHowManyLeft(filteredPokemonNames: List<String>): Int {
@@ -117,7 +144,7 @@ class PokemonViewModel(
         actualListSize < allItemsListSize - POKEMON_SEARCH_LIST_ITEM_LIMIT
 
     private fun setProperlyLoadingBasedOnPokemonList() {
-        if (_state.value.pokemonList == null)
+        if (_state.value.pokemonList == null && !_state.value.isSearching)
             _state.value = _state.value.copy(
                 isInitialLoading = true,
                 isLoadingNext = false,
@@ -132,7 +159,9 @@ class PokemonViewModel(
     }
 
     private fun getPokemonDetailsList(pokemonNames: List<String>, onJobCompleted: () -> Unit) {
-        viewModelScope.launch {
+        getPokemonDetailsListJob?.cancel()
+        getNextOrInitialPokemonListJob?.cancel()
+        getPokemonDetailsListJob = viewModelScope.launch {
             val pokemonDetailsResponses = pokemonNames.map {
                 async(Dispatchers.IO) { getPokemon(it) }
             }
@@ -143,7 +172,8 @@ class PokemonViewModel(
                 isInitialLoading = false,
                 isLoadingNext = false
             )
-        }.invokeOnCompletion { onJobCompleted() }
+        }
+        getPokemonDetailsListJob?.invokeOnCompletion { onJobCompleted() }
     }
 
     private suspend fun getPokemon(name: String): PokemonDetails {
@@ -151,10 +181,10 @@ class PokemonViewModel(
             when (this) {
                 is Resource.Success -> return data!!
                 is Resource.Error -> {
-                    _state.value = _state.value.copy(
-                        isInitialLoading = false,
-                        errorMessage = message
-                    )
+                    /** Do nothing
+                    (TODO test without internet connection
+                    if its caused problems with error showing,pass only `coroutine cancelled excepction`)
+                     **/
                 }
             }
         }

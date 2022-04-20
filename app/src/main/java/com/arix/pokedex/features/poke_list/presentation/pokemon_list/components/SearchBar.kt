@@ -13,6 +13,7 @@ import androidx.compose.material.icons.rounded.Search
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
@@ -23,7 +24,8 @@ import org.koin.ext.clearQuotes
 @Composable
 fun SearchBar(onValueChange: (String) -> Unit, modifier: Modifier = Modifier) {
     var text by remember { mutableStateOf("") }
-    var isFilled by remember { mutableStateOf(false) }
+    val isPreview = LocalInspectionMode.current
+    var isFilled by remember { mutableStateOf(isPreview) }
     val focusManager = LocalFocusManager.current
     OutlinedTextField(
         value = text,
@@ -31,7 +33,7 @@ fun SearchBar(onValueChange: (String) -> Unit, modifier: Modifier = Modifier) {
         label = { Text(text = "Search") },
         leadingIcon = { Icon(imageVector = Icons.Rounded.Search, contentDescription = null) },
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-        keyboardActions = KeyboardActions { focusManager.clearFocus(); onValueChange(text) },
+        keyboardActions = KeyboardActions { focusManager.clearFocus() },
         onValueChange = {
             text = it
             isFilled = it.isNotBlank()
@@ -42,7 +44,7 @@ fun SearchBar(onValueChange: (String) -> Unit, modifier: Modifier = Modifier) {
                 Icon(
                     imageVector = Icons.Rounded.Clear,
                     contentDescription = stringResource(R.string.search_clear),
-                    modifier = Modifier.clickable { text = "" }
+                    modifier = Modifier.clickable { text = ""; onValueChange(text) }
                 )
         },
         modifier = modifier.fillMaxWidth()
