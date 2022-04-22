@@ -16,6 +16,7 @@ import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.intl.LocaleList
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
@@ -52,12 +53,16 @@ fun PokemonItem(pokemonDetails: PokemonDetails, modifier: Modifier = Modifier) {
                 contentScale = ContentScale.FillWidth,
                 modifier = Modifier.fillMaxWidth(),
                 placeholder = painterResource(id = R.drawable.scyther),
-                onSuccess = { isImageLoading = false }
+                onSuccess = { isImageLoading = false },
+                onError = { isImageLoading = false },
+                error = painterResource(id = R.drawable.pokemon_not_found_image)
             )
             FadingHorizontalDivider()
             Text(
                 text = pokemonDetails.name.capitalize(LocaleList.current),
-                fontSize = TextSize.large
+                fontSize = TextSize.large,
+                overflow = TextOverflow.Ellipsis,
+                maxLines = 1
             )
             TypesSection(pokemonDetails.types)
             Spacer(modifier = Modifier.height(10.dp))
