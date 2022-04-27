@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.arix.pokedex.core.navigation.AppNavHost
+import com.arix.pokedex.features.common.AppTopBar
 import com.arix.pokedex.theme.PokedexTheme
 
 class MainActivity : ComponentActivity() {
@@ -26,7 +27,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun AppContainer() {
     Surface(modifier = Modifier.fillMaxSize()) {
-        Scaffold {
+        Scaffold(topBar = { AppTopBar() }) {
             AppNavHost()
         }
     }
