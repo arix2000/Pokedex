@@ -94,12 +94,14 @@ fun ShowShimmerIf(imageLoading: Boolean) {
 @Preview
 @Composable
 fun PokemonItemPreview() {
-    val pokemonDetailsJson =
-        LocalContext.current.resources.openRawResource(R.raw.pokemon_details_example)
+    val context = LocalContext.current
+    val pokemonDetailsJson = remember {
+        context.resources.openRawResource(R.raw.pokemon_details_example)
             .reader()
             .readText()
+    }
     val pokemonDetails: PokemonDetails =
-        Gson().fromJson(pokemonDetailsJson, PokemonDetails::class.java)
+        remember { Gson().fromJson(pokemonDetailsJson, PokemonDetails::class.java) }
 
     PokedexTheme {
         Surface() {
