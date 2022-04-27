@@ -1,4 +1,4 @@
-package com.arix.pokedex.core
+package com.arix.pokedex.features
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
