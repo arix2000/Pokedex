@@ -1,16 +1,13 @@
-package com.arix.pokedex.features.poke_list.presentation.pokemon_list.components
+package com.arix.pokedex.features.poke_list.presentation.ui.components
 
-import android.widget.NumberPicker
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Clear
-import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -22,7 +19,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.arix.pokedex.R
 import com.arix.pokedex.theme.PokedexTheme
-import org.koin.ext.clearQuotes
 
 @Composable
 fun SearchBar(onValueChange: (String) -> Unit, modifier: Modifier = Modifier) {

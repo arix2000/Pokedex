@@ -1,5 +1,7 @@
 package com.arix.pokedex.features.poke_list.domain.model.details
 
+import com.google.gson.Gson
+
 data class PokemonDetails(
     val abilities: List<Ability>,
     val base_experience: Int,
@@ -21,7 +23,12 @@ data class PokemonDetails(
     val weight: Int
 ) {
 
+    fun toJson(): String = Gson().toJson(this)
+
     companion object {
+        fun fromJson(json: String): PokemonDetails =
+            Gson().fromJson(json, PokemonDetails::class.java)
+
         val EMPTY = PokemonDetails(
             emptyList(), 1, emptyList(),
             emptyList(), 1, emptyList(), 1, false, "",

@@ -19,7 +19,7 @@ fun DefaultProgressIndicatorScreen(modifier: Modifier = Modifier) {
 
 @Preview
 @Composable
-fun DefaultProgressIndicatorScreenPreview() {
+private fun DefaultProgressIndicatorScreenPreview() {
     PokedexTheme {
         Surface {
             DefaultProgressIndicatorScreen()

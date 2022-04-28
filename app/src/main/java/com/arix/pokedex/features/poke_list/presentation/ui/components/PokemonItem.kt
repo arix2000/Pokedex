@@ -1,6 +1,7 @@
-package com.arix.pokedex.features.poke_list.presentation.pokemon_list.components
+package com.arix.pokedex.features.poke_list.presentation.ui.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -31,7 +32,11 @@ import com.arix.pokedex.views.shimmer_effect.ShimmerAnimatedBox
 import com.google.gson.Gson
 
 @Composable
-fun PokemonItem(pokemonDetails: PokemonDetails, modifier: Modifier = Modifier) {
+fun PokemonItem(
+    pokemonDetails: PokemonDetails,
+    modifier: Modifier = Modifier,
+    onClick: (() -> Unit)? = null
+) {
     val isPreview = LocalInspectionMode.current
     var isImageLoading by remember { mutableStateOf(!isPreview) }
     Box(
@@ -40,7 +45,7 @@ fun PokemonItem(pokemonDetails: PokemonDetails, modifier: Modifier = Modifier) {
             .background(
                 shape = Shapes.medium,
                 brush = getBrushBasedOn(isImageLoading, pokemonDetails.types)
-            )
+            ).clickable(enabled = onClick != null) { onClick?.invoke() }
     ) {
         Column(
             modifier = modifier,

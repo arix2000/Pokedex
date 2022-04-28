@@ -1,4 +1,4 @@
-package com.arix.pokedex.features.poke_list.presentation.pokemon_list
+package com.arix.pokedex.features.poke_list.presentation.ui
 
 sealed class PokemonListEvent {
     object GetNextPage : PokemonListEvent()

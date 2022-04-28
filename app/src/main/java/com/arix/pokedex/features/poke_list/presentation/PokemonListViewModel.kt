@@ -12,8 +12,8 @@ import com.arix.pokedex.extensions.isSizeEqualsOrGreaterThan
 import com.arix.pokedex.features.poke_list.domain.model.details.PokemonDetails
 import com.arix.pokedex.features.poke_list.domain.use_cases.GetPokemonListUseCase
 import com.arix.pokedex.features.poke_list.domain.use_cases.GetPokemonUseCase
-import com.arix.pokedex.features.poke_list.presentation.pokemon_list.PokemonListEvent
-import com.arix.pokedex.features.poke_list.presentation.pokemon_list.PokemonListState
+import com.arix.pokedex.features.poke_list.presentation.ui.PokemonListEvent
+import com.arix.pokedex.features.poke_list.presentation.ui.PokemonListState
 import com.arix.pokedex.utils.Resource
 import kotlinx.coroutines.*
 import java.io.InputStream
@@ -71,18 +71,16 @@ class PokemonListViewModel(
                 _state.value.pokemonList?.size ?: POKEMON_LIST_INITIAL_OFFSET
             ).run {
                 when (this) {
-                    is Resource.Success -> {
+                    is Resource.Success ->
                         getPokemonDetailsList(data?.pokemonList?.map { it.name }!!) {
                             _state.value = _state.value.copy(isListEndedReached = data.next == null)
                         }
-                    }
-                    is Resource.Error -> {
+                    is Resource.Error ->
                         _state.value = _state.value.copy(
                             isInitialLoading = false,
                             isLoadingNext = false,
                             errorMessage = message
                         )
-                    }
                 }
             }
         }
@@ -206,7 +204,8 @@ class PokemonListViewModel(
                 is Resource.Error -> {
                     /** Do nothing
                     (TODO test without internet connection
-                    if its caused problems with error showing,pass only `coroutine cancelled excepction`)
+                    if its caused problems with error
+                    showing,pass only `coroutine cancelled excepction`)
                      **/
                 }
             }

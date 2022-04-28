@@ -1,4 +1,4 @@
-package com.arix.pokedex.features.poke_list.presentation.pokemon_list.components
+package com.arix.pokedex.features.poke_list.presentation.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*

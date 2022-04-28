@@ -1,4 +1,4 @@
-package com.arix.pokedex.features.poke_list.presentation.pokemon_list
+package com.arix.pokedex.features.poke_list.presentation.ui
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -16,8 +16,8 @@ import com.arix.pokedex.core.navigation.Screen
 import com.arix.pokedex.extensions.gridItems
 import com.arix.pokedex.extensions.putArgument
 import com.arix.pokedex.features.poke_list.presentation.PokemonListViewModel
-import com.arix.pokedex.features.poke_list.presentation.pokemon_list.components.PokemonItem
-import com.arix.pokedex.features.poke_list.presentation.pokemon_list.components.SearchBar
+import com.arix.pokedex.features.poke_list.presentation.ui.components.PokemonItem
+import com.arix.pokedex.features.poke_list.presentation.ui.components.SearchBar
 import com.arix.pokedex.views.DefaultProgressIndicatorScreen
 import com.arix.pokedex.views.ErrorScreenWithRetryButton
 import com.arix.pokedex.views.ErrorScreenWithRetryButtonCondensed
@@ -57,7 +57,11 @@ private fun PokemonGridView(
         if (state.isSearchResultsEmpty) NoResultsView()
         LazyColumn(modifier = Modifier.fillMaxSize()) {
             gridItems(state.pokemonList ?: emptyList(), cells = 2) {
-                PokemonItem(pokemonDetails = it)
+                PokemonItem(pokemonDetails = it) {
+                    with(Screen.PokemonDetailsScreen) {
+                        navController.navigate(route.putArgument(argumentKey, it.name))
+                    }
+                }
             }
             if (!state.isListEndedReached)
                 item {

@@ -1,4 +1,4 @@
-package com.arix.pokedex.features.poke_list.presentation.pokemon_list
+package com.arix.pokedex.features.poke_list.presentation.ui
 
 import com.arix.pokedex.features.poke_list.domain.model.details.PokemonDetails
 
