@@ -1,8 +1,9 @@
 package com.arix.pokedex.features.poke_list.presentation
 
-import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.text.intl.LocaleList
+import androidx.compose.ui.text.toLowerCase
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.arix.pokedex.core.Constants.PokemonListScreen.POKEMON_LIST_INITIAL_OFFSET
@@ -11,12 +12,13 @@ import com.arix.pokedex.extensions.isSizeEqualsOrGreaterThan
 import com.arix.pokedex.features.poke_list.domain.model.details.PokemonDetails
 import com.arix.pokedex.features.poke_list.domain.use_cases.GetPokemonListUseCase
 import com.arix.pokedex.features.poke_list.domain.use_cases.GetPokemonUseCase
+import com.arix.pokedex.features.poke_list.presentation.pokemon_list.PokemonListEvent
 import com.arix.pokedex.features.poke_list.presentation.pokemon_list.PokemonListState
 import com.arix.pokedex.utils.Resource
 import kotlinx.coroutines.*
 import java.io.InputStream
 
-class PokemonViewModel(
+class PokemonListViewModel(
     val getPokemonListUseCase: GetPokemonListUseCase,
     val getPokemonUseCase: GetPokemonUseCase
 ) : ViewModel() {
@@ -39,7 +41,28 @@ class PokemonViewModel(
         getNextOrInitialPokemonList()
     }
 
-    fun getNextOrInitialPokemonList() {
+    fun cachePokemonNames(pokemonNamesInputStream: InputStream) {
+        pokemonNames = pokemonNamesInputStream.reader().readLines()
+    }
+
+    fun invokeEvent(event: PokemonListEvent) {
+        when (event) {
+            is PokemonListEvent.GetNextPage,
+            is PokemonListEvent.OnRetryClicked ->
+                getNextPage()
+            is PokemonListEvent.SearchByQuery ->
+                actualSearchQuery = event.query.toLowerCase(LocaleList.current)
+        }
+    }
+
+    private fun getNextPage() {
+        if (state.value.isSearching)
+            getNextOrInitialSearchedList()
+        else
+            getNextOrInitialPokemonList()
+    }
+
+    private fun getNextOrInitialPokemonList() {
         getNextOrInitialPokemonListJob?.cancel()
         getPokemonDetailsListJob?.cancel()
         setProperlyLoadingBasedOnPokemonList()
@@ -63,6 +86,21 @@ class PokemonViewModel(
                 }
             }
         }
+    }
+
+    private fun setProperlyLoadingBasedOnPokemonList() {
+        if (_state.value.pokemonList == null && !_state.value.isSearching)
+            _state.value = _state.value.copy(
+                isInitialLoading = true,
+                isLoadingNext = false,
+                errorMessage = null
+            )
+        else
+            _state.value = _state.value.copy(
+                isInitialLoading = false,
+                isLoadingNext = true,
+                errorMessage = null
+            )
     }
 
     private fun searchPokemon() {
@@ -91,7 +129,7 @@ class PokemonViewModel(
         getNextOrInitialSearchedList()
     }
 
-    fun getNextOrInitialSearchedList() {
+    private fun getNextOrInitialSearchedList() {
         val filteredPokemonNames = getFilteredAndSortedPokemonList()
 
         _state.value = _state.value.copy(
@@ -143,21 +181,6 @@ class PokemonViewModel(
     private fun canTakeNextItems(actualListSize: Int, allItemsListSize: Int) =
         actualListSize < allItemsListSize - POKEMON_SEARCH_LIST_ITEM_LIMIT
 
-    private fun setProperlyLoadingBasedOnPokemonList() {
-        if (_state.value.pokemonList == null && !_state.value.isSearching)
-            _state.value = _state.value.copy(
-                isInitialLoading = true,
-                isLoadingNext = false,
-                errorMessage = null
-            )
-        else
-            _state.value = _state.value.copy(
-                isInitialLoading = false,
-                isLoadingNext = true,
-                errorMessage = null
-            )
-    }
-
     private fun getPokemonDetailsList(pokemonNames: List<String>, onJobCompleted: () -> Unit) {
         getPokemonDetailsListJob?.cancel()
         getNextOrInitialPokemonListJob?.cancel()
@@ -190,9 +213,4 @@ class PokemonViewModel(
         }
         return PokemonDetails.EMPTY
     }
-
-    fun cachePokemonNames(pokemonNamesInputStream: InputStream) {
-        pokemonNames = pokemonNamesInputStream.reader().readLines()
-    }
-
 }

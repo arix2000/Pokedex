@@ -9,25 +9,24 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.intl.LocaleList
-import androidx.compose.ui.text.toLowerCase
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.arix.pokedex.R
+import com.arix.pokedex.core.navigation.Screen
 import com.arix.pokedex.extensions.gridItems
-import com.arix.pokedex.features.poke_list.presentation.PokemonViewModel
+import com.arix.pokedex.extensions.putArgument
+import com.arix.pokedex.features.poke_list.presentation.PokemonListViewModel
 import com.arix.pokedex.features.poke_list.presentation.pokemon_list.components.PokemonItem
 import com.arix.pokedex.features.poke_list.presentation.pokemon_list.components.SearchBar
 import com.arix.pokedex.views.DefaultProgressIndicatorScreen
 import com.arix.pokedex.views.ErrorScreenWithRetryButton
 import com.arix.pokedex.views.ErrorScreenWithRetryButtonCondensed
 import org.koin.androidx.compose.getViewModel
-import java.util.*
 
 @Composable
 fun PokemonListScreen(
     navController: NavController,
-    viewModel: PokemonViewModel = getViewModel()
+    viewModel: PokemonListViewModel = getViewModel()
 ) {
     val context = LocalContext.current
     LaunchedEffect(key1 = true) {
@@ -37,7 +36,7 @@ fun PokemonListScreen(
     when {
         state.isInitialLoading -> DefaultProgressIndicatorScreen()
         state.isErrorOnInitial() -> ErrorScreenWithRetryButton(
-            onRetryClicked = { viewModel.getNextOrInitialPokemonList() },
+            onRetryClicked = { viewModel.invokeEvent(PokemonListEvent.OnRetryClicked) },
             modifier = Modifier.fillMaxSize()
         )
         else -> PokemonGridView(navController, viewModel)
@@ -47,12 +46,12 @@ fun PokemonListScreen(
 @Composable
 private fun PokemonGridView(
     navController: NavController,
-    viewModel: PokemonViewModel
+    viewModel: PokemonListViewModel
 ) {
     val state = viewModel.state.value
     Column(modifier = Modifier.fillMaxSize()) {
         SearchBar(
-            onValueChange = { viewModel.actualSearchQuery = it.toLowerCase(LocaleList.current) },
+            onValueChange = { viewModel.invokeEvent(PokemonListEvent.SearchByQuery(it)) },
             modifier = Modifier.padding(bottom = 6.dp, start = 10.dp, end = 10.dp)
         )
         if (state.isSearchResultsEmpty) NoResultsView()
@@ -64,10 +63,7 @@ private fun PokemonGridView(
                 item {
                     if (!state.pokemonList.isNullOrEmpty())
                         LaunchedEffect(true) {
-                            if (state.isSearching)
-                                viewModel.getNextOrInitialSearchedList()
-                            else
-                                viewModel.getNextOrInitialPokemonList()
+                            viewModel.invokeEvent(PokemonListEvent.GetNextPage)
                         }
                     LoadingOrError(state, viewModel)
                 }
@@ -76,7 +72,7 @@ private fun PokemonGridView(
 }
 
 @Composable
-private fun LoadingOrError(state: PokemonListState, viewModel: PokemonViewModel) {
+private fun LoadingOrError(state: PokemonListState, viewModel: PokemonListViewModel) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -85,7 +81,7 @@ private fun LoadingOrError(state: PokemonListState, viewModel: PokemonViewModel)
     ) {
         if (state.errorMessage != null)
             ErrorScreenWithRetryButtonCondensed(
-                onRetryClicked = { viewModel.getNextOrInitialPokemonList() },
+                onRetryClicked = { viewModel.invokeEvent(PokemonListEvent.OnRetryClicked) },
                 modifier = Modifier.fillMaxWidth()
             )
         else

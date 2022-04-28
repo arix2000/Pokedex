@@ -1,9 +1,9 @@
 package com.arix.pokedex.core.di
 
-import com.arix.pokedex.features.poke_list.presentation.PokemonViewModel
+import com.arix.pokedex.features.poke_list.presentation.PokemonListViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val viewModelModule = module {
-    viewModel { PokemonViewModel(get(), get()) }
+    viewModel { PokemonListViewModel(get(), get()) }
 }
