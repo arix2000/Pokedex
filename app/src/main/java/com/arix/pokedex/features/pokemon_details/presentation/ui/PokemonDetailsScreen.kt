@@ -11,17 +11,21 @@ import com.arix.pokedex.R
 import com.arix.pokedex.features.poke_list.domain.model.details.PokemonDetails
 import com.arix.pokedex.features.pokemon_details.presentation.PokemonDetailsViewModel
 import com.arix.pokedex.theme.PokedexTheme
+import com.arix.pokedex.views.DefaultProgressIndicatorScreen
 import com.google.gson.Gson
 import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun PokemonDetailsScreen(pokemonName: String, viewModel: PokemonDetailsViewModel = getViewModel()) {
-    val state = viewModel.state
+    val state = viewModel.state.value
 
     LaunchedEffect(key1 = true) {
         viewModel.invokeEvent(PokemonDetailsEvent.GetInitialData(pokemonName))
     }
-    Text(text = state.pokemonDetails?.name ?: "")
+    if (state.isLoading || state.pokemonDetails == null)
+        DefaultProgressIndicatorScreen()
+    else
+        PokemonDetailsScreenContent(state.pokemonDetails)
 }
 
 @Composable

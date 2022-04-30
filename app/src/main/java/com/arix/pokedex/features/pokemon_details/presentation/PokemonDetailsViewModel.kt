@@ -1,5 +1,6 @@
 package com.arix.pokedex.features.pokemon_details.presentation
 
+import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -14,8 +15,8 @@ import kotlinx.coroutines.launch
 
 class PokemonDetailsViewModel(val getPokemonUseCase: GetPokemonUseCase) : ViewModel() {
 
-    private var _state by mutableStateOf(PokemonDetailsState()) // use without 'by'
-    val state: PokemonDetailsState = _state
+    private var _state = mutableStateOf(PokemonDetailsState())
+    val state: State<PokemonDetailsState> = _state
 
     private var getPokemonDetailsJob: Job? = null
 
@@ -30,11 +31,11 @@ class PokemonDetailsViewModel(val getPokemonUseCase: GetPokemonUseCase) : ViewMo
     private fun getPokemonDetails(name: String) {
         getPokemonDetailsJob?.cancel()
         getPokemonDetailsJob = viewModelScope.launch {
-            _state = _state.copy(isLoading = true)
+            _state.value = _state.value.copy(isLoading = true)
             getPokemonUseCase(name).run {
-                _state = when (this) {
-                    is Resource.Success -> _state.copy(pokemonDetails = data, isLoading = false)
-                    is Resource.Error -> _state.copy(errorMessage = message, isLoading = false)
+                _state.value = when (this) {
+                    is Resource.Success -> _state.value.copy(pokemonDetails = data, isLoading = false)
+                    is Resource.Error -> _state.value.copy(errorMessage = message, isLoading = false)
                 }
             }
         }

@@ -201,13 +201,7 @@ class PokemonListViewModel(
         getPokemonUseCase(name).run {
             when (this) {
                 is Resource.Success -> return data!!
-                is Resource.Error -> {
-                    /** Do nothing
-                    (TODO test without internet connection
-                    if its caused problems with error
-                    showing,pass only `coroutine cancelled excepction`)
-                     **/
-                }
+                is Resource.Error -> { /** Do nothing **/ }
             }
         }
         return PokemonDetails.EMPTY
