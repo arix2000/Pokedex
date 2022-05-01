@@ -10,11 +10,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import com.arix.pokedex.R
-import com.arix.pokedex.core.navigation.Screen
 import com.arix.pokedex.extensions.gridItems
-import com.arix.pokedex.extensions.putArgument
 import com.arix.pokedex.features.poke_list.presentation.PokemonListViewModel
 import com.arix.pokedex.features.poke_list.presentation.ui.components.PokemonItem
 import com.arix.pokedex.features.poke_list.presentation.ui.components.SearchBar
@@ -25,8 +22,8 @@ import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun PokemonListScreen(
-    navController: NavController,
-    viewModel: PokemonListViewModel = getViewModel()
+    viewModel: PokemonListViewModel = getViewModel(),
+    navigateToPokemonDetails: (String) -> Unit
 ) {
     val context = LocalContext.current
     LaunchedEffect(key1 = true) {
@@ -39,14 +36,14 @@ fun PokemonListScreen(
             onRetryClicked = { viewModel.invokeEvent(PokemonListEvent.OnRetryClicked) },
             modifier = Modifier.fillMaxSize()
         )
-        else -> PokemonGridView(navController, viewModel)
+        else -> PokemonGridView(viewModel, navigateToPokemonDetails)
     }
 }
 
 @Composable
 private fun PokemonGridView(
-    navController: NavController,
-    viewModel: PokemonListViewModel
+    viewModel: PokemonListViewModel,
+    navigateToPokemonDetails: (String) -> Unit
 ) {
     val state = viewModel.state.value
     Column(modifier = Modifier.fillMaxSize()) {
@@ -58,9 +55,7 @@ private fun PokemonGridView(
         LazyColumn(modifier = Modifier.fillMaxSize()) {
             gridItems(state.pokemonList ?: emptyList(), cells = 2) {
                 PokemonItem(pokemonDetails = it) {
-                    with(Screen.PokemonDetailsScreen) {
-                        navController.navigate(route.putArgument(argumentKey, it.name))
-                    }
+                    navigateToPokemonDetails(it.name)
                 }
             }
             if (!state.isListEndedReached)
