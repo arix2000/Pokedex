@@ -27,9 +27,9 @@ import com.arix.pokedex.features.poke_list.domain.model.details.Type
 import com.arix.pokedex.theme.PokedexTheme
 import com.arix.pokedex.theme.Shapes
 import com.arix.pokedex.theme.TextSize
+import com.arix.pokedex.utils.MockResourceReader
 import com.arix.pokedex.views.FadingHorizontalDivider
 import com.arix.pokedex.views.shimmer_effect.ShimmerAnimatedBox
-import com.google.gson.Gson
 
 @Composable
 fun PokemonItem(
@@ -45,7 +45,8 @@ fun PokemonItem(
             .background(
                 shape = Shapes.medium,
                 brush = getBrushBasedOn(isImageLoading, pokemonDetails.types)
-            ).clickable(enabled = onClick != null) { onClick?.invoke() }
+            )
+            .clickable(enabled = onClick != null) { onClick?.invoke() }
     ) {
         Column(
             modifier = modifier,
@@ -69,7 +70,7 @@ fun PokemonItem(
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 1
             )
-            TypesSection(pokemonDetails.types)
+            TypesSection(pokemonDetails.types, spacing = 2.dp, itemFontSize = TextSize.small)
             Spacer(modifier = Modifier.height(10.dp))
         }
         ShowShimmerIf(isImageLoading)
@@ -100,14 +101,7 @@ fun ShowShimmerIf(imageLoading: Boolean) {
 @Composable
 fun PokemonItemPreview() {
     val context = LocalContext.current
-    val pokemonDetailsJson = remember {
-        context.resources.openRawResource(R.raw.pokemon_details_example)
-            .reader()
-            .readText()
-    }
-    val pokemonDetails: PokemonDetails =
-        remember { Gson().fromJson(pokemonDetailsJson, PokemonDetails::class.java) }
-
+    val pokemonDetails = remember { MockResourceReader(context).getPokemonDetailsMock() }
     PokedexTheme {
         Surface() {
             PokemonItem(pokemonDetails, Modifier.width(180.dp))

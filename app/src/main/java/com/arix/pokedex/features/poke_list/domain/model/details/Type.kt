@@ -7,7 +7,7 @@ data class Type(
     val slot: Int,
     val type: TypeX
 ) {
-    fun getTypeColor(): Color {
+    fun getTypeColor(alpha: Float = 1f): Color {
         return when(type.name.lowercase()) {
             "normal" -> TypeNormal
             "fire" -> TypeFire
@@ -28,6 +28,6 @@ data class Type(
             "steel" -> TypeSteel
             "fairy" -> TypeFairy
             else -> Color.Black
-        }
+        }.copy(alpha = alpha)
     }
 }
