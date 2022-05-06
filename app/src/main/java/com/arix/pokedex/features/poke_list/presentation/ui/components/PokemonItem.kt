@@ -8,6 +8,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -42,10 +43,8 @@ fun PokemonItem(
     Box(
         modifier = Modifier
             .padding(5.dp)
-            .background(
-                shape = Shapes.medium,
-                brush = getBrushBasedOn(isImageLoading, pokemonDetails.types)
-            )
+            .clip(Shapes.medium)
+            .background(brush = getBrushBasedOn(isImageLoading, pokemonDetails.types))
             .clickable(enabled = onClick != null) { onClick?.invoke() }
     ) {
         Column(
