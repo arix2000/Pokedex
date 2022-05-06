@@ -3,6 +3,7 @@ package com.arix.pokedex.features.poke_list.presentation.ui.components
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
@@ -29,6 +30,7 @@ fun SearchBar(onValueChange: (String) -> Unit, modifier: Modifier = Modifier) {
     OutlinedTextField(
         value = text,
         singleLine = true,
+        shape = CircleShape,
         label = { Text(text = "Search") },
         leadingIcon = { Icon(imageVector = Icons.Rounded.Search, contentDescription = null) },
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
