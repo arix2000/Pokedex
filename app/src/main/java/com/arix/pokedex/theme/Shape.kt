@@ -12,4 +12,5 @@ val AppShapes = Shapes(
 
 object Shapes {
     val medium = RoundedCornerShape(12.dp)
+    val large = RoundedCornerShape(22.dp)
 }

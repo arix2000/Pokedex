@@ -20,4 +20,9 @@ object Constants {
         const val DESIRED_DESCRIPTION_VERSION = "omega-ruby"
         const val NO_DESCRIPTION = "No description"
     }
+
+    object AnimatedSection {
+        const val ANIMATIONS_DURATION = 300
+        const val FADE_OUT_DURATION = 180
+    }
 }

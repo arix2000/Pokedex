@@ -10,7 +10,6 @@ import com.arix.pokedex.features.pokemon_details.presentation.ui.PokemonDetailsE
 import com.arix.pokedex.features.pokemon_details.presentation.ui.PokemonDetailsState
 import com.arix.pokedex.utils.Resource
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 class PokemonDetailsViewModel(
@@ -35,22 +34,27 @@ class PokemonDetailsViewModel(
         getPokemonInitialData?.cancel()
         getPokemonInitialData = viewModelScope.launch {
             _state.value = _state.value.copy(isLoading = true)
-            val pokemonDetails = async { getPokemonUseCase(pokemonName) }
-            val pokemonSpecies = async { getPokemonSpeciesUseCase(pokemonName) }
-            with(pokemonDetails.await()) {
+            with(getPokemonUseCase(pokemonName)) {
                 when (this) {
-                    is Resource.Success -> _state.value = _state.value.copy(pokemonDetails = data)
+                    is Resource.Success -> {
+                        _state.value = _state.value.copy(pokemonDetails = data)
+                        getPokemonSpecies(data?.species?.name ?: "")
+                    }
                     is Resource.Error -> onError(message)
                 }
             }
-            with(pokemonSpecies.await()) {
-                //TODO sadly we need to chain it and use pokemonDetails.id to fetch sprites because name it's not always give a response (404)
+        }
+    }
+
+    private fun getPokemonSpecies(pokemonSpeciesName: String) {
+        viewModelScope.launch {
+            with(getPokemonSpeciesUseCase(pokemonSpeciesName)) {
                 when (this) {
-                    is Resource.Success -> _state.value = _state.value.copy(species = data)
+                    is Resource.Success -> _state.value =
+                        _state.value.copy(species = data, isLoading = false)
                     is Resource.Error -> onError(message)
                 }
             }
-            _state.value = _state.value.copy(isLoading = false)
         }
     }
 

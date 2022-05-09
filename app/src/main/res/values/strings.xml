@@ -4,4 +4,6 @@
     <string name="default_error_message">Coś poszło nie tak :/ \nSprawdź połączenie z internetem i spróbuj ponownie!"</string>
     <string name="condensed_error_message">Brak dostępu do internetu."</string>
     <string name="search_clear">Clear</string>
+    <string name="dropdown_arrow_desc">Expand/Collapse %1$s</string>
+    <string name="pokemon_description">Description</string>
 </resources>

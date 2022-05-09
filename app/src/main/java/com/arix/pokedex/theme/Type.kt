@@ -26,5 +26,6 @@ object TextSize {
     val xsmall = 13.sp
     val medium = 16.sp
     val large = 20.sp
+    val xlarge = 22.sp
     val extraLarge = 26.sp
 }

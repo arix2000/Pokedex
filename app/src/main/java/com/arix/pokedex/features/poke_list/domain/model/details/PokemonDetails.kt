@@ -23,12 +23,7 @@ data class PokemonDetails(
     val weight: Int
 ) {
 
-    fun toJson(): String = Gson().toJson(this)
-
     companion object {
-        fun fromJson(json: String): PokemonDetails =
-            Gson().fromJson(json, PokemonDetails::class.java)
-
         val EMPTY = PokemonDetails(
             emptyList(), 1, emptyList(),
             emptyList(), 1, emptyList(), 1, false, "",

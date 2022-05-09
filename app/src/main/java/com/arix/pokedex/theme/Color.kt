@@ -6,6 +6,7 @@ val Primary = Color(0xFF950101)
 val PrimaryDark = Color(0xFF3D0000)
 val Accent = Color(0xFFFF0000)
 val BlackSoft = Color(0xFF090909)
+val BlackLight = Color(0xFF1C1C1C)
 
 val TypeNormal = Color(0xFFA8A77A)
 val TypeFire = Color(0xFFEE8130)
