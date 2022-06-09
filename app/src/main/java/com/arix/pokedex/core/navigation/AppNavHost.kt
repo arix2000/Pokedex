@@ -22,7 +22,11 @@ fun AppNavHost(navController: NavHostController) {
         with(Screen.PokemonDetailsScreen) {
             composable(route) { backStackEntry ->
                 backStackEntry.arguments?.getString(argumentKey)?.let {
-                    PokemonDetailsScreen(it)
+                    PokemonDetailsScreen(it) { name ->
+                        with(Screen.PokemonDetailsScreen) {
+                            navController.navigate(route.putArgument(argumentKey, name))
+                        }
+                    }
                 }
             }
         }

@@ -72,7 +72,7 @@ fun PokemonItem(
             TypesSection(pokemonDetails.types, spacing = 2.dp, itemFontSize = TextSize.small)
             Spacer(modifier = Modifier.height(10.dp))
         }
-        ShowShimmerIf(isImageLoading)
+        ShowShimmerIf(modifier = modifier, isImageLoading)
     }
 }
 
@@ -87,13 +87,9 @@ private fun getBrushBasedOn(isImageLoading: Boolean, types: List<Type>): Brush {
 }
 
 @Composable
-fun ShowShimmerIf(imageLoading: Boolean) {
+fun ShowShimmerIf(modifier: Modifier = Modifier, imageLoading: Boolean) {
     if (imageLoading)
-        ShimmerAnimatedBox(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(240.dp)
-        )
+        ShimmerAnimatedBox(modifier = modifier)
 }
 
 @Preview

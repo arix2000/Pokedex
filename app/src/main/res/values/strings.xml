@@ -6,4 +6,6 @@
     <string name="search_clear">Clear</string>
     <string name="dropdown_arrow_desc">Expand/Collapse %1$s</string>
     <string name="pokemon_description">Description</string>
+    <string name="evolution_chain_title">Evolution chain</string>
+    <string name="unexpected_error">Unexpected Error</string>
 </resources>

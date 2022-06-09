@@ -201,9 +201,8 @@ class PokemonListViewModel(
         getPokemonUseCase(name).run {
             when (this) {
                 is Resource.Success -> return data!!
-                is Resource.Error -> { /** Do nothing **/ }
+                is Resource.Error -> return PokemonDetails.EMPTY
             }
         }
-        return PokemonDetails.EMPTY
     }
 }

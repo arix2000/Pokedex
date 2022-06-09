@@ -8,6 +8,8 @@ val Accent = Color(0xFFFF0000)
 val BlackSoft = Color(0xFF090909)
 val BlackLight = Color(0xFF1C1C1C)
 
+val GrayA50 = Color(0xBFFFFFFF)
+
 val TypeNormal = Color(0xFFA8A77A)
 val TypeFire = Color(0xFFEE8130)
 val TypeWater = Color(0xFF6390F0)

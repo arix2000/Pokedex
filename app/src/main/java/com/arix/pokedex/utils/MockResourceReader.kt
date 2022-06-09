@@ -5,6 +5,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import com.arix.pokedex.R
 import com.arix.pokedex.features.poke_list.domain.model.details.PokemonDetails
+import com.arix.pokedex.features.pokemon_details.domain.model.evolution_chain.PokemonEvolutionChain
 import com.arix.pokedex.features.pokemon_details.domain.model.species.PokemonSpecies
 import com.google.gson.Gson
 
@@ -26,6 +27,15 @@ class MockResourceReader(private val context: Context) {
             .readText()
 
         return Gson().fromJson(pokemonDetailsJson, PokemonSpecies::class.java)
+            ?: throw Exception("Exception in preview")
+    }
+
+    fun getPokemonEvolutionChainMock(): PokemonEvolutionChain {
+        val pokemonDetailsJson = context.resources.openRawResource(R.raw.pokemon_evolution_chain)
+            .reader()
+            .readText()
+
+        return Gson().fromJson(pokemonDetailsJson, PokemonEvolutionChain::class.java)
             ?: throw Exception("Exception in preview")
     }
 }

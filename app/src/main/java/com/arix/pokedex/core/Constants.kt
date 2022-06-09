@@ -19,6 +19,8 @@ object Constants {
     object PokemonDetailsScreen {
         const val DESIRED_DESCRIPTION_VERSION = "omega-ruby"
         const val NO_DESCRIPTION = "No description"
+        const val EVOLUTION_TO_PARAM_NAME = "evolves_to"
+        const val MAX_POKEMON_EVOLUTIONS = 3
     }
 
     object AnimatedSection {

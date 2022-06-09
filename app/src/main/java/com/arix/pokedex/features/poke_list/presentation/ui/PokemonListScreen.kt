@@ -54,7 +54,12 @@ private fun PokemonGridView(
         if (state.isSearchResultsEmpty) NoResultsView()
         LazyColumn(modifier = Modifier.fillMaxSize()) {
             gridItems(state.pokemonList ?: emptyList(), cells = 2) {
-                PokemonItem(pokemonDetails = it) {
+                PokemonItem(
+                    pokemonDetails = it,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(240.dp)
+                ) {
                     navigateToPokemonDetails(it.name)
                 }
             }

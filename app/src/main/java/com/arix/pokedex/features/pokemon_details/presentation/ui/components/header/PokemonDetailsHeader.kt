@@ -35,8 +35,8 @@ fun PokemonDetailsHeader(pokemonDetails: PokemonDetails, modifier: Modifier = Mo
             AsyncImage(
                 model = pokemonDetails.sprites.other.official_artwork.front_default,
                 contentDescription = pokemonDetails.name,
-                contentScale = ContentScale.Fit,
-                modifier = Modifier.fillMaxWidth(0.5f),
+                contentScale = ContentScale.FillWidth,
+                modifier = Modifier.fillMaxWidth(0.65f),
                 placeholder = painterResource(id = R.drawable.scyther),
                 error = painterResource(id = R.drawable.pokemon_not_found_image)
             )
