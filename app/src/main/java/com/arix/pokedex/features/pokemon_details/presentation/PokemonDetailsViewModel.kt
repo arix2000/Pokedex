@@ -36,7 +36,7 @@ class PokemonDetailsViewModel(
             is PokemonDetailsEvent.GetInitialData ->
                 getInitialData(event.pokemonName)
 
-            is PokemonDetailsEvent.GetPokemonDetails ->
+            is PokemonDetailsEvent.GetEvolutionPokemonDetailsList ->
                 getEvolutionPokemonDetailsList(event.pokemonNames)
         }
     }
@@ -45,8 +45,7 @@ class PokemonDetailsViewModel(
         getPokemonInitialData?.cancel()
         getPokemonInitialData = viewModelScope.launch {
             _state.value = _state.value.copy(isLoading = true)
-            with(getPokemonUseCase(pokemonName)) { //TODO we need to pass id from url here
-                //TODO when we pass value from evolution species
+            with(getPokemonUseCase(pokemonName)) {
                 when (this) {
                     is Resource.Success -> {
                         _state.value = _state.value.copy(pokemonDetails = data)
@@ -106,13 +105,12 @@ class PokemonDetailsViewModel(
 
     private suspend fun getPokemon(name: String): PokemonDetails {
         getPokemonUseCase(name).run {
-            when (this) {
-                is Resource.Success -> return data!!
-                is Resource.Error -> return PokemonDetails.EMPTY
+            return when (this) {
+                is Resource.Success -> data!!
+                is Resource.Error -> PokemonDetails.EMPTY
             }
         }
     }
-
 
     private fun onError(message: String?) {
         _state.value = _state.value.copy(errorMessage = message, isLoading = false)

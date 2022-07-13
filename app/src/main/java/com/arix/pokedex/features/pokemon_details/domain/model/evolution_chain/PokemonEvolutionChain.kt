@@ -1,6 +1,5 @@
 package com.arix.pokedex.features.pokemon_details.domain.model.evolution_chain
 
-import com.arix.pokedex.extensions.hasOneItem
 import com.arix.pokedex.features.pokemon_details.domain.model.RawEvolutionStep
 
 data class PokemonEvolutionChain(

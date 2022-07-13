@@ -1,8 +1,6 @@
 package com.arix.pokedex.utils
 
 import android.content.Context
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.PreviewParameter
 import com.arix.pokedex.R
 import com.arix.pokedex.features.poke_list.domain.model.details.PokemonDetails
 import com.arix.pokedex.features.pokemon_details.domain.model.evolution_chain.PokemonEvolutionChain

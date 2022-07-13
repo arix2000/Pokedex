@@ -27,7 +27,7 @@ fun PokemonListScreen(
 ) {
     val context = LocalContext.current
     LaunchedEffect(key1 = true) {
-        viewModel.cachePokemonNames(context.resources.openRawResource(R.raw.pokamon_names))
+        viewModel.cachePokemonNames(context.resources.openRawResource(R.raw.pokemon_names))
     }
     val state = viewModel.state.value
     when {

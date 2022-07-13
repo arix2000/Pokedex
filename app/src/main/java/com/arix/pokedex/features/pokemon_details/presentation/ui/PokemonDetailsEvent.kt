@@ -6,6 +6,7 @@ sealed class PokemonDetailsEvent {
 
     class GetInitialData(val pokemonName: String) : PokemonDetailsEvent()
 
-    class GetPokemonDetails(val pokemonNames: List<RawEvolutionStep>) : PokemonDetailsEvent()
+    class GetEvolutionPokemonDetailsList(val pokemonNames: List<RawEvolutionStep>) :
+        PokemonDetailsEvent()
 
 }

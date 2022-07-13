@@ -43,7 +43,7 @@ fun EvolutionChainView(
     LaunchedEffect(key1 = true) {
         if (state.pokemonEvolutionSteps == null)
             viewModel.invokeEvent(
-                PokemonDetailsEvent.GetPokemonDetails(evolutionChain.getPokemonInChainNames())
+                PokemonDetailsEvent.GetEvolutionPokemonDetailsList(evolutionChain.getPokemonInChainNames())
             )
     }
 
@@ -72,26 +72,32 @@ private fun EvolutionChainContent(
     Row(
         modifier = Modifier
             .horizontalScroll(rememberScrollState()),
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.Bottom
     ) {
         pokemonEvolutionSteps.forEach { evolutionStep ->
             val columnScrollState =
                 if (evolutionStep.pokemonDetailList.hasOneItem()) rememberScrollState()
                 else commonScrollState
-
-            if (pokemonEvolutionSteps.isNotFirstElement(evolutionStep))
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    EvolutionRuleView(evolutionStep.pokemonEvolutionDetails)
+            if (pokemonEvolutionSteps.isNotFirstElement(evolutionStep)) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Bottom,
+                    modifier = Modifier
+                        .padding(bottom = 115.dp)
+                ) {
+                    // TODO change to currently indicated by arrow
+                    EvolutionRuleView(evolutionStep.pokemonEvolutionDetails.first())
                     Spacer(modifier = Modifier.height(5.dp))
                     ArrowToNextEvolution(parentPokemonDetails.types.first().getTypeColor())
                 }
+            }
             Column(
                 modifier = Modifier
                     .height(250.dp)
                     .drawVerticalScrollbar(columnScrollState)
                     .verticalScroll(columnScrollState)
             ) {
-                evolutionStep.pokemonDetailList.forEach {
+                evolutionStep.pokemonDetailList.forEachIndexed { index, it ->
                     PokemonItem(
                         pokemonDetails = it,
                         modifier = Modifier
@@ -120,7 +126,6 @@ fun EvolutionChainContentPreview() {
                 EvolutionChainContent(
                     pokemonDetails,
                     pokemonEvolutionSteps = listOf(
-                        EvolutionStep(listOf(pokemonDetails), listOf()),
                         EvolutionStep(listOf(pokemonDetails), listOf()),
                         EvolutionStep(
                             listOf(pokemonDetails, pokemonDetails, pokemonDetails),
