@@ -31,6 +31,29 @@ fun EvolutionRuleView(evolutionDetails: EvolutionDetail) {
                 error = painterResource(id = R.drawable.pokemon_not_found_image),
                 modifier = Modifier.width(28.dp)
             )
+        },
+        evolveByHappiness = {
+            Text(
+                text = "Happiness: $it",
+                fontSize = TextSize.xsmall,
+                color = GrayA50
+            )
+        },
+        evolveByTimeOfDay = {
+            //TODO icon of day or night, dusk etc
+            Text(
+                text = "Happiness: $it",
+                fontSize = TextSize.xsmall,
+                color = GrayA50
+            )
+        },
+        evolveByTrade = {
+            //TODO trade icon
+            Text(
+                text = "Trade",
+                fontSize = TextSize.xsmall,
+                color = GrayA50
+            )
         }
     )
 }

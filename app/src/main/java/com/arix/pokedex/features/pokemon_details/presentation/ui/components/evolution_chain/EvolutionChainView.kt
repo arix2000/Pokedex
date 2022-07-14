@@ -1,16 +1,17 @@
 package com.arix.pokedex.features.pokemon_details.presentation.ui.components.evolution_chain
 
+import android.util.Log
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.layout.positionInRoot
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -22,6 +23,7 @@ import com.arix.pokedex.extensions.isNotFirstElement
 import com.arix.pokedex.features.poke_list.domain.model.details.PokemonDetails
 import com.arix.pokedex.features.poke_list.presentation.ui.components.PokemonItem
 import com.arix.pokedex.features.pokemon_details.domain.model.EvolutionStep
+import com.arix.pokedex.features.pokemon_details.domain.model.evolution_chain.EvolutionDetail
 import com.arix.pokedex.features.pokemon_details.domain.model.evolution_chain.PokemonEvolutionChain
 import com.arix.pokedex.features.pokemon_details.presentation.PokemonDetailsViewModel
 import com.arix.pokedex.features.pokemon_details.presentation.ui.PokemonDetailsEvent
@@ -64,17 +66,20 @@ fun EvolutionChainView(
 
 @Composable
 private fun EvolutionChainContent(
-    parentPokemonDetails: PokemonDetails,
+    rootPokemonDetails: PokemonDetails,
     pokemonEvolutionSteps: List<EvolutionStep>,
     navigateToPokemonDetails: (String) -> Unit
 ) {
     val commonScrollState = rememberScrollState()
+    var positionArrow = remember { 0f }
     Row(
         modifier = Modifier
             .horizontalScroll(rememberScrollState()),
         verticalAlignment = Alignment.Bottom
     ) {
         pokemonEvolutionSteps.forEach { evolutionStep ->
+            val currentlyIndicated: MutableState<EvolutionDetail?> =
+                remember { mutableStateOf(evolutionStep.pokemonEvolutionDetails.firstOrNull() ) }
             val columnScrollState =
                 if (evolutionStep.pokemonDetailList.hasOneItem()) rememberScrollState()
                 else commonScrollState
@@ -85,10 +90,13 @@ private fun EvolutionChainContent(
                     modifier = Modifier
                         .padding(bottom = 115.dp)
                 ) {
-                    // TODO change to currently indicated by arrow
-                    EvolutionRuleView(evolutionStep.pokemonEvolutionDetails.first())
+                    EvolutionRuleView(currentlyIndicated.value!!)
                     Spacer(modifier = Modifier.height(5.dp))
-                    ArrowToNextEvolution(parentPokemonDetails.types.first().getTypeColor())
+                    ArrowToNextEvolution(
+                        rootPokemonDetails.types.first().getTypeColor(),
+                        modifier = Modifier.onGloballyPositioned { coordinates ->
+                            positionArrow = coordinates.positionInRoot().y
+                        })
                 }
             }
             Column(
@@ -98,12 +106,25 @@ private fun EvolutionChainContent(
                     .verticalScroll(columnScrollState)
             ) {
                 evolutionStep.pokemonDetailList.forEachIndexed { index, it ->
+                    Spacer(modifier = Modifier.onGloballyPositioned { coordinates ->
+                        with(evolutionStep.pokemonEvolutionDetails) {
+                            val positionTopOfItem = coordinates.positionInRoot().y
+                            if (isNotEmpty()) {
+                                onItemTopPositionChanged(
+                                    positionTopOfItem,
+                                    positionArrow,
+                                    this[index],
+                                    currentlyIndicated
+                                )
+                            }
+                        }
+                    })
                     PokemonItem(
                         pokemonDetails = it,
                         modifier = Modifier
                             .width(155.dp)
                             .height(230.dp),
-                        onClick = if (parentPokemonDetails.name != it.name) {
+                        onClick = if (rootPokemonDetails.name != it.name) {
                             { navigateToPokemonDetails(it.name) }
                         } else null
                     )
@@ -111,6 +132,20 @@ private fun EvolutionChainContent(
                         Spacer(modifier = Modifier.height(10.dp))
                 }
             }
+        }
+    }
+}
+
+private fun onItemTopPositionChanged(
+    positionTopOfItem: Float,
+    positionArrow: Float,
+    evolutionDetail: EvolutionDetail,
+    currentlyIndicated: MutableState<EvolutionDetail?>
+) {
+    currentlyIndicated.run {
+        if (positionTopOfItem in positionArrow - 720..positionArrow && value != evolutionDetail) {
+            value = value?.copy(evolutionDetail)
+            Log.d("POSITION_OF_RANGE", "${evolutionDetail.item?.name}")
         }
     }
 }
