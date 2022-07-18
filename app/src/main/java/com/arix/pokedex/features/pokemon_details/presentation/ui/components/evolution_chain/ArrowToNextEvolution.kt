@@ -22,7 +22,7 @@ fun ArrowToNextEvolution(color: Color, modifier: Modifier = Modifier) {
     Box(
         modifier = modifier
             .height(16.dp)
-            .width(80.dp)
+            .width(110.dp)
             .padding(2.dp)
     ) {
         val strokeWidth = remember { 6F }

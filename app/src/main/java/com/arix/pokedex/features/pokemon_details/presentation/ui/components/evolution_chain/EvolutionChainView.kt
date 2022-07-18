@@ -1,6 +1,5 @@
 package com.arix.pokedex.features.pokemon_details.presentation.ui.components.evolution_chain
 
-import android.util.Log
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -23,6 +22,7 @@ import com.arix.pokedex.extensions.isNotFirstElement
 import com.arix.pokedex.features.poke_list.domain.model.details.PokemonDetails
 import com.arix.pokedex.features.poke_list.presentation.ui.components.PokemonItem
 import com.arix.pokedex.features.pokemon_details.domain.model.EvolutionStep
+import com.arix.pokedex.features.pokemon_details.domain.model.PokemonEvolutionDetails
 import com.arix.pokedex.features.pokemon_details.domain.model.evolution_chain.EvolutionDetail
 import com.arix.pokedex.features.pokemon_details.domain.model.evolution_chain.PokemonEvolutionChain
 import com.arix.pokedex.features.pokemon_details.presentation.PokemonDetailsViewModel
@@ -45,7 +45,7 @@ fun EvolutionChainView(
     LaunchedEffect(key1 = true) {
         if (state.pokemonEvolutionSteps == null)
             viewModel.invokeEvent(
-                PokemonDetailsEvent.GetEvolutionPokemonDetailsList(evolutionChain.getPokemonInChainNames())
+                PokemonDetailsEvent.GetEvolutionPokemonDetailsList(evolutionChain.getPokemonEvolutionSteps())
             )
     }
 
@@ -78,10 +78,10 @@ private fun EvolutionChainContent(
         verticalAlignment = Alignment.Bottom
     ) {
         pokemonEvolutionSteps.forEach { evolutionStep ->
-            val currentlyIndicated: MutableState<EvolutionDetail?> =
-                remember { mutableStateOf(evolutionStep.pokemonEvolutionDetails.firstOrNull() ) }
+            val currentlyIndicated: MutableState<List<EvolutionDetail>?> =
+                remember { mutableStateOf(evolutionStep.pokemonEvolutionDetails.firstOrNull()?.evolutionDetails) }
             val columnScrollState =
-                if (evolutionStep.pokemonDetailList.hasOneItem()) rememberScrollState()
+                if (evolutionStep.pokemonEvolutionDetails.hasOneItem()) rememberScrollState()
                 else commonScrollState
             if (pokemonEvolutionSteps.isNotFirstElement(evolutionStep)) {
                 Column(
@@ -105,7 +105,7 @@ private fun EvolutionChainContent(
                     .drawVerticalScrollbar(columnScrollState)
                     .verticalScroll(columnScrollState)
             ) {
-                evolutionStep.pokemonDetailList.forEachIndexed { index, it ->
+                evolutionStep.pokemonEvolutionDetails.forEachIndexed { index, it ->
                     Spacer(modifier = Modifier.onGloballyPositioned { coordinates ->
                         with(evolutionStep.pokemonEvolutionDetails) {
                             val positionTopOfItem = coordinates.positionInRoot().y
@@ -113,22 +113,22 @@ private fun EvolutionChainContent(
                                 onItemTopPositionChanged(
                                     positionTopOfItem,
                                     positionArrow,
-                                    this[index],
+                                    this[index].evolutionDetails,
                                     currentlyIndicated
                                 )
                             }
                         }
                     })
                     PokemonItem(
-                        pokemonDetails = it,
+                        pokemonDetails = it.pokemonDetails,
                         modifier = Modifier
                             .width(155.dp)
                             .height(230.dp),
-                        onClick = if (rootPokemonDetails.name != it.name) {
-                            { navigateToPokemonDetails(it.name) }
+                        onClick = if (rootPokemonDetails.name != it.pokemonDetails.name) {
+                            { navigateToPokemonDetails(it.pokemonDetails.name) }
                         } else null
                     )
-                    if (evolutionStep.pokemonDetailList.isLastElement(it))
+                    if (evolutionStep.pokemonEvolutionDetails.isLastElement(it))
                         Spacer(modifier = Modifier.height(10.dp))
                 }
             }
@@ -139,14 +139,12 @@ private fun EvolutionChainContent(
 private fun onItemTopPositionChanged(
     positionTopOfItem: Float,
     positionArrow: Float,
-    evolutionDetail: EvolutionDetail,
-    currentlyIndicated: MutableState<EvolutionDetail?>
+    evolutionDetails: List<EvolutionDetail>,
+    currentlyIndicated: MutableState<List<EvolutionDetail>?>
 ) {
     currentlyIndicated.run {
-        if (positionTopOfItem in positionArrow - 720..positionArrow && value != evolutionDetail) {
-            value = value?.copy(evolutionDetail)
-            Log.d("POSITION_OF_RANGE", "${evolutionDetail.item?.name}")
-        }
+        if (positionTopOfItem in positionArrow - 720..positionArrow && value != evolutionDetails)
+            value = evolutionDetails
     }
 }
 
@@ -157,14 +155,27 @@ fun EvolutionChainContentPreview() {
         Surface {
             val context = LocalContext.current
             val pokemonDetails = remember { MockResourceReader(context).getPokemonDetailsMock() }
+            val evolutionChain =
+                remember { MockResourceReader(context).getPokemonEvolutionChainMock() }
             ExpandableSection(title = "Evolution Chain", expandedInitially = true) {
                 EvolutionChainContent(
                     pokemonDetails,
                     pokemonEvolutionSteps = listOf(
-                        EvolutionStep(listOf(pokemonDetails), listOf()),
                         EvolutionStep(
-                            listOf(pokemonDetails, pokemonDetails, pokemonDetails),
-                            listOf()
+                            listOf(
+                                PokemonEvolutionDetails(
+                                    pokemonDetails,
+                                    evolutionChain.chain.evolution_details
+                                )
+                            )
+                        ),
+                        EvolutionStep(
+                            listOf(
+                                PokemonEvolutionDetails(
+                                    pokemonDetails,
+                                    evolutionChain.chain.evolves_to.first().evolution_details
+                                )
+                            )
                         )
                     )
                 ) {}

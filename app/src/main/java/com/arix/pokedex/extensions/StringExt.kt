@@ -21,3 +21,7 @@ fun String.countOccurrencesOf(string: String): Int {
         counter++
     return counter
 }
+
+fun String.getIdFromUrl(): Int {
+    return this.dropLast(1).takeLastWhile { it.isDigit() }.toInt()
+}

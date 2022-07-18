@@ -8,26 +8,6 @@ data class Type(
     val type: TypeX
 ) {
     fun getTypeColor(alpha: Float = 1f): Color {
-        return when(type.name.lowercase()) {
-            "normal" -> TypeNormal
-            "fire" -> TypeFire
-            "water" -> TypeWater
-            "electric" -> TypeElectric
-            "grass" -> TypeGrass
-            "ice" -> TypeIce
-            "fighting" -> TypeFighting
-            "poison" -> TypePoison
-            "ground" -> TypeGround
-            "flying" -> TypeFlying
-            "psychic" -> TypePsychic
-            "bug" -> TypeBug
-            "rock" -> TypeRock
-            "ghost" -> TypeGhost
-            "dragon" -> TypeDragon
-            "dark" -> TypeDark
-            "steel" -> TypeSteel
-            "fairy" -> TypeFairy
-            else -> Color.Black
-        }.copy(alpha = alpha)
+        return type.getTypeColor(alpha)
     }
 }
