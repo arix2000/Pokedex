@@ -3,7 +3,7 @@ package com.arix.pokedex.features.pokemon_details.presentation.ui.components.evo
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -19,6 +19,7 @@ import coil.compose.AsyncImage
 import com.arix.pokedex.R
 import com.arix.pokedex.extensions.ScanEvolutionDetails
 import com.arix.pokedex.features.pokemon_details.domain.model.evolution_chain.EvolutionDetail
+import com.arix.pokedex.features.pokemon_details.domain.model.evolution_chain.Item
 import com.arix.pokedex.theme.GrayA50
 import com.arix.pokedex.theme.TextSize
 
@@ -29,14 +30,7 @@ fun EvolutionRuleView(evolutionDetails: List<EvolutionDetail>) {
             EvolutionRuleText(text = "Level $it")
         },
         evolveByItem = {
-            AsyncImage(
-                model = it.getImageUrl(),
-                contentDescription = it.name,
-                contentScale = ContentScale.FillWidth,
-                // TODO give item name on error (sometimes resource is missing)
-                error = painterResource(id = R.drawable.pokemon_not_found_image),
-                modifier = Modifier.width(28.dp),
-            )
+            ItemAsyncImage(item = it)
         },
         evolveByHoldingItem = {
             Row(
@@ -45,13 +39,7 @@ fun EvolutionRuleView(evolutionDetails: List<EvolutionDetail>) {
                 modifier = Modifier.width(110.dp)
             ) {
                 EvolutionRuleText(text = "Holding:", specifyWidth = true)
-                AsyncImage(
-                    model = it.getImageUrl(),
-                    contentDescription = it.name,
-                    contentScale = ContentScale.FillWidth,
-                    error = painterResource(id = R.drawable.pokemon_not_found_image),
-                    modifier = Modifier.width(28.dp),
-                )
+                ItemAsyncImage(item = it)
             }
         },
         evolveByHappiness = {
@@ -116,4 +104,20 @@ private fun EvolutionRuleText(text: AnnotatedString) {
         modifier = Modifier.width(110.dp),
         textAlign = TextAlign.Center
     )
+}
+
+@Composable
+private fun ItemAsyncImage(item: Item) {
+    var isError by remember { mutableStateOf(false) }
+    if (isError)
+        EvolutionRuleText(text = item.name)
+    else
+        AsyncImage(
+            model = item.getImageUrl(),
+            contentDescription = item.name,
+            contentScale = ContentScale.FillWidth,
+            onError = { isError = true },
+            onSuccess = { isError = false },
+            modifier = Modifier.width(28.dp),
+        )
 }
