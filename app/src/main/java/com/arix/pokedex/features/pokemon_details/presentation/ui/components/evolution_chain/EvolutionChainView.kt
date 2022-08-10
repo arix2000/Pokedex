@@ -31,7 +31,7 @@ import com.arix.pokedex.features.pokemon_details.presentation.ui.components.expa
 import com.arix.pokedex.theme.PokedexTheme
 import com.arix.pokedex.utils.MockResourceReader
 import com.arix.pokedex.utils.drawVerticalScrollbar
-import com.arix.pokedex.views.DefaultProgressIndicatorScreen
+import com.arix.pokedex.views.shimmer_effect.ShimmerAnimatedBox
 import org.koin.androidx.compose.getViewModel
 
 @Composable
@@ -50,16 +50,22 @@ fun EvolutionChainView(
     }
 
     when {
-        state.isLoading -> DefaultProgressIndicatorScreen(
-            Modifier
+        state.isLoading -> ShimmerAnimatedBox(
+            modifier = Modifier
                 .fillMaxWidth()
-                .height(240.dp)
+                .height(250.dp)
+                .padding(vertical = 10.dp)
         )
-        state.pokemonEvolutionSteps != null -> EvolutionChainContent(
-            pokemonDetails,
-            state.pokemonEvolutionSteps,
-            navigateToPokemonDetails
-        )
+        state.pokemonEvolutionSteps != null -> Box(
+            contentAlignment = Alignment.Center,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            EvolutionChainContent(
+                pokemonDetails,
+                state.pokemonEvolutionSteps,
+                navigateToPokemonDetails
+            )
+        }
         state.errorMessage != null -> Text(text = stringResource(R.string.unexpected_error))
     }
 }
@@ -75,7 +81,7 @@ private fun EvolutionChainContent(
     Row(
         modifier = Modifier
             .horizontalScroll(rememberScrollState()),
-        verticalAlignment = Alignment.Bottom
+        verticalAlignment = Alignment.Bottom,
     ) {
         pokemonEvolutionSteps.forEach { evolutionStep ->
             val currentlyIndicated: MutableState<List<EvolutionDetail>?> =
@@ -87,8 +93,7 @@ private fun EvolutionChainContent(
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Bottom,
-                    modifier = Modifier
-                        .padding(bottom = 115.dp)
+                    modifier = Modifier.padding(bottom = 115.dp)
                 ) {
                     EvolutionRuleView(currentlyIndicated.value!!)
                     Spacer(modifier = Modifier.height(5.dp))

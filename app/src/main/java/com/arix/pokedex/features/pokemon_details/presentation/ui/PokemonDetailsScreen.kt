@@ -16,14 +16,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.rememberNavController
 import com.arix.pokedex.R
+import com.arix.pokedex.extensions.hasOneItem
 import com.arix.pokedex.extensions.isPreview
 import com.arix.pokedex.features.common.AppTopBar
 import com.arix.pokedex.features.poke_list.domain.model.details.PokemonDetails
 import com.arix.pokedex.features.pokemon_details.domain.model.evolution_chain.PokemonEvolutionChain
 import com.arix.pokedex.features.pokemon_details.domain.model.species.PokemonSpecies
+import com.arix.pokedex.features.pokemon_details.domain.model.species.Variety
 import com.arix.pokedex.features.pokemon_details.presentation.PokemonDetailsViewModel
 import com.arix.pokedex.features.pokemon_details.presentation.ui.components.evolution_chain.EvolutionChainView
 import com.arix.pokedex.features.pokemon_details.presentation.ui.components.expandable_section.ExpandableSection
+import com.arix.pokedex.features.pokemon_details.presentation.ui.components.forms.VariantsView
 import com.arix.pokedex.features.pokemon_details.presentation.ui.components.header.PokemonDetailsHeader
 import com.arix.pokedex.theme.PokedexTheme
 import com.arix.pokedex.utils.MockResourceReader
@@ -51,7 +54,6 @@ fun PokemonDetailsScreen(
             state.species,
             state.evolutionChain,
             navigateToPokemonDetails
-
         )
 }
 
@@ -75,25 +77,64 @@ fun PokemonDetailsScreenContent(
                 Text(text = species.getDescription())
             }
             Spacer(modifier = Modifier.height(10.dp))
-            ExpandableSection(
-                title = stringResource(R.string.evolution_chain_title),
-                expandedInitially = true
-            ) {
-                if (!isPreview())
-                    EvolutionChainView(
-                        pokemonDetails,
-                        evolutionChain,
-                        navigateToPokemonDetails
-                    )
-                else DefaultProgressIndicatorScreen(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(100.dp)
+            EvolutionChainSection(
+                pokemonDetails,
+                evolutionChain,
+                navigateToPokemonDetails
+            )
+            Spacer(modifier = Modifier.height(10.dp))
+            if (!(species.varieties.hasOneItem() && species.varieties.first().is_default)) {
+                VarietiesSection(
+                    pokemonDetails.name,
+                    species.varieties,
+                    navigateToPokemonDetails
                 )
             }
-            Spacer(modifier = Modifier.height(10.dp))
         }
     }
+}
+
+@Composable
+private fun EvolutionChainSection(
+    pokemonDetails: PokemonDetails,
+    evolutionChain: PokemonEvolutionChain,
+    navigateToPokemonDetails: (String) -> Unit
+) {
+    ExpandableSection(
+        title = stringResource(R.string.evolution_chain_title),
+        expandedInitially = true
+    ) {
+        if (!isPreview())
+            EvolutionChainView(
+                pokemonDetails,
+                evolutionChain,
+                navigateToPokemonDetails
+            )
+        else DefaultProgressIndicatorScreen(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(100.dp)
+        )
+    }
+}
+
+@Composable
+private fun VarietiesSection(
+    rootPokemonDetailsName: String,
+    varieties: List<Variety>,
+    navigateToPokemonDetails: (String) -> Unit
+) {
+    ExpandableSection(
+        title = stringResource(R.string.pokemon_details_variants)
+    ) {
+        if (!isPreview())
+            VariantsView(
+                rootPokemonDetailsName,
+                varieties,
+                navigateToPokemonDetails
+            )
+    }
+    Spacer(modifier = Modifier.height(10.dp))
 }
 
 @Preview

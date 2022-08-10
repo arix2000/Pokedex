@@ -19,10 +19,9 @@ object Constants {
     object PokemonDetailsScreen {
         const val DESIRED_DESCRIPTION_VERSION = "omega-ruby"
         const val NO_DESCRIPTION = "No description"
-        const val EVOLUTION_TO_PARAM_NAME = "evolves_to"
-        const val MAX_POKEMON_EVOLUTIONS = 3
         const val ITEM_URL_PREFIX = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/"
         const val PNG_EXT = ".png"
+        const val VARIETIES_SCROLL_HINT_ANIM_DURATION = 600
     }
 
     object AnimatedSection {

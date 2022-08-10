@@ -1,8 +1,7 @@
-package com.arix.pokedex.features.pokemon_details.presentation.ui
+package com.arix.pokedex.features.pokemon_details.presentation.ui.states
 
 import com.arix.pokedex.features.poke_list.domain.model.details.PokemonDetails
 import com.arix.pokedex.features.pokemon_details.domain.model.evolution_chain.PokemonEvolutionChain
-import com.arix.pokedex.features.pokemon_details.domain.model.species.EvolutionChain
 import com.arix.pokedex.features.pokemon_details.domain.model.species.PokemonSpecies
 
 data class PokemonDetailsState(

@@ -1,4 +1,4 @@
-package com.arix.pokedex.features.pokemon_details.presentation.ui
+package com.arix.pokedex.features.pokemon_details.presentation.ui.states
 
 import com.arix.pokedex.features.pokemon_details.domain.model.EvolutionStep
 

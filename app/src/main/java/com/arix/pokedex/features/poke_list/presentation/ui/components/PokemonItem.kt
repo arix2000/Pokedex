@@ -87,7 +87,7 @@ private fun getBrushBasedOn(isImageLoading: Boolean, types: List<Type>): Brush {
 }
 
 @Composable
-fun ShowShimmerIf(modifier: Modifier = Modifier, imageLoading: Boolean) {
+private fun ShowShimmerIf(modifier: Modifier = Modifier, imageLoading: Boolean) {
     if (imageLoading)
         ShimmerAnimatedBox(modifier = modifier)
 }

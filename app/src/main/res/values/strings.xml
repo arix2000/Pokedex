@@ -8,4 +8,5 @@
     <string name="pokemon_description">Description</string>
     <string name="evolution_chain_title">Evolution chain</string>
     <string name="unexpected_error">Unexpected Error</string>
+    <string name="pokemon_details_variants">Other varieties</string>
 </resources>

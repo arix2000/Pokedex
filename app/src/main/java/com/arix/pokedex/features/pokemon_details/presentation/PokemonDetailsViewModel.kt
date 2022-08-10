@@ -2,19 +2,23 @@ package com.arix.pokedex.features.pokemon_details.presentation
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.arix.pokedex.R
 import com.arix.pokedex.extensions.getIdFromUrl
 import com.arix.pokedex.features.poke_list.domain.model.details.PokemonDetails
 import com.arix.pokedex.features.poke_list.domain.use_cases.GetPokemonUseCase
 import com.arix.pokedex.features.pokemon_details.domain.model.EvolutionStep
 import com.arix.pokedex.features.pokemon_details.domain.model.PokemonEvolutionDetails
 import com.arix.pokedex.features.pokemon_details.domain.model.RawEvolutionStep
+import com.arix.pokedex.features.pokemon_details.domain.model.species.Variety
 import com.arix.pokedex.features.pokemon_details.domain.use_cases.GetPokemonEvolutionChainUseCase
 import com.arix.pokedex.features.pokemon_details.domain.use_cases.GetPokemonSpeciesUseCase
 import com.arix.pokedex.features.pokemon_details.presentation.ui.PokemonDetailsEvent
-import com.arix.pokedex.features.pokemon_details.presentation.ui.PokemonDetailsState
-import com.arix.pokedex.features.pokemon_details.presentation.ui.PokemonEvolutionState
+import com.arix.pokedex.features.pokemon_details.presentation.ui.states.PokemonDetailsState
+import com.arix.pokedex.features.pokemon_details.presentation.ui.states.PokemonEvolutionState
+import com.arix.pokedex.features.pokemon_details.presentation.ui.states.PokemonVarietiesState
 import com.arix.pokedex.utils.Resource
 import kotlinx.coroutines.*
 
@@ -30,8 +34,12 @@ class PokemonDetailsViewModel(
     private var _evolutionSectionState = mutableStateOf(PokemonEvolutionState())
     val evolutionSectionState: State<PokemonEvolutionState> = _evolutionSectionState
 
+    private var _varietiesSectionState = mutableStateOf(PokemonVarietiesState())
+    val varietiesSectionState: State<PokemonVarietiesState> = _varietiesSectionState
+
     private var getPokemonInitialData: Job? = null
     private var getPokemonDetailsList: Job? = null
+    private var getPokemonVarietiesList: Job? = null
 
     fun invokeEvent(event: PokemonDetailsEvent) {
         when (event) {
@@ -40,6 +48,10 @@ class PokemonDetailsViewModel(
 
             is PokemonDetailsEvent.GetEvolutionPokemonDetailsList ->
                 getEvolutionPokemonDetailsList(event.pokemonRawEvolutionSteps)
+
+            is PokemonDetailsEvent.GetPokemonVarietiesDetailsList -> getPokemonVarietiesDetailsList(
+                event.varieties
+            )
         }
     }
 
@@ -124,6 +136,22 @@ class PokemonDetailsViewModel(
                 is Resource.Success -> data!!
                 is Resource.Error -> PokemonDetails.EMPTY
             }
+        }
+    }
+
+    private fun getPokemonVarietiesDetailsList(varieties: List<Variety>) {
+        getPokemonVarietiesList?.cancel()
+        getPokemonVarietiesList = viewModelScope.launch {
+            _varietiesSectionState.value = _varietiesSectionState.value.copy(isLoading = true)
+            val pokemonDetailsResponses = varieties.map {
+                async(Dispatchers.IO) { getPokemon(it.pokemon.url.getIdFromUrl()) }
+            }
+            val varietiesDetails = pokemonDetailsResponses.awaitAll()
+            _varietiesSectionState.value =
+                _varietiesSectionState.value.copy(
+                    pokemonVarietiesDetails = varietiesDetails,
+                    isLoading = false,
+                )
         }
     }
 

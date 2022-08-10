@@ -14,14 +14,6 @@ fun String.clearEndOfLineEscapeSequences(): String {
     return this.replace("\n", " ").replace("\\s+".toRegex(), " ")
 }
 
-fun String.countOccurrencesOf(string: String): Int {
-    val matcher = Pattern.compile(string).matcher(this)
-    var counter = 0
-    while (matcher.find())
-        counter++
-    return counter
-}
-
 fun String.getIdFromUrl(): Int {
     return this.dropLast(1).takeLastWhile { it.isDigit() }.toInt()
 }
