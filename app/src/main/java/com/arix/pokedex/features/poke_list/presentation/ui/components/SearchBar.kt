@@ -11,6 +11,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Clear
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalInspectionMode
@@ -23,9 +24,9 @@ import com.arix.pokedex.theme.PokedexTheme
 
 @Composable
 fun SearchBar(onValueChange: (String) -> Unit, modifier: Modifier = Modifier) {
-    var text by remember { mutableStateOf("") }
+    var text by rememberSaveable { mutableStateOf("") }
     val isPreview = LocalInspectionMode.current
-    var isFilled by remember { mutableStateOf(isPreview) }
+    var isFilled by rememberSaveable { mutableStateOf(isPreview) }
     val focusManager = LocalFocusManager.current
     OutlinedTextField(
         value = text,
@@ -48,7 +49,9 @@ fun SearchBar(onValueChange: (String) -> Unit, modifier: Modifier = Modifier) {
                     modifier = Modifier.clickable { text = ""; onValueChange(text) }
                 )
         },
-        modifier = modifier.fillMaxWidth().height(60.dp)
+        modifier = modifier
+            .fillMaxWidth()
+            .height(60.dp)
     )
 }
 
