@@ -1,7 +1,5 @@
 package com.arix.pokedex.extensions
 
-import java.util.regex.Pattern
-
 fun String.withArgument(argumentName: String): String {
     return "$this/{$argumentName}"
 }

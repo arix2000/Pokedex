@@ -13,7 +13,5 @@ sealed class Screen(private var _route: String, val argumentKey: String = "") {
     object PokemonListScreen : Screen("pokemon_list_screen")
 
     object PokemonDetailsScreen
-        : Screen("pokemonDetailsScreen", "pokemonName") {
-
-    }
+        : Screen("pokemonDetailsScreen", "pokemonName")
 }

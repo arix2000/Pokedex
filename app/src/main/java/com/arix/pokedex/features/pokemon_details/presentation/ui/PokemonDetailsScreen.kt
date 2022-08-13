@@ -24,6 +24,7 @@ import com.arix.pokedex.features.pokemon_details.domain.model.evolution_chain.Po
 import com.arix.pokedex.features.pokemon_details.domain.model.species.PokemonSpecies
 import com.arix.pokedex.features.pokemon_details.domain.model.species.Variety
 import com.arix.pokedex.features.pokemon_details.presentation.PokemonDetailsViewModel
+import com.arix.pokedex.features.pokemon_details.presentation.ui.components.details.DetailsView
 import com.arix.pokedex.features.pokemon_details.presentation.ui.components.evolution_chain.EvolutionChainView
 import com.arix.pokedex.features.pokemon_details.presentation.ui.components.expandable_section.ExpandableSection
 import com.arix.pokedex.features.pokemon_details.presentation.ui.components.forms.VariantsView
@@ -72,6 +73,13 @@ fun PokemonDetailsScreenContent(
                 .verticalScroll(rememberScrollState()),
         ) {
             PokemonDetailsHeader(pokemonDetails)
+            Spacer(modifier = Modifier.height(12.dp))
+            ExpandableSection(
+                title = stringResource(R.string.details_title),
+                expandedInitially = true
+            ) {
+                DetailsView(pokemonDetails, species)
+            }
             Spacer(modifier = Modifier.height(12.dp))
             ExpandableSection(title = stringResource(R.string.pokemon_description)) {
                 Text(text = species.getDescription())

@@ -4,6 +4,7 @@ import com.arix.pokedex.core.Constants.Language.ENGLISH_LANGUAGE_CODE
 import com.arix.pokedex.core.Constants.PokemonDetailsScreen.DESIRED_DESCRIPTION_VERSION
 import com.arix.pokedex.core.Constants.PokemonDetailsScreen.NO_DESCRIPTION
 import com.arix.pokedex.extensions.clearEndOfLineEscapeSequences
+import com.arix.pokedex.extensions.getIdFromUrl
 
 data class PokemonSpecies(
     val base_happiness: Int,
@@ -19,7 +20,7 @@ data class PokemonSpecies(
     val genera: List<Genera>,
     val generation: Generation,
     val growth_rate: GrowthRate,
-    val habitat: Any,
+    val habitat: Habitat?,
     val has_gender_differences: Boolean,
     val hatch_counter: Int,
     val id: Int,
@@ -42,6 +43,20 @@ data class PokemonSpecies(
         val desiredEntry = enTextEntries.find { it.version.name == DESIRED_DESCRIPTION_VERSION }
         val finalEntry = (desiredEntry?.flavor_text ?: enTextEntries.last().flavor_text)
         return finalEntry.clearEndOfLineEscapeSequences()
+    }
 
+    fun getGenerationName(): String {
+        val genNumberConverted = when (generation.url.getIdFromUrl()) {
+            1 -> "I"
+            2 -> "II"
+            3 -> "III"
+            4 -> "IV"
+            5 -> "V"
+            6 -> "VI"
+            7 -> "VII"
+            8 -> "VIII"
+            else -> return "No generation"
+        }
+        return "Generation $genNumberConverted"
     }
 }

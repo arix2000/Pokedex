@@ -10,6 +10,9 @@ val BlackLight = Color(0xFF1C1C1C)
 
 val GrayA50 = Color(0xBFFFFFFF)
 
+val GanderMaleColor = Color(0xFFC03A87)
+val GanderFemaleColor =Color(0xFF006BDD)
+
 val TypeNormal = Color(0xFFA8A77A)
 val TypeFire = Color(0xFFEE8130)
 val TypeWater = Color(0xFF6390F0)
