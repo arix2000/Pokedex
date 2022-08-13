@@ -3,9 +3,11 @@ package com.arix.pokedex.features.pokemon_details.presentation.ui.components.for
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material.Surface
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.arix.pokedex.features.common.ScrollHintMask
@@ -14,6 +16,8 @@ import com.arix.pokedex.features.poke_list.presentation.ui.components.PokemonIte
 import com.arix.pokedex.features.pokemon_details.domain.model.species.Variety
 import com.arix.pokedex.features.pokemon_details.presentation.PokemonDetailsViewModel
 import com.arix.pokedex.features.pokemon_details.presentation.ui.PokemonDetailsEvent
+import com.arix.pokedex.theme.PokedexTheme
+import com.arix.pokedex.utils.MockResourceReader
 import com.arix.pokedex.utils.drawHorizontalScrollbar
 import com.arix.pokedex.views.shimmer_effect.ShimmerAnimatedBox
 import org.koin.androidx.compose.getViewModel
@@ -74,6 +78,16 @@ private fun VariantsContentView(
 
 @Preview
 @Composable
-fun FormsViewPreview() {
-
+fun VariantsContentViewPreview() {
+    PokedexTheme {
+        val context = LocalContext.current
+        val pokemonDetail = remember { MockResourceReader(context).getPokemonDetailsMock() }
+        Surface {
+            VariantsContentView(
+                rootPokemonDetailsName = "Scyther",
+                pokemonDetails = listOf(pokemonDetail, pokemonDetail, pokemonDetail, pokemonDetail),
+                navigateToPokemonDetails = {}
+            )
+        }
+    }
 }
