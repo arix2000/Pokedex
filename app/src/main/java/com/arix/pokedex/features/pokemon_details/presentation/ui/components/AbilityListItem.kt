@@ -45,7 +45,10 @@ fun AbilityListItem(ability: Ability) {
                 .padding(vertical = 8.dp, horizontal = 20.dp)
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(text = ability.ability.name.capitalize(LocaleList.current), fontSize = 18.sp)
+                Text(
+                    text = ability.ability.name.capitalize(LocaleList.current).replace("-", " "),
+                    fontSize = 18.sp
+                )
                 if (ability.is_hidden) {
                     Spacer(modifier = Modifier.width(5.dp))
                     HiddenLabel()
