@@ -19,11 +19,13 @@ import com.arix.pokedex.R
 import com.arix.pokedex.extensions.hasOneItem
 import com.arix.pokedex.extensions.isPreview
 import com.arix.pokedex.features.common.AppTopBar
+import com.arix.pokedex.features.poke_list.domain.model.details.Ability
 import com.arix.pokedex.features.poke_list.domain.model.details.PokemonDetails
 import com.arix.pokedex.features.pokemon_details.domain.model.evolution_chain.PokemonEvolutionChain
 import com.arix.pokedex.features.pokemon_details.domain.model.species.PokemonSpecies
 import com.arix.pokedex.features.pokemon_details.domain.model.species.Variety
 import com.arix.pokedex.features.pokemon_details.presentation.PokemonDetailsViewModel
+import com.arix.pokedex.features.pokemon_details.presentation.ui.components.AbilityListItem
 import com.arix.pokedex.features.pokemon_details.presentation.ui.components.details.DetailsView
 import com.arix.pokedex.features.pokemon_details.presentation.ui.components.evolution_chain.EvolutionChainView
 import com.arix.pokedex.features.pokemon_details.presentation.ui.components.expandable_section.ExpandableSection
@@ -91,12 +93,15 @@ fun PokemonDetailsScreenContent(
                 navigateToPokemonDetails
             )
             Spacer(modifier = Modifier.height(10.dp))
+            AbilitiesSection(pokemonDetails.abilities)
+            Spacer(modifier = Modifier.height(10.dp))
             if (!(species.varieties.hasOneItem() && species.varieties.first().is_default)) {
                 VarietiesSection(
                     pokemonDetails.name,
                     species.varieties,
                     navigateToPokemonDetails
                 )
+                Spacer(modifier = Modifier.height(10.dp))
             }
         }
     }
@@ -127,6 +132,18 @@ private fun EvolutionChainSection(
 }
 
 @Composable
+private fun AbilitiesSection(abilities: List<Ability>) {
+    ExpandableSection(title = stringResource(R.string.abilities_title)) {
+        Column {
+            abilities.forEach {
+                AbilityListItem(ability = it)
+                Spacer(modifier = Modifier.height(5.dp))
+            }
+        }
+    }
+}
+
+@Composable
 private fun VarietiesSection(
     rootPokemonDetailsName: String,
     varieties: List<Variety>,
@@ -142,7 +159,6 @@ private fun VarietiesSection(
                 navigateToPokemonDetails
             )
     }
-    Spacer(modifier = Modifier.height(10.dp))
 }
 
 @Preview

@@ -23,4 +23,6 @@
     <string name="pokemon_is_male_only">There are only males</string>
     <string name="pokemon_is_female_only">There are only females</string>
     <string name="details_title">Details</string>
+    <string name="abilities_title">Abilities</string>
+    <string name="hidden_label">hidden</string>
 </resources>
