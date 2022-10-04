@@ -42,7 +42,7 @@ fun AbilityListItem(ability: Ability) {
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 8.dp, horizontal = 20.dp)
+                .padding(top = 8.dp, bottom = 8.dp, start = 15.dp, end = 10.dp)
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
