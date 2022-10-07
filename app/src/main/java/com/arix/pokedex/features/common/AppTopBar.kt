@@ -2,14 +2,12 @@ package com.arix.pokedex.features.common
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.Surface
-import androidx.compose.material.TopAppBar
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Menu
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -21,9 +19,10 @@ import androidx.navigation.compose.rememberNavController
 import com.arix.pokedex.R
 import com.arix.pokedex.theme.BlackSoft
 import com.arix.pokedex.theme.PokedexTheme
+import kotlinx.coroutines.launch
 
 @Composable
-fun AppTopBar(navController: NavController, showBackButton: Boolean) {
+fun AppTopBar(navController: NavController, showBackButton: Boolean, scaffoldState: ScaffoldState) {
     TopAppBar(backgroundColor = BlackSoft, contentPadding = PaddingValues(all = 0.dp)) {
         Box(modifier = Modifier.fillMaxSize()) {
             Image(
@@ -43,7 +42,7 @@ fun AppTopBar(navController: NavController, showBackButton: Boolean) {
                 if (showBackButton)
                     BackIconButton(navController)
                 else
-                    MenuIconButton()
+                    MenuIconButton(scaffoldState)
             }
         }
     }
@@ -60,8 +59,13 @@ private fun BackIconButton(navController: NavController) {
 }
 
 @Composable
-private fun MenuIconButton() {
-    IconButton(onClick = { }) {
+private fun MenuIconButton(scaffoldState: ScaffoldState) {
+    val scope = rememberCoroutineScope()
+    IconButton(
+        onClick = {
+            scope.launch { scaffoldState.drawerState.open() }
+        },
+    ) {
         Icon(
             imageVector = Icons.Rounded.Menu,
             contentDescription = "Menu"
@@ -74,7 +78,7 @@ private fun MenuIconButton() {
 private fun AppTopBarPreview() {
     PokedexTheme {
         Surface {
-            AppTopBar(rememberNavController(), false)
+            AppTopBar(rememberNavController(), false, rememberScaffoldState())
         }
     }
 }

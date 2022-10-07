@@ -5,6 +5,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -174,7 +175,8 @@ private fun PokemonDetailsScreenContentPreview() {
             Column {
                 AppTopBar(
                     navController = rememberNavController(),
-                    showBackButton = true
+                    showBackButton = true,
+                    scaffoldState = rememberScaffoldState()
                 )
                 PokemonDetailsScreenContent(
                     pokemonDetails,

@@ -10,7 +10,15 @@ sealed class Screen(private var _route: String, val argumentKey: String = "") {
             return _route
         }
 
-    object PokemonListScreen : Screen("pokemon_list_screen")
+    object PokemonListScreen : Screen("pokemonListScreen")
+
+    object MovesScreen : Screen("movesScreen")
+
+    object ItemsScreen : Screen("itemsScreen")
+
+    object LocationsScreen : Screen("locationsScreen")
+
+    object AbilitiesScreen : Screen("abilitiesScreen")
 
     object PokemonDetailsScreen
         : Screen("pokemonDetailsScreen", "pokemonName")
