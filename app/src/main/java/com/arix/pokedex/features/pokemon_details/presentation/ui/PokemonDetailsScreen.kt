@@ -75,7 +75,7 @@ fun PokemonDetailsScreenContent(
                 .fillMaxWidth()
                 .verticalScroll(rememberScrollState()),
         ) {
-            PokemonDetailsHeader(pokemonDetails)
+            PokemonDetailsHeader(pokemonDetails, species)
             Spacer(modifier = Modifier.height(12.dp))
             ExpandableSection(
                 title = stringResource(R.string.details_title),

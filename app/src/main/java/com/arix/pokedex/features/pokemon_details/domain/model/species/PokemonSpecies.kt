@@ -45,6 +45,8 @@ data class PokemonSpecies(
         return finalEntry.clearEndOfLineEscapeSequences()
     }
 
+    fun getGeneraText(): String = genera.first { it.language.name == ENGLISH_LANGUAGE_CODE }.genus
+
     fun getGenerationName(): String {
         val genNumberConverted = when (generation.url.getIdFromUrl()) {
             1 -> "I"

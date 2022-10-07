@@ -10,7 +10,8 @@ val BlackSoftA50 = Color(0x80090909)
 val BlackLight = Color(0xFF1C1C1C)
 
 val BlackA70 = Color(0xB3000000)
-val GrayA50 = Color(0xBFFFFFFF)
+val WhiteA50 = Color(0x80FFFFFF)
+val GrayA75 = Color(0xBFFFFFFF)
 
 val GanderMaleColor = Color(0xFFC03A87)
 val GanderFemaleColor =Color(0xFF006BDD)

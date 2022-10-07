@@ -20,7 +20,7 @@ import com.arix.pokedex.R
 import com.arix.pokedex.extensions.ScanEvolutionDetails
 import com.arix.pokedex.features.pokemon_details.domain.model.evolution_chain.EvolutionDetail
 import com.arix.pokedex.features.pokemon_details.domain.model.evolution_chain.Item
-import com.arix.pokedex.theme.GrayA50
+import com.arix.pokedex.theme.GrayA75
 import com.arix.pokedex.theme.TextSize
 
 @Composable
@@ -87,7 +87,7 @@ private fun EvolutionRuleText(text: String, specifyWidth: Boolean = false) {
     Text(
         text = text,
         fontSize = TextSize.xsmall,
-        color = GrayA50,
+        color = GrayA75,
         softWrap = true,
         modifier = if (specifyWidth) Modifier else Modifier.width(110.dp),
         textAlign = TextAlign.Center
@@ -99,7 +99,7 @@ private fun EvolutionRuleText(text: AnnotatedString) {
     Text(
         text = text,
         fontSize = TextSize.xsmall,
-        color = GrayA50,
+        color = GrayA75,
         softWrap = true,
         modifier = Modifier.width(110.dp),
         textAlign = TextAlign.Center
