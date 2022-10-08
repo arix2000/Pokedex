@@ -11,7 +11,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.arix.pokedex.R
-import com.arix.pokedex.extensions.clickable
 import com.arix.pokedex.extensions.gridItems
 import com.arix.pokedex.features.poke_list.presentation.PokemonListViewModel
 import com.arix.pokedex.features.poke_list.presentation.ui.components.PokemonListItem
