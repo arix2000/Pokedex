@@ -13,9 +13,12 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
 import com.arix.pokedex.core.navigation.AppNavHost
+import com.arix.pokedex.core.navigation.DrawerScreens
 import com.arix.pokedex.features.common.AppTopBar
 import com.arix.pokedex.features.common.drawer.NavDrawerContent
-import com.arix.pokedex.theme.*
+import com.arix.pokedex.theme.BlackA70
+import com.arix.pokedex.theme.BlackLight
+import com.arix.pokedex.theme.PokedexTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,12 +34,16 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun AppContainer() {
     var showBackButton by remember { mutableStateOf(false) }
+    var enableDrawer by remember { mutableStateOf(true) }
     val scaffoldState = rememberScaffoldState()
     val navController = rememberNavController().apply {
         addOnDestinationChangedListener { _, _, _ ->
             showBackButton = previousBackStackEntry != null
+            enableDrawer =
+                DrawerScreens.values().any { it.screen.route == currentDestination?.route }
         }
     }
+
     Surface(modifier = Modifier.fillMaxSize()) {
         Scaffold(
             scaffoldState = scaffoldState,
@@ -44,7 +51,8 @@ fun AppContainer() {
             drawerContent = { NavDrawerContent(navController, scaffoldState) },
             drawerScrimColor = BlackA70,
             drawerBackgroundColor = BlackLight,
-            drawerShape = RectangleShape
+            drawerShape = RectangleShape,
+            drawerGesturesEnabled = enableDrawer
         ) {
             AppNavHost(navController)
         }
