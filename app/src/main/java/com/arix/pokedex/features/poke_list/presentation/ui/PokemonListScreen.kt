@@ -11,9 +11,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.arix.pokedex.R
+import com.arix.pokedex.extensions.clickable
 import com.arix.pokedex.extensions.gridItems
 import com.arix.pokedex.features.poke_list.presentation.PokemonListViewModel
-import com.arix.pokedex.features.poke_list.presentation.ui.components.PokemonItem
+import com.arix.pokedex.features.poke_list.presentation.ui.components.PokemonListItem
 import com.arix.pokedex.features.poke_list.presentation.ui.components.SearchBar
 import com.arix.pokedex.views.DefaultProgressIndicatorScreen
 import com.arix.pokedex.views.ErrorScreenWithRetryButton
@@ -54,7 +55,7 @@ private fun PokemonGridView(
         if (state.isSearchResultsEmpty) NoResultsView()
         LazyColumn(modifier = Modifier.fillMaxSize()) {
             gridItems(state.pokemonList ?: emptyList(), cells = 2) {
-                PokemonItem(
+                PokemonListItem(
                     pokemonDetails = it,
                     modifier = Modifier
                         .fillMaxWidth()

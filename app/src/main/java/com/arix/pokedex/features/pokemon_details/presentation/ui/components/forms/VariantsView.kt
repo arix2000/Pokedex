@@ -12,7 +12,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.arix.pokedex.features.common.ScrollHintMask
 import com.arix.pokedex.features.poke_list.domain.model.details.PokemonDetails
-import com.arix.pokedex.features.poke_list.presentation.ui.components.PokemonItem
+import com.arix.pokedex.features.poke_list.presentation.ui.components.PokemonListItem
 import com.arix.pokedex.features.pokemon_details.domain.model.species.Variety
 import com.arix.pokedex.features.pokemon_details.presentation.PokemonDetailsViewModel
 import com.arix.pokedex.features.pokemon_details.presentation.ui.PokemonDetailsEvent
@@ -61,7 +61,7 @@ private fun VariantsContentView(
     Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxWidth()) {
         LazyRow(state = lazyRowState, modifier = Modifier.drawHorizontalScrollbar(lazyRowState)) {
             items(pokemonDetails.size) {
-                PokemonItem(pokemonDetails = pokemonDetails[it], modifier = Modifier
+                PokemonListItem(pokemonDetails = pokemonDetails[it], modifier = Modifier
                     .width(155.dp)
                     .height(230.dp),
                     onClick = if (rootPokemonDetailsName != pokemonDetails[it].name) {

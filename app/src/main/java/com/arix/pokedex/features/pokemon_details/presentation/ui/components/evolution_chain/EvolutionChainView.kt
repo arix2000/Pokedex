@@ -20,7 +20,7 @@ import com.arix.pokedex.extensions.hasOneItem
 import com.arix.pokedex.extensions.isLastElement
 import com.arix.pokedex.extensions.isNotFirstElement
 import com.arix.pokedex.features.poke_list.domain.model.details.PokemonDetails
-import com.arix.pokedex.features.poke_list.presentation.ui.components.PokemonItem
+import com.arix.pokedex.features.poke_list.presentation.ui.components.PokemonListItem
 import com.arix.pokedex.features.pokemon_details.domain.model.EvolutionStep
 import com.arix.pokedex.features.pokemon_details.domain.model.PokemonEvolutionDetails
 import com.arix.pokedex.features.pokemon_details.domain.model.evolution_chain.EvolutionDetail
@@ -124,7 +124,7 @@ private fun EvolutionChainContent(
                             }
                         }
                     })
-                    PokemonItem(
+                    PokemonListItem(
                         pokemonDetails = it.pokemonDetails,
                         modifier = Modifier
                             .width(155.dp)

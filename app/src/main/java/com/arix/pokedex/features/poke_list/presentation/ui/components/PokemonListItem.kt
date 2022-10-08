@@ -1,7 +1,6 @@
 package com.arix.pokedex.features.poke_list.presentation.ui.components
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -23,6 +22,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.arix.pokedex.R
+import com.arix.pokedex.extensions.clickableOnceInTime
 import com.arix.pokedex.features.poke_list.domain.model.details.PokemonDetails
 import com.arix.pokedex.features.poke_list.domain.model.details.Type
 import com.arix.pokedex.theme.PokedexTheme
@@ -33,7 +33,7 @@ import com.arix.pokedex.views.FadingHorizontalDivider
 import com.arix.pokedex.views.shimmer_effect.ShimmerAnimatedBox
 
 @Composable
-fun PokemonItem(
+fun PokemonListItem(
     pokemonDetails: PokemonDetails,
     modifier: Modifier = Modifier,
     onClick: (() -> Unit)? = null
@@ -45,7 +45,9 @@ fun PokemonItem(
             .padding(5.dp)
             .clip(Shapes.medium)
             .background(brush = getBrushBasedOn(isImageLoading, pokemonDetails.types))
-            .clickable(enabled = onClick != null) { onClick?.invoke() }
+            .clickableOnceInTime(enabled = onClick != null) {
+                onClick?.invoke()
+            }
     ) {
         Column(
             modifier = modifier,
@@ -99,7 +101,7 @@ fun PokemonItemPreview() {
     val pokemonDetails = remember { MockResourceReader(context).getPokemonDetailsMock() }
     PokedexTheme {
         Surface() {
-            PokemonItem(pokemonDetails, Modifier.width(180.dp))
+            PokemonListItem(pokemonDetails, Modifier.width(180.dp))
         }
     }
 }
