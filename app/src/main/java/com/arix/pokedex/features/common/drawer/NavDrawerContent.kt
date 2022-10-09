@@ -1,5 +1,6 @@
 package com.arix.pokedex.features.common.drawer
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -38,6 +39,10 @@ fun NavDrawerContent(navController: NavController, scaffoldState: ScaffoldState)
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
     val scope = rememberCoroutineScope()
+
+    BackHandler(scaffoldState.drawerState.isOpen) {
+        scope.launch { scaffoldState.drawerState.close() }
+    }
 
     Spacer(modifier = Modifier.height(20.dp))
     Image(
