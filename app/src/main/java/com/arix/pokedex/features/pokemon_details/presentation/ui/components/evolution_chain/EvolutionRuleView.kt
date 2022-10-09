@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.arix.pokedex.R
 import com.arix.pokedex.extensions.ScanEvolutionDetails
+import com.arix.pokedex.features.poke_list.domain.model.details.TypeX
 import com.arix.pokedex.features.pokemon_details.domain.model.evolution_chain.EvolutionDetail
 import com.arix.pokedex.features.pokemon_details.domain.model.evolution_chain.Item
 import com.arix.pokedex.theme.GrayA75
@@ -63,20 +64,7 @@ fun EvolutionRuleView(evolutionDetails: List<EvolutionDetail>) {
         },
         evolveByKnownMoveType = {
             Column {
-                EvolutionRuleText(text = buildAnnotatedString {
-                    append("Knows ")
-                    append(
-                        AnnotatedString(
-                            it.name,
-                            SpanStyle(
-                                color = Color.White,
-                                background = it.getTypeColor(),
-                                fontStyle = FontStyle.Italic
-                            )
-                        )
-                    )
-                    append(" type move.")
-                })
+                EvolutionRuleText(text = buildKnownMoveTypeAnnotatedString(it))
             }
         }
     )
@@ -105,6 +93,24 @@ private fun EvolutionRuleText(text: AnnotatedString) {
         textAlign = TextAlign.Center
     )
 }
+
+
+@Composable
+private fun buildKnownMoveTypeAnnotatedString(type: TypeX) =
+    buildAnnotatedString {
+        append("Knows ")
+        append(
+            AnnotatedString(
+                type.name,
+                SpanStyle(
+                    color = Color.White,
+                    background = type.getTypeColor(),
+                    fontStyle = FontStyle.Italic
+                )
+            )
+        )
+        append(" type move.")
+    }
 
 @Composable
 private fun ItemAsyncImage(item: Item) {
