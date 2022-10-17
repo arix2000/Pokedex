@@ -1,4 +1,4 @@
-package com.arix.pokedex.features.poke_list.data
+package com.arix.pokedex.features.poke_list.data.data_sources
 
 import com.arix.pokedex.core.base.RemoteDataSource
 import com.arix.pokedex.core.network.ApiService

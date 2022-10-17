@@ -14,15 +14,19 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Pokedex">
         <activity
-            android:name=".features.MainActivity"
+            android:name=".features.splash_activity.SplashActivity"
             android:exported="true"
-            android:theme="@style/Theme.Pokedex">
+            android:theme="@style/SplashScreenTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".features.MainActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Pokedex" />
     </application>
 
 </manifest>

@@ -5,4 +5,13 @@
         <item name="android:statusBarColor">@color/navigation_bar_color</item>
         <item name="android:navigationBarColor">@color/navigation_bar_color</item>
     </style>
+
+    <style name="Theme.SplashScreenApp" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:statusBarColor">@color/navigation_bar_color</item>
+    </style>
+
+    <style name="SplashScreenTheme" parent="Theme.SplashScreenApp">
+        <item name="android:windowBackground">@drawable/background_splash</item>
+
+    </style>
 </resources>

@@ -6,9 +6,9 @@ import com.arix.pokedex.features.pokemon_details.data.PokemonDetailsRepositoryIm
 import org.koin.dsl.module
 
 val repositoryModule = module {
-   factory { PokemonRepositoryImpl(get()) }
+   factory { PokemonRepositoryImpl(get(), get()) }
 
    factory { PokemonDetailsRepositoryImpl(get()) }
 
-   factory { MovesRepositoryImpl(get()) }
+   factory { MovesRepositoryImpl(get(), get()) }
 }
