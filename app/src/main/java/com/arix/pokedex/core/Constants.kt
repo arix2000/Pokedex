@@ -40,4 +40,9 @@ object Constants {
         const val GANDER_RATE_WHEN_ONLY_MALES = 0
         const val GANDER_RATE_WHEN_ONLY_FEMALES = 8
     }
+
+    object PokemonMovesScreen {
+        const val MOVES_INITIAL_OFFSET = 0
+        const val MOVES_ITEM_LIMIT = 30
+    }
 }

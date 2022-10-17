@@ -1,5 +1,6 @@
 package com.arix.pokedex.core.di
 
+import com.arix.pokedex.features.moves.presentation.MovesViewModel
 import com.arix.pokedex.features.poke_list.presentation.PokemonListViewModel
 import com.arix.pokedex.features.pokemon_details.presentation.PokemonDetailsViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -9,4 +10,6 @@ val viewModelModule = module {
     viewModel { PokemonListViewModel(get(), get()) }
 
     viewModel { PokemonDetailsViewModel(get(), get(), get()) }
+
+    viewModel { MovesViewModel(get()) }
 }

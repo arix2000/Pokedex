@@ -1,9 +1,8 @@
-package com.arix.pokedex.features.poke_list.data.repository
+package com.arix.pokedex.features.poke_list.data
 
-import com.arix.pokedex.features.poke_list.data.remote_data_source.PokemonRemoteDataSource
 import com.arix.pokedex.features.poke_list.domain.model.details.PokemonDetails
 import com.arix.pokedex.features.poke_list.domain.model.list.PokemonList
-import com.arix.pokedex.features.poke_list.domain.repository.PokemonRepository
+import com.arix.pokedex.features.poke_list.domain.PokemonRepository
 import com.arix.pokedex.utils.Resource
 
 class PokemonRepositoryImpl(

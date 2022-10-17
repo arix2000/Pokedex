@@ -73,7 +73,7 @@ class PokemonListViewModel(
                 when (this) {
                     is Resource.Success ->
                         getPokemonDetailsList(data?.pokemonList?.map { it.name }!!) {
-                            _state.value = _state.value.copy(isListEndedReached = data.next == null)
+                            _state.value = _state.value.copy(isListEndReached = data.next == null)
                         }
                     is Resource.Error ->
                         _state.value = _state.value.copy(
@@ -108,7 +108,7 @@ class PokemonListViewModel(
         if (actualSearchQuery.isBlank() && previousQuery.isNotBlank()) {
             _state.value = _state.value.copy(
                 pokemonList = null,
-                isListEndedReached = false,
+                isListEndReached = false,
                 isSearchResultsEmpty = false
             )
             getNextOrInitialPokemonList()
@@ -121,7 +121,7 @@ class PokemonListViewModel(
             isInitialLoading = false,
             isLoadingNext = true,
             isSearchResultsEmpty = false,
-            isListEndedReached = false,
+            isListEndReached = false,
             errorMessage = null
         )
         getNextOrInitialSearchedList()
@@ -144,7 +144,7 @@ class PokemonListViewModel(
         ) {
             _state.value =
                 _state.value.copy(
-                    isListEndedReached = _state.value.pokemonList
+                    isListEndReached = _state.value.pokemonList
                         .isSizeEqualsOrGreaterThan(filteredPokemonNames)
                 )
         }

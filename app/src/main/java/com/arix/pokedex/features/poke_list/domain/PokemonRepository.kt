@@ -1,4 +1,4 @@
-package com.arix.pokedex.features.poke_list.domain.repository
+package com.arix.pokedex.features.poke_list.domain
 
 import com.arix.pokedex.features.poke_list.domain.model.details.PokemonDetails
 import com.arix.pokedex.features.poke_list.domain.model.list.PokemonList

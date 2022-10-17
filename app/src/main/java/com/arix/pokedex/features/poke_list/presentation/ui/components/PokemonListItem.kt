@@ -44,7 +44,7 @@ fun PokemonListItem(
         modifier = Modifier
             .padding(5.dp)
             .clip(Shapes.medium)
-            .background(brush = getBrushBasedOn(isImageLoading, pokemonDetails.types))
+            .background(brush = getBrushBasedOn(pokemonDetails.types, isImageLoading))
             .clickableOnceInTime(enabled = onClick != null) {
                 onClick?.invoke()
             }
@@ -78,7 +78,7 @@ fun PokemonListItem(
     }
 }
 
-private fun getBrushBasedOn(isImageLoading: Boolean, types: List<Type>): Brush {
+private fun getBrushBasedOn(types: List<Type>, isImageLoading: Boolean): Brush {
     val colorList = mutableListOf(types.firstOrNull()?.getTypeColor() ?: Color.Black, Color.Black)
     return if (!isImageLoading) Brush.linearGradient(
         colorList,

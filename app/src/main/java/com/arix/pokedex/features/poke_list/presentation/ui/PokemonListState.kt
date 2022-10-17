@@ -8,7 +8,7 @@ data class PokemonListState(
     val isLoadingNext: Boolean = false,
     val isSearching: Boolean = false,
     val isSearchResultsEmpty: Boolean = false,
-    val isListEndedReached: Boolean = false,
+    val isListEndReached: Boolean = false,
     val errorMessage: String? = null
 ) {
     fun isErrorOnInitial() = errorMessage != null && pokemonList == null

@@ -63,7 +63,7 @@ private fun PokemonGridView(
                     navigateToPokemonDetails(it.name)
                 }
             }
-            if (!state.isListEndedReached)
+            if (!state.isListEndReached)
                 item {
                     if (!state.pokemonList.isNullOrEmpty())
                         LaunchedEffect(true) {

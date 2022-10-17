@@ -26,14 +26,14 @@ fun TypesSection(
 ) {
     Row(horizontalArrangement = Arrangement.Center) {
         types.forEach {
-            TypeItem(it, modifier, itemFontSize)
+            TypeItem(it.type, modifier, itemFontSize)
             Spacer(modifier = Modifier.width(spacing))
         }
     }
 }
 
 @Composable
-private fun TypeItem(type: Type, modifier: Modifier, itemFontSize: TextUnit) {
+fun TypeItem(type: TypeX, modifier: Modifier = Modifier, itemFontSize: TextUnit) {
     Box(
         modifier = modifier
             .background(type.getTypeColor(), CircleShape)
@@ -41,13 +41,13 @@ private fun TypeItem(type: Type, modifier: Modifier, itemFontSize: TextUnit) {
             .width(70.dp),
         contentAlignment = Alignment.Center
     ) {
-        Text(text = type.type.name, fontSize = itemFontSize)
+        Text(text = type.name, fontSize = itemFontSize)
     }
 }
 
 @Preview
 @Composable
-fun TypesSectionPreview() {
+private fun TypesSectionPreview() {
     PokedexTheme {
         Surface {
             TypesSection(

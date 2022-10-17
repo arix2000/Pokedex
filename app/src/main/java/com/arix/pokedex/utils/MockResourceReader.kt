@@ -2,7 +2,9 @@ package com.arix.pokedex.utils
 
 import android.content.Context
 import com.arix.pokedex.R
+import com.arix.pokedex.features.moves.domain.model.Move
 import com.arix.pokedex.features.poke_list.domain.model.details.PokemonDetails
+import com.arix.pokedex.features.poke_list.domain.model.details.TypeX
 import com.arix.pokedex.features.pokemon_details.domain.model.evolution_chain.PokemonEvolutionChain
 import com.arix.pokedex.features.pokemon_details.domain.model.species.PokemonSpecies
 import com.google.gson.Gson
@@ -35,5 +37,24 @@ class MockResourceReader(private val context: Context) {
 
         return Gson().fromJson(pokemonDetailsJson, PokemonEvolutionChain::class.java)
             ?: throw Exception("Exception in preview")
+    }
+
+    fun getPokemonMoveMock(): Move {
+        val pokemonMoveJson = context.resources.openRawResource(R.raw.pokemon_move)
+            .reader()
+            .readText()
+
+        return Gson().fromJson(pokemonMoveJson, Move::class.java)
+            ?: throw Exception("Exception in preview")
+    }
+
+    fun getPokemonMoveListMock(): List<Move> {
+        val move = getPokemonMoveMock()
+        val moveWater = move.copy(type = TypeX("water", ""), name = "sword-dance")
+        val moveSteel = move.copy(type = TypeX("steel", ""), name = "thunder-punch")
+        return listOf(
+            move, moveWater, move, moveSteel, moveSteel, moveWater, move,
+            move, moveWater, move, moveSteel, moveSteel, moveWater, move
+        )
     }
 }
