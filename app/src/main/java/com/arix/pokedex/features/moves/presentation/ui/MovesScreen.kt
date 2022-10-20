@@ -11,10 +11,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
 import androidx.compose.ui.unit.dp
+import com.arix.pokedex.features.moves.domain.model.Move
 import com.arix.pokedex.features.moves.presentation.MovesViewModel
 import com.arix.pokedex.features.moves.presentation.ui.components.MoveListItem
+import com.arix.pokedex.features.poke_list.presentation.ui.NoResultsView
 import com.arix.pokedex.features.poke_list.presentation.ui.components.SearchBar
 import com.arix.pokedex.theme.PokedexTheme
 import com.arix.pokedex.utils.MockResourceReader
@@ -27,12 +28,12 @@ import org.koin.androidx.compose.getViewModel
 fun MovesScreen(viewModel: MovesViewModel = getViewModel()) {
     val state = viewModel.state.value
     when {
-        state.moves != null -> MovesScreenContent(state) { viewModel.invokeEvent(it) }
         state.isInitialLoading -> DefaultProgressIndicatorScreen()
         state.isErrorOnInitial() -> ErrorScreenWithRetryButton(
             modifier = Modifier.fillMaxSize(),
             onRetryClicked = { viewModel.invokeEvent(MovesScreenEvent.GetNextMoves) }
         )
+        else -> MovesScreenContent(state) { viewModel.invokeEvent(it) }
     }
 }
 
@@ -40,30 +41,31 @@ fun MovesScreen(viewModel: MovesViewModel = getViewModel()) {
 private fun MovesScreenContent(state: MovesScreenState, invokeEvent: (MovesScreenEvent) -> Unit) {
     Column {
         SearchBar(
-            onValueChange = {  },
+            onValueChange = { invokeEvent(MovesScreenEvent.SearchByQuery(it)) },
             modifier = Modifier.padding(bottom = 6.dp, start = 10.dp, end = 10.dp)
         )
+        if (state.emptySearchResult) NoResultsView()
         MovesListView(state, invokeEvent)
     }
 }
 
 @Composable
 private fun MovesListView(state: MovesScreenState, invokeEvent: (MovesScreenEvent) -> Unit) {
-    if (state.moves != null)
-        LazyColumn {
-            items(state.moves.size) {
-                MoveListItem(move = state.moves[it])
+    LazyColumn {
+            items(state.moves?.size ?: 0) {
+                MoveListItem(move = state.moves?.get(it) ?: Move.EMPTY)
             }
 
-            if (!state.isListEndReached)
-                item {
-                    if (state.moves.isNotEmpty())
-                        LaunchedEffect(key1 = true) {
-                            invokeEvent(MovesScreenEvent.GetNextMoves)
-                        }
-                    LoadingOrError(errorMessage = state.errorMessage, invokeEvent)
-                }
-        }
+        if (!state.isListEndReached)
+            item {
+                if (!state.moves.isNullOrEmpty())
+                    LaunchedEffect(key1 = true) {
+                        invokeEvent(MovesScreenEvent.GetNextPage)
+                    }
+
+                LoadingOrError(errorMessage = state.errorMessage, invokeEvent)
+            }
+    }
 }
 
 @Composable
@@ -76,7 +78,7 @@ private fun LoadingOrError(errorMessage: String?, invokeEvent: (MovesScreenEvent
     ) {
         if (errorMessage != null)
             ErrorScreenWithRetryButtonCondensed(
-                onRetryClicked = { invokeEvent(MovesScreenEvent.GetNextMoves) },
+                onRetryClicked = { invokeEvent(MovesScreenEvent.GetNextPage) },
                 modifier = Modifier.fillMaxWidth()
             )
         else

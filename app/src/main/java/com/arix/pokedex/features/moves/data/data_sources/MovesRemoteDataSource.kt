@@ -12,7 +12,7 @@ class MovesRemoteDataSource(private val apiService: ApiService) : RemoteDataSour
         return makeHttpRequest { apiService.getMoves(limit, offset) }
     }
 
-    suspend fun getMove(moveId: Int): Resource<Move> {
+    suspend fun getMove(moveId: String): Resource<Move> {
         return makeHttpRequest { apiService.getMove(moveId) }
     }
 }

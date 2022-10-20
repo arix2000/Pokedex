@@ -16,7 +16,7 @@ class MovesRepositoryImpl(
         return remoteDataSource.getMoveList(limit, offset)
     }
 
-    override suspend fun getMove(moveId: Int): Resource<Move> {
+    override suspend fun getMove(moveId: String): Resource<Move> {
         return remoteDataSource.getMove(moveId)
     }
 

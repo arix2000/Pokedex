@@ -5,7 +5,6 @@ import com.arix.pokedex.features.poke_list.domain.model.details.PokemonDetails
 data class PokemonListState(
     val pokemonList: List<PokemonDetails>? = null,
     val isInitialLoading: Boolean = false,
-    val isLoadingNext: Boolean = false,
     val isSearching: Boolean = false,
     val isSearchResultsEmpty: Boolean = false,
     val isListEndReached: Boolean = false,

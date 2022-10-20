@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.arix.pokedex.core.Constants.PokemonListScreen.POKEMON_LIST_INITIAL_OFFSET
 import com.arix.pokedex.core.Constants.PokemonListScreen.POKEMON_SEARCH_LIST_ITEM_LIMIT
+import com.arix.pokedex.extensions.filterAndSortListBy
 import com.arix.pokedex.extensions.isSizeEqualsOrGreaterThan
 import com.arix.pokedex.features.poke_list.domain.model.details.PokemonDetails
 import com.arix.pokedex.features.poke_list.domain.use_cases.GetPokemonListUseCase
@@ -48,8 +49,7 @@ class PokemonListViewModel(
     fun invokeEvent(event: PokemonListEvent) {
         when (event) {
             is PokemonListEvent.GetNextPage,
-            is PokemonListEvent.OnRetryClicked ->
-                getNextPage()
+            is PokemonListEvent.OnRetryClicked -> getNextPage()
             is PokemonListEvent.SearchByQuery ->
                 actualSearchQuery = event.query.toLowerCase(LocaleList.current)
         }
@@ -78,7 +78,6 @@ class PokemonListViewModel(
                     is Resource.Error ->
                         _state.value = _state.value.copy(
                             isInitialLoading = false,
-                            isLoadingNext = false,
                             errorMessage = message
                         )
                 }
@@ -90,13 +89,11 @@ class PokemonListViewModel(
         if (_state.value.pokemonList == null && !_state.value.isSearching)
             _state.value = _state.value.copy(
                 isInitialLoading = true,
-                isLoadingNext = false,
                 errorMessage = null
             )
         else
             _state.value = _state.value.copy(
                 isInitialLoading = false,
-                isLoadingNext = true,
                 errorMessage = null
             )
     }
@@ -119,7 +116,6 @@ class PokemonListViewModel(
         _state.value = _state.value.copy(
             isSearching = true,
             isInitialLoading = false,
-            isLoadingNext = true,
             isSearchResultsEmpty = false,
             isListEndReached = false,
             errorMessage = null
@@ -128,11 +124,10 @@ class PokemonListViewModel(
     }
 
     private fun getNextOrInitialSearchedList() {
-        val filteredPokemonNames = getFilteredAndSortedPokemonList()
+        val filteredPokemonNames = pokemonNames.filterAndSortListBy(actualSearchQuery)
 
         _state.value = _state.value.copy(
             isSearchResultsEmpty = filteredPokemonNames.isEmpty(),
-            isLoadingNext = filteredPokemonNames.isNotEmpty()
         )
 
         getPokemonDetailsList(
@@ -148,17 +143,6 @@ class PokemonListViewModel(
                         .isSizeEqualsOrGreaterThan(filteredPokemonNames)
                 )
         }
-    }
-
-    private fun getFilteredAndSortedPokemonList(): List<String> {
-        val filteredList = pokemonNames.filter { it.contains(actualSearchQuery) }
-        val filteredAndSorted = filteredList
-            .filter { it.startsWith(actualSearchQuery) }
-            .toMutableList()
-        filteredList.forEach {
-            if (!filteredAndSorted.contains(it)) filteredAndSorted.add(it)
-        }
-        return filteredAndSorted
     }
 
     private fun getDefaultLimitOrHowManyLeft(filteredPokemonNames: List<String>): Int {
@@ -190,8 +174,7 @@ class PokemonListViewModel(
             _state.value = _state.value.copy(
                 pokemonList = (_state.value.pokemonList
                     ?: emptyList()).plus(pokemonDetailsResponses.awaitAll()),
-                isInitialLoading = false,
-                isLoadingNext = false
+                isInitialLoading = false
             )
         }
         getPokemonDetailsListJob?.invokeOnCompletion { onJobCompleted() }

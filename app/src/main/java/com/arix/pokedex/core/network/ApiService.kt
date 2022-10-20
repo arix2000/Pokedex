@@ -35,7 +35,7 @@ interface ApiService {
 
     @GET("move/{moveId}")
     suspend fun getMove(
-        @Path("moveId") moveId: Int
+        @Path("moveId") moveId: String
     ): Move
 
     @GET("move")

@@ -9,7 +9,7 @@ interface MovesRepository {
 
     suspend fun getMoves(offset: Int, limit: Int): Resource<MoveListRaw>
 
-    suspend fun getMove(moveId: Int): Resource<Move>
+    suspend fun getMove(moveId: String): Resource<Move>
 
     suspend fun getMoveNames(): Flow<List<String>>
 

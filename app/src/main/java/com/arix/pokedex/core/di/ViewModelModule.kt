@@ -14,7 +14,7 @@ val viewModelModule = module {
 
     viewModel { PokemonDetailsViewModel(get(), get(), get()) }
 
-    viewModel { MovesViewModel(get()) }
+    viewModel { MovesViewModel(get(), get(), get()) }
 
     viewModel { SplashViewModel(get(), get(), get(), get(), get<Context>().dataStore) }
 }
