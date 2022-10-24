@@ -12,8 +12,6 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -29,21 +27,21 @@ import com.arix.pokedex.theme.PokedexTheme
 import com.arix.pokedex.theme.TextSize
 import com.arix.pokedex.theme.WarningColor
 import com.arix.pokedex.views.ErrorScreenWithRetryButtonCondensed
+import org.koin.androidx.compose.getViewModel
+import org.koin.core.parameter.parametersOf
+import org.koin.core.qualifier.named
 
 @Composable
-fun <T> SearchableLazyColumn(
+inline fun <reified T> SearchableLazyColumn(
     searchParams: SearchParams<T>,
-    searchableContent: LazyListScope.(List<T>) -> Unit
-) {
-    val viewModel = remember {
+    viewModel: SearchableLazyColumnViewModel<T> = getViewModel(qualifier = named(T::class.java.simpleName)) {
         with(searchParams) {
-            SearchableLazyColumnViewModel(itemNames, itemsLimit, emptyItem, objectFromNames)
+            parametersOf(itemNames, itemsLimit, emptyItem, objectFromNames)
         }
-    }
-    val state = rememberSaveable {
-        viewModel.state.value
-    }
-
+    },
+    noinline searchableContent: LazyListScope.(List<T>) -> Unit
+) {
+    val state = viewModel.state.value
     SearchableLazyColumnContent(state, searchableContent) { viewModel.invokeEvent(it) }
 }
 
