@@ -56,7 +56,7 @@ private fun TypesSectionPreview() {
                     Type(2, TypeX("electric", ""))
                 ),
                 spacing = 2.dp,
-                itemFontSize = TextSize.small
+                itemFontSize = TextSize.minimum
             )
         }
     }

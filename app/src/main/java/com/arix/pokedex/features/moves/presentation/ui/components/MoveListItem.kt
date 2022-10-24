@@ -47,7 +47,7 @@ fun MoveListItem(move: Move) {
         Box {
 
             Surface(elevation = 2.dp, shape = Shapes.large, color = Color.Transparent) {
-                TypeItem(type = move.type, itemFontSize = TextSize.small)
+                TypeItem(type = move.type, itemFontSize = TextSize.minimum)
             }
         }
     }

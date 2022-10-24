@@ -74,7 +74,7 @@ fun EvolutionRuleView(evolutionDetails: List<EvolutionDetail>) {
 private fun EvolutionRuleText(text: String, specifyWidth: Boolean = false) {
     Text(
         text = text,
-        fontSize = TextSize.xsmall,
+        fontSize = TextSize.small,
         color = GrayA75,
         softWrap = true,
         modifier = if (specifyWidth) Modifier else Modifier.width(110.dp),
@@ -86,7 +86,7 @@ private fun EvolutionRuleText(text: String, specifyWidth: Boolean = false) {
 private fun EvolutionRuleText(text: AnnotatedString) {
     Text(
         text = text,
-        fontSize = TextSize.xsmall,
+        fontSize = TextSize.small,
         color = GrayA75,
         softWrap = true,
         modifier = Modifier.width(110.dp),

@@ -65,7 +65,7 @@ fun HiddenLabel() {
         Text(
             text = stringResource(R.string.hidden_label),
             modifier = Modifier.padding(horizontal = 7.dp, vertical = 2.dp),
-            fontSize = TextSize.small,
+            fontSize = TextSize.minimum,
             color = Color.White
         )
     }

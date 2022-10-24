@@ -42,11 +42,14 @@ object Constants {
     }
 
     object PokemonMovesScreen {
-        const val MOVES_INITIAL_OFFSET = 0
         const val MOVES_ITEM_LIMIT = 30
     }
 
     object SplashScreen {
         const val MAX_LIMIT = 1000000
+    }
+
+    object SearchableLazyColumn {
+        const val INITIAL_OFFSET = 0
     }
 }

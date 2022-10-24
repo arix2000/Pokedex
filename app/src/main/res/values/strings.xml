@@ -2,8 +2,9 @@
     <string name="app_name">Pokedex</string>
     <string name="retry">Retry</string>
     <string name="none">none</string>
-    <string name="default_error_message">Something went wrong :/ \nPlease check your internet connection and try again!"</string>
-    <string name="condensed_error_message">No internet access."</string>
+    <string name="default_error_message">Something went wrong :/ \nPlease check your internet connection and try again!</string>
+    <string name="condensed_error_message">No internet connection.</string>
+    <string name="connection_unstable_error_message">Unstable internet connection.</string>
     <string name="search_clear">Clear</string>
     <string name="dropdown_arrow_desc">Expand/Collapse %1$s</string>
     <string name="pokemon_description">Description</string>

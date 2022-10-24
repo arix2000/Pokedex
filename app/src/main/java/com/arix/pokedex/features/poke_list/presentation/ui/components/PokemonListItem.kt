@@ -71,7 +71,7 @@ fun PokemonListItem(
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 1
             )
-            TypesSection(pokemonDetails.types, spacing = 2.dp, itemFontSize = TextSize.small)
+            TypesSection(pokemonDetails.types, spacing = 2.dp, itemFontSize = TextSize.minimum)
             Spacer(modifier = Modifier.height(10.dp))
         }
         ShowShimmerIf(modifier = modifier, isImageLoading)
