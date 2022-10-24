@@ -13,6 +13,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -23,7 +24,6 @@ import com.arix.pokedex.core.errors.ConnectionUnstableError
 import com.arix.pokedex.core.errors.Error
 import com.arix.pokedex.features.common.search_view.SearchableLazyColumnViewModel
 import com.arix.pokedex.features.common.search_view.domain.SearchParams
-import com.arix.pokedex.features.poke_list.presentation.ui.NoResultsView
 import com.arix.pokedex.features.poke_list.presentation.ui.components.SearchBar
 import com.arix.pokedex.theme.PokedexTheme
 import com.arix.pokedex.theme.TextSize
@@ -40,8 +40,10 @@ fun <T> SearchableLazyColumn(
             SearchableLazyColumnViewModel(itemNames, itemsLimit, emptyItem, objectFromNames)
         }
     }
+    val state = rememberSaveable {
+        viewModel.state.value
+    }
 
-    val state = viewModel.state.value
     SearchableLazyColumnContent(state, searchableContent) { viewModel.invokeEvent(it) }
 }
 
@@ -58,6 +60,18 @@ fun <T> SearchableLazyColumnContent(
         )
         if (state.emptySearchResult) NoResultsView()
         ItemListView(state, invokeEvent, searchableContent)
+    }
+}
+
+@Composable
+fun NoResultsView() {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 25.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(text = "No results :(")
     }
 }
 
@@ -126,7 +140,7 @@ private fun LoadingOrError(
 
 @Preview
 @Composable
-fun SearchableLazyColumnPreview() {
+private fun SearchableLazyColumnPreview() {
     PokedexTheme {
         Surface {
             Text(text = "All previews for this view are in SearchableLazyColumnPreviews.kt")

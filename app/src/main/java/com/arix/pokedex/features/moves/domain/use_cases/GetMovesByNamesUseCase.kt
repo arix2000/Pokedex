@@ -12,12 +12,8 @@ class GetMovesByNamesUseCase(private val repository: MovesRepository) {
 
     suspend operator fun invoke(names: List<String>): List<Resource<Move>> {
         val moveResponses = names
-            .map { CoroutineScope(Dispatchers.IO).async { getMove(it) } }
+            .map { CoroutineScope(Dispatchers.IO).async { repository.getMove(it) } }
         return moveResponses.awaitAll()
-    }
-
-    private suspend fun getMove(moveId: String): Resource<Move> {
-        return repository.getMove(moveId)
     }
 }
 

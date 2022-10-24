@@ -1,14 +1,6 @@
 package com.arix.pokedex.features.poke_list.presentation.ui
 
-import com.arix.pokedex.features.poke_list.domain.model.details.PokemonDetails
-
 data class PokemonListState(
-    val pokemonList: List<PokemonDetails>? = null,
-    val isInitialLoading: Boolean = false,
-    val isSearching: Boolean = false,
-    val isSearchResultsEmpty: Boolean = false,
-    val isListEndReached: Boolean = false,
-    val errorMessage: String? = null
+    val pokemonNames: List<String>? = null
 ) {
-    fun isErrorOnInitial() = errorMessage != null && pokemonList == null
 }
