@@ -22,8 +22,9 @@ val AppTypography = Typography(
 )
 
 object TextSize {
-    val small = 12.sp
-    val xsmall = 13.sp
+    val minimum = 12.sp
+    val small = 13.sp
     val medium = 16.sp
     val large = 20.sp
+    val extraLarge = 26.sp
 }

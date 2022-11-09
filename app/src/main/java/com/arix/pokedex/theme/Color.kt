@@ -6,6 +6,19 @@ val Primary = Color(0xFF950101)
 val PrimaryDark = Color(0xFF3D0000)
 val Accent = Color(0xFFFF0000)
 
+val BlackSoft = Color(0xFF090909)
+val BlackSoftA50 = Color(0x80090909)
+val BlackLight = Color(0xFF1C1C1C)
+
+val BlackA70 = Color(0xB3000000)
+val WhiteA50 = Color(0x80FFFFFF)
+val GrayA75 = Color(0xBFFFFFFF)
+
+val WarningColor = Color(0xB2FF9800)
+
+val GanderMaleColor = Color(0xFFC03A87)
+val GanderFemaleColor =Color(0xFF006BDD)
+
 val TypeNormal = Color(0xFFA8A77A)
 val TypeFire = Color(0xFFEE8130)
 val TypeWater = Color(0xFF6390F0)

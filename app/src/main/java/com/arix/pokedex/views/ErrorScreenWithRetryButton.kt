@@ -45,7 +45,7 @@ fun ErrorScreenWithRetryButtonCondensed(
             Text(
                 text = stringResource(R.string.condensed_error_message),
                 textAlign = TextAlign.Center,
-                fontSize = TextSize.xsmall
+                fontSize = TextSize.small
             )
             Spacer(modifier = Modifier.width(10.dp))
             Button(
@@ -53,7 +53,7 @@ fun ErrorScreenWithRetryButtonCondensed(
                 modifier = Modifier.height(35.dp),
                 contentPadding = PaddingValues(0.dp)
             ) {
-                Text(text = stringResource(R.string.retry), fontSize = TextSize.xsmall)
+                Text(text = stringResource(R.string.retry), fontSize = TextSize.small)
             }
         }
     }
