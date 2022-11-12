@@ -1,5 +1,6 @@
 package com.arix.pokedex.core.navigation
 
+import com.arix.pokedex.extensions.putArgument
 import com.arix.pokedex.extensions.withArgument
 
 sealed class Screen(private var _route: String, val argumentKey: String = "") {
@@ -13,6 +14,8 @@ sealed class Screen(private var _route: String, val argumentKey: String = "") {
     object PokemonListScreen : Screen("pokemonListScreen")
 
     object MovesScreen : Screen("movesScreen")
+
+    object MoveDetailsScreen : Screen("movesDetailsScreen", "moveId")
 
     object ItemsScreen : Screen("itemsScreen")
 

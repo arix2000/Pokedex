@@ -25,7 +25,7 @@ private fun SearchableLazyColumnPokemonDetailsPreview() {
                     items = moves,
                 ), {
                     items(moves.size) {
-                        MoveListItem(move = moves[it])
+                        MoveListItem(move = moves[it]) {}
                     }
                 }) {}
         }

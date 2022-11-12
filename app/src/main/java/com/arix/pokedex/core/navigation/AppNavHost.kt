@@ -8,6 +8,7 @@ import com.arix.pokedex.extensions.putArgument
 import com.arix.pokedex.features.abilities.AbilitiesScreen
 import com.arix.pokedex.features.items.ItemsScreen
 import com.arix.pokedex.features.locations.LocationsScreen
+import com.arix.pokedex.features.move_details.presentation.MoveDetailsScreen
 import com.arix.pokedex.features.moves.presentation.ui.MovesScreen
 import com.arix.pokedex.features.pokemon_list.presentation.ui.PokemonListScreen
 import com.arix.pokedex.features.pokemon_details.presentation.ui.PokemonDetailsScreen
@@ -23,8 +24,29 @@ fun AppNavHost(navController: NavHostController) {
             }
         }
 
+        with(Screen.PokemonDetailsScreen) {
+            composable(route) { backStackEntry ->
+                backStackEntry.arguments?.getString(argumentKey)?.let {
+                    PokemonDetailsScreen(it) { name ->
+                        navController.navigate(route.putArgument(argumentKey, name))
+                    }
+                }
+            }
+        }
+
         composable(Screen.MovesScreen.route) {
-            MovesScreen()
+            MovesScreen {
+                with(Screen.MoveDetailsScreen) {
+                    navController.navigate(route.putArgument(argumentKey, it))
+                }
+            }
+        }
+        with(Screen.MoveDetailsScreen) {
+            composable(route) { backStackEntry ->
+                backStackEntry.arguments?.getInt(argumentKey)?.let {
+                    MoveDetailsScreen(it)
+                }
+            }
         }
 
         composable(Screen.ItemsScreen.route) {
@@ -37,18 +59,6 @@ fun AppNavHost(navController: NavHostController) {
 
         composable(Screen.AbilitiesScreen.route) {
             AbilitiesScreen()
-        }
-
-        with(Screen.PokemonDetailsScreen) {
-            composable(route) { backStackEntry ->
-                backStackEntry.arguments?.getString(argumentKey)?.let {
-                    PokemonDetailsScreen(it) { name ->
-                        with(Screen.PokemonDetailsScreen) {
-                            navController.navigate(route.putArgument(argumentKey, name))
-                        }
-                    }
-                }
-            }
         }
     }
 }

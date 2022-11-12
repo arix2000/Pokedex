@@ -1,6 +1,7 @@
 package com.arix.pokedex.features.moves.presentation.ui.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -16,6 +17,7 @@ import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.arix.pokedex.extensions.clickableOnceInTime
 import com.arix.pokedex.features.moves.domain.model.Move
 import com.arix.pokedex.features.pokemon_list.domain.model.details.TypeX
 import com.arix.pokedex.features.pokemon_list.presentation.ui.components.TypeItem
@@ -25,7 +27,7 @@ import com.arix.pokedex.theme.TextSize
 import com.arix.pokedex.utils.MockResourceReader
 
 @Composable
-fun MoveListItem(move: Move) {
+fun MoveListItem(move: Move, onClick: (moveId: Int) -> Unit) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
@@ -33,6 +35,7 @@ fun MoveListItem(move: Move) {
             .fillMaxWidth()
             .padding(5.dp)
             .clip(Shapes.large)
+            .clickableOnceInTime { onClick(move.id) }
             .background(getBrushBasedBy(move.type))
             .padding(vertical = 14.dp, horizontal = 20.dp)
     ) {
@@ -69,7 +72,7 @@ fun MoveListItemPreview() {
         Surface(modifier = Modifier.fillMaxWidth()) {
             val context = LocalContext.current
             val move = MockResourceReader(context).getPokemonMoveMock()
-            MoveListItem(move)
+            MoveListItem(move) {}
         }
     }
 }

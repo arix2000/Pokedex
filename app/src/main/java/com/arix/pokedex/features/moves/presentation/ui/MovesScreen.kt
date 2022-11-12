@@ -15,22 +15,26 @@ import com.arix.pokedex.utils.Resource
 import org.koin.androidx.compose.getViewModel
 
 @Composable
-fun MovesScreen(viewModel: MovesViewModel = getViewModel()) {
+fun MovesScreen(
+    viewModel: MovesViewModel = getViewModel(),
+    navigateToMoveDetails: (Int) -> Unit
+) {
     val state = viewModel.state.value
     if (state.moveNames.isNotEmpty())
-        MovesScreenContent(state) { viewModel.getMoveListFrom(it) }
+        MovesScreenContent(state, navigateToMoveDetails) { viewModel.getMoveListFrom(it) }
 }
 
 @Composable
 private fun MovesScreenContent(
     state: MovesScreenState,
+    navigateToMoveDetails: (Int) -> Unit,
     objectFromNames: suspend (List<String>) -> List<Resource<Move>>
 ) {
     SearchableLazyColumn(
         searchParams = SearchParams(state.moveNames, MOVES_ITEM_LIMIT, Move.EMPTY, objectFromNames),
         searchableContent = { moves ->
             items(moves.size) {
-                MoveListItem(move = moves[it])
+                MoveListItem(move = moves[it]) { moveId -> navigateToMoveDetails(moveId) }
             }
         }
     )
