@@ -22,7 +22,7 @@ import com.arix.pokedex.core.errors.ConnectionUnstableError
 import com.arix.pokedex.core.errors.Error
 import com.arix.pokedex.features.common.search_view.SearchableLazyColumnViewModel
 import com.arix.pokedex.features.common.search_view.domain.SearchParams
-import com.arix.pokedex.features.poke_list.presentation.ui.components.SearchBar
+import com.arix.pokedex.features.pokemon_list.presentation.ui.components.SearchBar
 import com.arix.pokedex.theme.PokedexTheme
 import com.arix.pokedex.theme.TextSize
 import com.arix.pokedex.theme.WarningColor

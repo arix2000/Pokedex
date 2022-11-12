@@ -16,8 +16,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.arix.pokedex.R
-import com.arix.pokedex.features.poke_list.domain.model.PokemonDetailTag
-import com.arix.pokedex.features.poke_list.domain.model.details.PokemonDetails
+import com.arix.pokedex.features.pokemon_list.domain.model.PokemonDetailTag
+import com.arix.pokedex.features.pokemon_list.domain.model.details.PokemonDetails
 import com.arix.pokedex.features.pokemon_details.domain.model.species.PokemonSpecies
 import com.arix.pokedex.theme.PokedexTheme
 import com.arix.pokedex.utils.MockResourceReader

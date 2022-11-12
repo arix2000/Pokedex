@@ -7,7 +7,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import com.arix.pokedex.extensions.gridItems
 import com.arix.pokedex.features.moves.presentation.ui.components.MoveListItem
-import com.arix.pokedex.features.poke_list.presentation.ui.components.PokemonListItem
+import com.arix.pokedex.features.pokemon_list.presentation.ui.components.PokemonListItem
 import com.arix.pokedex.theme.PokedexTheme
 import com.arix.pokedex.utils.MockResourceReader
 

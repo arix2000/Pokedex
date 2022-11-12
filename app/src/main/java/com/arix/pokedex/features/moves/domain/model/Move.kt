@@ -2,7 +2,7 @@ package com.arix.pokedex.features.moves.domain.model
 
 import com.arix.pokedex.features.moves.domain.model.move.*
 import com.arix.pokedex.features.moves.domain.model.move.Target
-import com.arix.pokedex.features.poke_list.domain.model.details.TypeX
+import com.arix.pokedex.features.pokemon_list.domain.model.details.TypeX
 
 data class Move(
     val accuracy: Int?,

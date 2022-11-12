@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.arix.pokedex.R
 import com.arix.pokedex.extensions.ScanEvolutionDetails
-import com.arix.pokedex.features.poke_list.domain.model.details.TypeX
+import com.arix.pokedex.features.pokemon_list.domain.model.details.TypeX
 import com.arix.pokedex.features.pokemon_details.domain.model.evolution_chain.EvolutionDetail
 import com.arix.pokedex.features.pokemon_details.domain.model.evolution_chain.Item
 import com.arix.pokedex.theme.GrayA75

@@ -5,8 +5,8 @@ import com.arix.pokedex.extensions.dataStore
 import com.arix.pokedex.features.common.search_view.SearchableLazyColumnViewModel
 import com.arix.pokedex.features.moves.domain.model.Move
 import com.arix.pokedex.features.moves.presentation.MovesViewModel
-import com.arix.pokedex.features.poke_list.domain.model.details.PokemonDetails
-import com.arix.pokedex.features.poke_list.presentation.PokemonListViewModel
+import com.arix.pokedex.features.pokemon_list.domain.model.details.PokemonDetails
+import com.arix.pokedex.features.pokemon_list.presentation.PokemonListViewModel
 import com.arix.pokedex.features.pokemon_details.presentation.PokemonDetailsViewModel
 import com.arix.pokedex.features.splash_activity.SplashViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel

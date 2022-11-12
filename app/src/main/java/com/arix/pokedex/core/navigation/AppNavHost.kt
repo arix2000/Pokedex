@@ -9,7 +9,7 @@ import com.arix.pokedex.features.abilities.AbilitiesScreen
 import com.arix.pokedex.features.items.ItemsScreen
 import com.arix.pokedex.features.locations.LocationsScreen
 import com.arix.pokedex.features.moves.presentation.ui.MovesScreen
-import com.arix.pokedex.features.poke_list.presentation.ui.PokemonListScreen
+import com.arix.pokedex.features.pokemon_list.presentation.ui.PokemonListScreen
 import com.arix.pokedex.features.pokemon_details.presentation.ui.PokemonDetailsScreen
 
 @Composable

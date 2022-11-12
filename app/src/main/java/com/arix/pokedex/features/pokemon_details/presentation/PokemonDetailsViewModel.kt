@@ -2,13 +2,11 @@ package com.arix.pokedex.features.pokemon_details.presentation
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.arix.pokedex.R
 import com.arix.pokedex.extensions.getIdFromUrl
-import com.arix.pokedex.features.poke_list.domain.model.details.PokemonDetails
-import com.arix.pokedex.features.poke_list.domain.use_cases.GetPokemonUseCase
+import com.arix.pokedex.features.pokemon_list.domain.model.details.PokemonDetails
+import com.arix.pokedex.features.pokemon_list.domain.use_cases.GetPokemonUseCase
 import com.arix.pokedex.features.pokemon_details.domain.model.EvolutionStep
 import com.arix.pokedex.features.pokemon_details.domain.model.PokemonEvolutionDetails
 import com.arix.pokedex.features.pokemon_details.domain.model.RawEvolutionStep

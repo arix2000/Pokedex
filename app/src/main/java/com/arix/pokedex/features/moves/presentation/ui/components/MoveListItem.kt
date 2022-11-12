@@ -17,8 +17,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.arix.pokedex.features.moves.domain.model.Move
-import com.arix.pokedex.features.poke_list.domain.model.details.TypeX
-import com.arix.pokedex.features.poke_list.presentation.ui.components.TypeItem
+import com.arix.pokedex.features.pokemon_list.domain.model.details.TypeX
+import com.arix.pokedex.features.pokemon_list.presentation.ui.components.TypeItem
 import com.arix.pokedex.theme.PokedexTheme
 import com.arix.pokedex.theme.Shapes
 import com.arix.pokedex.theme.TextSize

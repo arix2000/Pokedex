@@ -14,8 +14,8 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
-import com.arix.pokedex.features.poke_list.domain.model.details.Type
-import com.arix.pokedex.features.poke_list.domain.model.details.TypeX
+import com.arix.pokedex.features.pokemon_list.domain.model.details.Type
+import com.arix.pokedex.features.pokemon_list.domain.model.details.TypeX
 import com.arix.pokedex.theme.PokedexTheme
 
 @Composable

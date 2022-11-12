@@ -7,8 +7,8 @@ import androidx.lifecycle.ViewModel
 import com.arix.pokedex.core.Constants.SplashScreen.MAX_LIMIT
 import com.arix.pokedex.extensions.DataStoreKeys
 import com.arix.pokedex.features.moves.domain.use_cases.SaveMoveNamesUseCase
-import com.arix.pokedex.features.poke_list.domain.use_cases.GetPokemonListUseCase
-import com.arix.pokedex.features.poke_list.domain.use_cases.SavePokemonNamesUseCase
+import com.arix.pokedex.features.pokemon_list.domain.use_cases.GetPokemonListUseCase
+import com.arix.pokedex.features.pokemon_list.domain.use_cases.SavePokemonNamesUseCase
 
 class SplashViewModel(
     private val getRawMoveList: GetRawMoveList,
