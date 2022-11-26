@@ -1,7 +1,7 @@
 package com.arix.pokedex.features.pokemon_details.domain.model.species
 
+import com.arix.pokedex.core.Constants.FlavorTextEntriesVersion.POKEMON_DESCRIPTION_VERSION
 import com.arix.pokedex.core.Constants.Language.ENGLISH_LANGUAGE_CODE
-import com.arix.pokedex.core.Constants.PokemonDetailsScreen.DESIRED_DESCRIPTION_VERSION
 import com.arix.pokedex.core.Constants.PokemonDetailsScreen.NO_DESCRIPTION
 import com.arix.pokedex.extensions.clearEndOfLineEscapeSequences
 import com.arix.pokedex.extensions.getIdFromUrl
@@ -40,7 +40,7 @@ data class PokemonSpecies(
         if (enTextEntries.isEmpty())
             return NO_DESCRIPTION
 
-        val desiredEntry = enTextEntries.find { it.version.name == DESIRED_DESCRIPTION_VERSION }
+        val desiredEntry = enTextEntries.find { it.version.name == POKEMON_DESCRIPTION_VERSION }
         val finalEntry = (desiredEntry?.flavor_text ?: enTextEntries.last().flavor_text)
         return finalEntry.clearEndOfLineEscapeSequences()
     }

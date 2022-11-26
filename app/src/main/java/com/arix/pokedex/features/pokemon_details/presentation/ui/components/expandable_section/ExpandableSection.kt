@@ -27,7 +27,7 @@ import com.arix.pokedex.utils.MockResourceReader
 fun ExpandableSection(
     title: String,
     modifier: Modifier = Modifier,
-    expandedInitially: Boolean = false, // TODO to be tested
+    expandedInitially: Boolean = false,
     content: @Composable BoxScope.() -> Unit
 ) {
     var expanded by remember { mutableStateOf(expandedInitially) }
@@ -58,7 +58,7 @@ fun ExpandableSection(
 
 @Preview
 @Composable
-fun ExpandableSectionPreview() {
+private fun ExpandableSectionPreview() {
     PokedexTheme {
         Surface {
             ExpandableSection(title = "Description") {

@@ -3,6 +3,7 @@ package com.arix.pokedex.core.di
 import android.content.Context
 import com.arix.pokedex.extensions.dataStore
 import com.arix.pokedex.features.common.search_view.SearchableLazyColumnViewModel
+import com.arix.pokedex.features.move_details.presentation.MoveDetailsViewModel
 import com.arix.pokedex.features.moves.domain.model.Move
 import com.arix.pokedex.features.moves.presentation.MovesViewModel
 import com.arix.pokedex.features.pokemon_list.domain.model.details.PokemonDetails
@@ -19,6 +20,8 @@ val viewModelModule = module {
     viewModel { PokemonDetailsViewModel(get(), get(), get()) }
 
     viewModel { MovesViewModel(get(), get()) }
+
+    viewModel { MoveDetailsViewModel(get()) }
 
     viewModel { SplashViewModel(get(), get(), get(), get(), get<Context>().dataStore) }
 

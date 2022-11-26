@@ -1,7 +1,6 @@
 package com.arix.pokedex.features.moves.presentation.ui.components
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -12,12 +11,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.capitalize
-import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.arix.pokedex.extensions.clickableOnceInTime
+import com.arix.pokedex.extensions.toSentenceCase
 import com.arix.pokedex.features.moves.domain.model.Move
 import com.arix.pokedex.features.pokemon_list.domain.model.details.TypeX
 import com.arix.pokedex.features.pokemon_list.presentation.ui.components.TypeItem
@@ -27,7 +25,7 @@ import com.arix.pokedex.theme.TextSize
 import com.arix.pokedex.utils.MockResourceReader
 
 @Composable
-fun MoveListItem(move: Move, onClick: (moveId: Int) -> Unit) {
+fun MoveListItem(move: Move, onClick: (moveId: String) -> Unit) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
@@ -35,12 +33,12 @@ fun MoveListItem(move: Move, onClick: (moveId: Int) -> Unit) {
             .fillMaxWidth()
             .padding(5.dp)
             .clip(Shapes.large)
-            .clickableOnceInTime { onClick(move.id) }
+            .clickableOnceInTime { onClick(move.id.toString()) }
             .background(getBrushBasedBy(move.type))
             .padding(vertical = 14.dp, horizontal = 20.dp)
     ) {
         Text(
-            text = move.name.capitalize(Locale.current).replace("-", " "),
+            text = move.name.toSentenceCase(),
             color = Color.White,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,

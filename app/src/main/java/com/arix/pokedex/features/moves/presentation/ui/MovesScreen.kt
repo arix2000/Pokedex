@@ -1,5 +1,6 @@
 package com.arix.pokedex.features.moves.presentation.ui
 
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -17,7 +18,7 @@ import org.koin.androidx.compose.getViewModel
 @Composable
 fun MovesScreen(
     viewModel: MovesViewModel = getViewModel(),
-    navigateToMoveDetails: (Int) -> Unit
+    navigateToMoveDetails: (String) -> Unit
 ) {
     val state = viewModel.state.value
     if (state.moveNames.isNotEmpty())
@@ -27,14 +28,14 @@ fun MovesScreen(
 @Composable
 private fun MovesScreenContent(
     state: MovesScreenState,
-    navigateToMoveDetails: (Int) -> Unit,
+    navigateToMoveDetails: (String) -> Unit,
     objectFromNames: suspend (List<String>) -> List<Resource<Move>>
 ) {
     SearchableLazyColumn(
         searchParams = SearchParams(state.moveNames, MOVES_ITEM_LIMIT, Move.EMPTY, objectFromNames),
         searchableContent = { moves ->
-            items(moves.size) {
-                MoveListItem(move = moves[it]) { moveId -> navigateToMoveDetails(moveId) }
+            items(moves, key = { it.id }) { move ->
+                MoveListItem(move) { moveId -> navigateToMoveDetails(moveId) }
             }
         }
     )

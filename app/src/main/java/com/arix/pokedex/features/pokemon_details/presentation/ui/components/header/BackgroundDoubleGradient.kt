@@ -31,7 +31,7 @@ fun BoxScope.BackgroundGradientBasedOn(
 }
 
 @Composable
-private fun BoxScope.BackgroundDoubleCornerGradient(
+fun BoxScope.BackgroundDoubleCornerGradient(
     types: List<Type>,
     specs: BackgroundGradientSpecs
 ) {

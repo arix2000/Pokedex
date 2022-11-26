@@ -10,6 +10,8 @@ val BlackSoft = Color(0xFF090909)
 val BlackSoftA50 = Color(0x80090909)
 val BlackLight = Color(0xFF1C1C1C)
 
+val DisabledColor = Color(0xFF585858)
+
 val BlackA70 = Color(0xB3000000)
 val WhiteA50 = Color(0x80FFFFFF)
 val GrayA75 = Color(0xBFFFFFFF)

@@ -1,11 +1,14 @@
 package com.arix.pokedex.extensions
 
+import androidx.compose.ui.text.capitalize
+import androidx.compose.ui.text.intl.Locale
+
 fun String.withArgument(argumentName: String): String {
     return "$this/{$argumentName}"
 }
 
-fun String.putArgument(argumentName: String, argumentValue: Any): String {
-    return this.replace("{$argumentName}", argumentValue.toString())
+fun String.putArgument(argumentName: String, argumentValue: String): String {
+    return this.replace("{$argumentName}", argumentValue)
 }
 
 fun String.clearEndOfLineEscapeSequences(): String {
@@ -26,3 +29,5 @@ fun List<String>.filterAndSortListBy(query: String): List<String> {
     }
     return filteredAndSorted
 }
+
+fun String.toSentenceCase() = capitalize(Locale.current).replace("-", " ")

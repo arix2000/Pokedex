@@ -1,5 +1,6 @@
 package com.arix.pokedex.core.di
 
+import com.arix.pokedex.features.move_details.domain.GetMoveUseCase
 import com.arix.pokedex.features.moves.data.MovesRepositoryImpl
 import com.arix.pokedex.features.moves.domain.use_cases.GetMoveNamesUseCase
 import com.arix.pokedex.features.moves.domain.use_cases.GetMovesByNamesUseCase
@@ -28,6 +29,8 @@ val useCaseModule = module {
     factory { GetPokemonEvolutionChainUseCase(get<PokemonDetailsRepositoryImpl>()) }
 
     factory { GetRawMoveList(get<MovesRepositoryImpl>()) }
+
+    factory { GetMoveUseCase(get<MovesRepositoryImpl>()) }
 
     factory { GetMoveNamesUseCase(get<MovesRepositoryImpl>()) }
 

@@ -8,7 +8,7 @@ import com.arix.pokedex.extensions.putArgument
 import com.arix.pokedex.features.abilities.AbilitiesScreen
 import com.arix.pokedex.features.items.ItemsScreen
 import com.arix.pokedex.features.locations.LocationsScreen
-import com.arix.pokedex.features.move_details.presentation.MoveDetailsScreen
+import com.arix.pokedex.features.move_details.presentation.ui.MoveDetailsScreen
 import com.arix.pokedex.features.moves.presentation.ui.MovesScreen
 import com.arix.pokedex.features.pokemon_list.presentation.ui.PokemonListScreen
 import com.arix.pokedex.features.pokemon_details.presentation.ui.PokemonDetailsScreen
@@ -43,8 +43,8 @@ fun AppNavHost(navController: NavHostController) {
         }
         with(Screen.MoveDetailsScreen) {
             composable(route) { backStackEntry ->
-                backStackEntry.arguments?.getInt(argumentKey)?.let {
-                    MoveDetailsScreen(it)
+                backStackEntry.arguments?.getString(argumentKey)?.let {
+                    MoveDetailsScreen(it.toInt())
                 }
             }
         }

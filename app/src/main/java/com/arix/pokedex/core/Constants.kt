@@ -1,5 +1,7 @@
 package com.arix.pokedex.core
 
+import androidx.compose.ui.unit.dp
+
 object Constants {
 
     object Network {
@@ -29,6 +31,11 @@ object Constants {
         const val VARIETIES_SCROLL_HINT_ANIM_DURATION = 600
     }
 
+    object FlavorTextEntriesVersion {
+        const val POKEMON_DESCRIPTION_VERSION = "omega-ruby"
+        const val MOVE_DESCRIPTION_VERSION = "omega-ruby-alpha-sapphire"
+    }
+
     object AnimatedSection {
         const val ANIMATIONS_DURATION = 300
         const val FADE_OUT_DURATION = 180
@@ -49,5 +56,10 @@ object Constants {
 
     object SearchableLazyColumn {
         const val INITIAL_OFFSET = 0
+    }
+
+    object MoveScreen {
+        const val EFFECT_CHANCE_ARG = "\$effect_chance"
+        val TEXT_TILES_HEIGHT = 80.dp
     }
 }
