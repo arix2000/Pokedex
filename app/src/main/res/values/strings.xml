@@ -26,4 +26,16 @@
     <string name="details_title">Details</string>
     <string name="abilities_title">Abilities</string>
     <string name="hidden_label">hidden</string>
+    <string name="power_label">Power:</string>
+    <string name="pp_label">PP:</string>
+    <string name="accuraccy_label">Accuracy:</string>
+    <string name="cannot_miss">Can\'t miss</string>
+    <string name="effect_chance_label">Effect chance:</string>
+    <string name="critical_rate_label">Critical rate:</string>
+    <string name="priority_label">Priority:</string>
+    <string name="can_be_learned_by_title">Can be learned by:</string>
+    <string name="can_be_learned_by_page_title">%1$s can be learned by:</string>
+    <string name="show_all">Show all (%1$s)</string>
+    <string name="desc_not_found">Description not found</string>
+    <string name="effect_desc_not_found">Effect description not found</string>
 </resources>

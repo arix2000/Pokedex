@@ -12,37 +12,59 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.arix.pokedex.R
+import com.arix.pokedex.features.common.text.SlidingText
 import com.arix.pokedex.theme.BlackSoft
 import com.arix.pokedex.theme.PokedexTheme
 import kotlinx.coroutines.launch
 
 @Composable
-fun AppTopBar(navController: NavController, showBackButton: Boolean, scaffoldState: ScaffoldState) {
+fun AppTopBar(
+    navController: NavController,
+    showBackButton: Boolean,
+    scaffoldState: ScaffoldState,
+    title: String? = null
+) {
     TopAppBar(backgroundColor = BlackSoft, contentPadding = PaddingValues(all = 0.dp)) {
         Box(modifier = Modifier.fillMaxSize()) {
-            Image(
-                painter = painterResource(id = R.drawable.pokemon_logo),
-                contentDescription = "Pokemon Logo",
-                contentScale = ContentScale.FillHeight,
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .padding(all = 4.dp)
-                    .align(Alignment.Center)
-            )
-            Box(
+            if (title == null)
+                Image(
+                    painter = painterResource(id = R.drawable.pokemon_logo),
+                    contentDescription = "Pokemon Logo",
+                    contentScale = ContentScale.FillHeight,
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .padding(all = 4.dp)
+                        .align(Alignment.Center)
+                )
+            Row(
                 modifier = Modifier
                     .align(Alignment.CenterStart)
                     .padding(start = 4.dp)
+                    .fillMaxHeight(),
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 if (showBackButton)
                     BackIconButton(navController)
                 else
                     MenuIconButton(scaffoldState)
+                if (title != null)
+                    SlidingText(
+                        text = title,
+                        style = TextStyle(
+                            fontWeight = FontWeight.Medium,
+                            fontSize = 22.sp,
+                            letterSpacing = 0.15.sp
+                        ),
+                        modifier = Modifier.padding(start = 5.dp, end = 15.dp)
+                    )
             }
         }
     }
@@ -79,6 +101,21 @@ private fun AppTopBarPreview() {
     PokedexTheme {
         Surface {
             AppTopBar(rememberNavController(), false, rememberScaffoldState())
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun AppTopBarTitlePreview() {
+    PokedexTheme {
+        Surface {
+            AppTopBar(
+                rememberNavController(),
+                true,
+                rememberScaffoldState(),
+                "Tackle can be learned by:"
+            )
         }
     }
 }

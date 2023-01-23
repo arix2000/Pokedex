@@ -1,7 +1,7 @@
 package com.arix.pokedex.extensions
 
 import androidx.compose.runtime.Composable
-import com.arix.pokedex.features.poke_list.domain.model.details.TypeX
+import com.arix.pokedex.features.pokemon_list.domain.model.details.TypeX
 import com.arix.pokedex.features.pokemon_details.domain.model.evolution_chain.EvolutionDetail
 import com.arix.pokedex.features.pokemon_details.domain.model.evolution_chain.Item
 

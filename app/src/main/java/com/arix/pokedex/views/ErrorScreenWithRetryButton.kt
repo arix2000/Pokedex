@@ -13,7 +13,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.arix.pokedex.R
 import com.arix.pokedex.theme.PokedexTheme
-import com.arix.pokedex.theme.TextSize
+import com.arix.pokedex.theme.FontSizes
 
 @Composable
 fun ErrorScreenWithRetryButton(
@@ -45,7 +45,7 @@ fun ErrorScreenWithRetryButtonCondensed(
             Text(
                 text = stringResource(R.string.condensed_error_message),
                 textAlign = TextAlign.Center,
-                fontSize = TextSize.small
+                fontSize = FontSizes.small
             )
             Spacer(modifier = Modifier.width(10.dp))
             Button(
@@ -53,7 +53,7 @@ fun ErrorScreenWithRetryButtonCondensed(
                 modifier = Modifier.height(35.dp),
                 contentPadding = PaddingValues(0.dp)
             ) {
-                Text(text = stringResource(R.string.retry), fontSize = TextSize.small)
+                Text(text = stringResource(R.string.retry), fontSize = FontSizes.small)
             }
         }
     }

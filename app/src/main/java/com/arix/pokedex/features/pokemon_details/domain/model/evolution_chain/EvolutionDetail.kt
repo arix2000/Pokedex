@@ -1,7 +1,7 @@
 package com.arix.pokedex.features.pokemon_details.domain.model.evolution_chain
 
 import com.arix.pokedex.features.moves.domain.model.move_list.MoveLink
-import com.arix.pokedex.features.poke_list.domain.model.details.TypeX
+import com.arix.pokedex.features.pokemon_list.domain.model.details.TypeX
 
 data class EvolutionDetail(
     val gender: Any?,

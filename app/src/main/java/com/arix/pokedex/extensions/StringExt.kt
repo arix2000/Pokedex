@@ -1,5 +1,8 @@
 package com.arix.pokedex.extensions
 
+import androidx.compose.ui.text.capitalize
+import androidx.compose.ui.text.intl.Locale
+
 fun String.withArgument(argumentName: String): String {
     return "$this/{$argumentName}"
 }
@@ -26,3 +29,5 @@ fun List<String>.filterAndSortListBy(query: String): List<String> {
     }
     return filteredAndSorted
 }
+
+fun String.toSentenceCase() = capitalize(Locale.current).replace("-", " ")

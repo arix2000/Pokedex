@@ -11,8 +11,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.arix.pokedex.features.common.ScrollHintMask
-import com.arix.pokedex.features.poke_list.domain.model.details.PokemonDetails
-import com.arix.pokedex.features.poke_list.presentation.ui.components.PokemonListItem
+import com.arix.pokedex.features.pokemon_list.domain.model.details.PokemonDetails
+import com.arix.pokedex.features.pokemon_list.presentation.ui.components.PokemonListItem
 import com.arix.pokedex.features.pokemon_details.domain.model.species.Variety
 import com.arix.pokedex.features.pokemon_details.presentation.PokemonDetailsViewModel
 import com.arix.pokedex.features.pokemon_details.presentation.ui.PokemonDetailsEvent

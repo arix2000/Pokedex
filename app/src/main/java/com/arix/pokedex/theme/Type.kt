@@ -11,7 +11,7 @@ val AppTypography = Typography(
     body1 = TextStyle(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.Normal,
-        fontSize = TextSize.medium
+        fontSize = FontSizes.medium
     ),
     button = TextStyle(
         fontWeight = FontWeight.Medium,
@@ -21,7 +21,7 @@ val AppTypography = Typography(
     ),
 )
 
-object TextSize {
+object FontSizes {
     val minimum = 12.sp
     val small = 13.sp
     val medium = 16.sp

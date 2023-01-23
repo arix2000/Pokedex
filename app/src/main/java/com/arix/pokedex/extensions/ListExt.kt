@@ -1,6 +1,8 @@
 package com.arix.pokedex.extensions
 
 import com.arix.pokedex.utils.Resource
+import com.google.gson.reflect.TypeToken
+import java.lang.reflect.Type
 
 fun <T> List<T>?.isSizeEqualsOrGreaterThan(otherList: List<T>) =
     (this?.size ?: 0) >= otherList.size
@@ -26,4 +28,8 @@ fun <T> List<Resource<T>>.ifAllSuccess(): Boolean {
 }
 fun <T> List<Resource<T>>.ifAnyError(): Boolean {
     return any { it is Resource.Error }
+}
+
+fun <T> getTypeOf(): Type {
+    return object : TypeToken<T>() {}.type
 }

@@ -7,7 +7,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -17,12 +16,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.arix.pokedex.R
-import com.arix.pokedex.features.poke_list.domain.model.details.PokemonDetails
-import com.arix.pokedex.features.poke_list.presentation.ui.components.TypesSection
+import com.arix.pokedex.features.pokemon_list.domain.model.details.PokemonDetails
+import com.arix.pokedex.features.pokemon_list.presentation.ui.components.TypesSection
 import com.arix.pokedex.features.pokemon_details.domain.model.species.PokemonSpecies
-import com.arix.pokedex.theme.GrayA75
 import com.arix.pokedex.theme.PokedexTheme
-import com.arix.pokedex.theme.TextSize
+import com.arix.pokedex.theme.FontSizes
 import com.arix.pokedex.theme.WhiteA50
 import com.arix.pokedex.utils.MockResourceReader
 import com.arix.pokedex.views.FadingHorizontalDivider
@@ -47,13 +45,13 @@ fun PokemonDetailsHeader(pokemonDetails: PokemonDetails, species: PokemonSpecies
             FadingHorizontalDivider(modifier = Modifier.padding(top = 12.dp, bottom = 8.dp))
             Text(
                 text = pokemonDetails.name.capitalize(LocaleList.current),
-                fontSize = TextSize.extraLarge
+                fontSize = FontSizes.extraLarge
             )
             Text(text = species.getGeneraText(), color = WhiteA50)
             TypesSection(
                 types = pokemonDetails.types,
                 spacing = 8.dp,
-                itemFontSize = TextSize.medium,
+                itemFontSize = FontSizes.medium,
                 modifier = Modifier
                     .padding(vertical = 3.dp)
                     .width(90.dp)

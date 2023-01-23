@@ -3,8 +3,8 @@ package com.arix.pokedex.utils
 import android.content.Context
 import com.arix.pokedex.R
 import com.arix.pokedex.features.moves.domain.model.Move
-import com.arix.pokedex.features.poke_list.domain.model.details.PokemonDetails
-import com.arix.pokedex.features.poke_list.domain.model.details.TypeX
+import com.arix.pokedex.features.pokemon_list.domain.model.details.PokemonDetails
+import com.arix.pokedex.features.pokemon_list.domain.model.details.TypeX
 import com.arix.pokedex.features.pokemon_details.domain.model.evolution_chain.PokemonEvolutionChain
 import com.arix.pokedex.features.pokemon_details.domain.model.species.PokemonSpecies
 import com.google.gson.Gson

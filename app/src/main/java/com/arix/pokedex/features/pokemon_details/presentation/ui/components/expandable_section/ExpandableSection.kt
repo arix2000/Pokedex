@@ -12,7 +12,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -20,14 +19,13 @@ import com.arix.pokedex.R
 import com.arix.pokedex.theme.BlackLight
 import com.arix.pokedex.theme.PokedexTheme
 import com.arix.pokedex.theme.Shapes
-import com.arix.pokedex.theme.TextSize
-import com.arix.pokedex.utils.MockResourceReader
+import com.arix.pokedex.theme.FontSizes
 
 @Composable
 fun ExpandableSection(
     title: String,
     modifier: Modifier = Modifier,
-    expandedInitially: Boolean = false, // TODO to be tested
+    expandedInitially: Boolean = false,
     content: @Composable BoxScope.() -> Unit
 ) {
     var expanded by remember { mutableStateOf(expandedInitially) }
@@ -45,7 +43,7 @@ fun ExpandableSection(
                 .clickable { expanded = !expanded }
                 .padding(vertical = 8.dp, horizontal = 10.dp)
         ) {
-            Text(text = title, fontSize = TextSize.large)
+            Text(text = title, fontSize = FontSizes.large)
             RotatingIcon(rotated = expanded, title)
         }
         ExpandableBox(
@@ -58,7 +56,7 @@ fun ExpandableSection(
 
 @Preview
 @Composable
-fun ExpandableSectionPreview() {
+private fun ExpandableSectionPreview() {
     PokedexTheme {
         Surface {
             ExpandableSection(title = "Description") {

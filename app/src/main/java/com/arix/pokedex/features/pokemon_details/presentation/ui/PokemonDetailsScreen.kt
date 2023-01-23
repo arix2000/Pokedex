@@ -20,8 +20,8 @@ import com.arix.pokedex.R
 import com.arix.pokedex.extensions.hasOneItem
 import com.arix.pokedex.extensions.isPreview
 import com.arix.pokedex.features.common.AppTopBar
-import com.arix.pokedex.features.poke_list.domain.model.details.Ability
-import com.arix.pokedex.features.poke_list.domain.model.details.PokemonDetails
+import com.arix.pokedex.features.pokemon_list.domain.model.details.Ability
+import com.arix.pokedex.features.pokemon_list.domain.model.details.PokemonDetails
 import com.arix.pokedex.features.pokemon_details.domain.model.evolution_chain.PokemonEvolutionChain
 import com.arix.pokedex.features.pokemon_details.domain.model.species.PokemonSpecies
 import com.arix.pokedex.features.pokemon_details.domain.model.species.Variety
@@ -176,7 +176,7 @@ private fun PokemonDetailsScreenContentPreview() {
                 AppTopBar(
                     navController = rememberNavController(),
                     showBackButton = true,
-                    scaffoldState = rememberScaffoldState()
+                    scaffoldState = rememberScaffoldState(),
                 )
                 PokemonDetailsScreenContent(
                     pokemonDetails,
