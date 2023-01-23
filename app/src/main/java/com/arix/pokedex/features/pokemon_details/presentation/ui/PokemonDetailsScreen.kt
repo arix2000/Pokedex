@@ -176,7 +176,7 @@ private fun PokemonDetailsScreenContentPreview() {
                 AppTopBar(
                     navController = rememberNavController(),
                     showBackButton = true,
-                    scaffoldState = rememberScaffoldState()
+                    scaffoldState = rememberScaffoldState(),
                 )
                 PokemonDetailsScreenContent(
                     pokemonDetails,

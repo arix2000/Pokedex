@@ -46,7 +46,7 @@ private fun MovesScreenContent(
 private fun MovesScreenPreview() {
     PokedexTheme {
         Surface {
-            Text(text = "All previews for this view are in SearchableLazyColumnPreviews.kt")
+            Text(text = "All previews for this view are in the SearchableLazyColumnPreviews.kt")
         }
     }
 }

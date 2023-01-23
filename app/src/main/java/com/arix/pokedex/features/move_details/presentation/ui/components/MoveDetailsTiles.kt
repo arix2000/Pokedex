@@ -78,7 +78,7 @@ private fun BaseMoveInfo(move: UiMove) {
             )
         }
         BorderedTextTile(
-            value = description,
+            value = description ?: stringResource(R.string.desc_not_found),
             borderColor = typeColor,
             modifier = Modifier
                 .fillMaxWidth()
@@ -113,7 +113,7 @@ private fun EffectMoveInfo(move: UiMove) {
         )
     }
     BorderedTextTile(
-        value = move.effectDesc,
+        value = move.effectDesc ?: stringResource(R.string.effect_desc_not_found),
         borderColor = move.typeColor,
         modifier = Modifier
             .fillMaxWidth()
@@ -123,67 +123,67 @@ private fun EffectMoveInfo(move: UiMove) {
 
 @Composable
 private fun MoveMetaData(move: UiMove) {
-    with(move.meta) {
-        Row {
-            BorderedTextTile(
-                label = "Ailment:",
-                value = ailment.name,
-                borderColor = move.typeColor,
-                modifier = tileModifier,
-                enabled = ailment.name != "none"
-            )
-            BorderedTextTile(
-                label = "Ailment chance:",
-                value = "$ailment_chance%",
-                borderColor = move.typeColor,
-                modifier = tileModifier,
-                enabled = ailment_chance != 0
-            )
+        with(move.meta) {
+            Row {
+                BorderedTextTile(
+                    label = "Ailment:",
+                    value = ailment.name,
+                    borderColor = move.typeColor,
+                    modifier = tileModifier,
+                    enabled = ailment.name != "none"
+                )
+                BorderedTextTile(
+                    label = "Ailment chance:",
+                    value = "$ailment_chance%",
+                    borderColor = move.typeColor,
+                    modifier = tileModifier,
+                    enabled = ailment_chance != 0
+                )
+            }
+            Row {
+                val duration =
+                    if (turnsNotNull()) "${getTurnsRange()} turns" else "none"
+                val hits =
+                    if (hitsNotNull()) "${getHitsRange()} hits" else "1 hit"
+                BorderedTextTile(
+                    label = "Duration:",
+                    value = duration,
+                    borderColor = move.typeColor,
+                    modifier = tileModifier,
+                    enabled = turnsNotNull()
+                )
+                BorderedTextTile(
+                    label = "Hits:",
+                    value = hits,
+                    borderColor = move.typeColor,
+                    modifier = tileModifier,
+                    enabled = hitsNotNull()
+                )
+            }
+            Row {
+                BorderedTextTile(
+                    label = "Healing:",
+                    value = "$healing%",
+                    borderColor = move.typeColor,
+                    modifier = tileModifier,
+                    enabled = healing != 0
+                )
+                BorderedTextTile(
+                    label = if (drain >= 0) "HP Drain:" else "Recoil:",
+                    value = "${abs(drain)}%",
+                    borderColor = move.typeColor,
+                    modifier = tileModifier,
+                    enabled = drain != 0
+                )
+                BorderedTextTile(
+                    label = "Flinch chance:",
+                    value = "$flinch_chance%",
+                    borderColor = move.typeColor,
+                    modifier = tileModifier,
+                    enabled = flinch_chance != 0
+                )
+            }
         }
-        Row {
-            val duration =
-                if (turnsNotNull()) "${getTurnsRange()} turns" else "none"
-            val hits =
-                if (hitsNotNull()) "${getHitsRange()} hits" else "1 hit"
-            BorderedTextTile(
-                label = "Duration:",
-                value = duration,
-                borderColor = move.typeColor,
-                modifier = tileModifier,
-                enabled = turnsNotNull()
-            )
-            BorderedTextTile(
-                label = "Hits:",
-                value = hits,
-                borderColor = move.typeColor,
-                modifier = tileModifier,
-                enabled = hitsNotNull()
-            )
-        }
-        Row {
-            BorderedTextTile(
-                label = "Healing:",
-                value = "$healing%",
-                borderColor = move.typeColor,
-                modifier = tileModifier,
-                enabled = healing != 0
-            )
-            BorderedTextTile(
-                label = if (drain >= 0) "HP Drain:" else "Recoil:",
-                value = "${abs(drain)}%",
-                borderColor = move.typeColor,
-                modifier = tileModifier,
-                enabled = drain != 0
-            )
-            BorderedTextTile(
-                label = "Flinch chance:",
-                value = "$flinch_chance%",
-                borderColor = move.typeColor,
-                modifier = tileModifier,
-                enabled = flinch_chance != 0
-            )
-        }
-    }
 }
 
 @Composable
@@ -205,9 +205,10 @@ private fun StatChanges(move: UiMove) {
             ) {
                 Spacer(modifier = Modifier.height(10.dp))
                 Text(text = "Stat Changes:")
-                Grid(
+                GridView(
                     data = move.stat_changes,
                     cells = 2,
+                    alwaysFillSpace = true,
                     modifier = Modifier.padding(vertical = 5.dp, horizontal = 8.dp)
                 ) {
                     Text(

@@ -27,7 +27,7 @@ import com.arix.pokedex.features.pokemon_list.domain.model.details.Ability
 import com.arix.pokedex.theme.PokedexTheme
 import com.arix.pokedex.theme.PrimaryDark
 import com.arix.pokedex.theme.Shapes
-import com.arix.pokedex.theme.TextSize
+import com.arix.pokedex.theme.FontSizes
 import com.arix.pokedex.utils.MockResourceReader
 
 @Composable
@@ -65,7 +65,7 @@ fun HiddenLabel() {
         Text(
             text = stringResource(R.string.hidden_label),
             modifier = Modifier.padding(horizontal = 7.dp, vertical = 2.dp),
-            fontSize = TextSize.minimum,
+            fontSize = FontSizes.minimum,
             color = Color.White
         )
     }

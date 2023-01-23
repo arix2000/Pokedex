@@ -4,14 +4,17 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.arix.pokedex.extensions.getTypeOf
 import com.arix.pokedex.extensions.putArgument
 import com.arix.pokedex.features.abilities.AbilitiesScreen
 import com.arix.pokedex.features.items.ItemsScreen
 import com.arix.pokedex.features.locations.LocationsScreen
-import com.arix.pokedex.features.move_details.presentation.ui.MoveDetailsScreen
+import com.arix.pokedex.features.move_details.presentation.ui.screens.LearnedByPokemonFullList
+import com.arix.pokedex.features.move_details.presentation.ui.screens.MoveDetailsScreen
 import com.arix.pokedex.features.moves.presentation.ui.MovesScreen
-import com.arix.pokedex.features.pokemon_list.presentation.ui.PokemonListScreen
 import com.arix.pokedex.features.pokemon_details.presentation.ui.PokemonDetailsScreen
+import com.arix.pokedex.features.pokemon_list.presentation.ui.PokemonListScreen
+import com.google.gson.Gson
 
 @Composable
 fun AppNavHost(navController: NavHostController) {
@@ -19,16 +22,16 @@ fun AppNavHost(navController: NavHostController) {
         composable(Screen.PokemonListScreen.route) {
             PokemonListScreen {
                 with(Screen.PokemonDetailsScreen) {
-                    navController.navigate(route.putArgument(argumentKey, it))
+                    navController.navigate(route.putArgument(argumentKeys[0], it))
                 }
             }
         }
 
         with(Screen.PokemonDetailsScreen) {
             composable(route) { backStackEntry ->
-                backStackEntry.arguments?.getString(argumentKey)?.let {
+                backStackEntry.arguments?.getString(argumentKeys[0])?.let {
                     PokemonDetailsScreen(it) { name ->
-                        navController.navigate(route.putArgument(argumentKey, name))
+                        navController.navigate(route.putArgument(argumentKeys[0], name))
                     }
                 }
             }
@@ -37,14 +40,48 @@ fun AppNavHost(navController: NavHostController) {
         composable(Screen.MovesScreen.route) {
             MovesScreen {
                 with(Screen.MoveDetailsScreen) {
-                    navController.navigate(route.putArgument(argumentKey, it))
+                    navController.navigate(route.putArgument(argumentKeys[0], it))
                 }
             }
         }
         with(Screen.MoveDetailsScreen) {
             composable(route) { backStackEntry ->
-                backStackEntry.arguments?.getString(argumentKey)?.let {
-                    MoveDetailsScreen(it.toInt())
+                backStackEntry.arguments?.getString(argumentKeys[0])?.let {
+                    MoveDetailsScreen(
+                        it.toInt(),
+                        navigateToPokemonDetails = {
+                            with(Screen.PokemonDetailsScreen) {
+                                navController.navigate(route.putArgument(argumentKeys[0], it))
+                            }
+                        },
+                        navigateToLearnedByPokemonList = { pokemonNamesList, moveName ->
+                            with(Screen.LearnedByPokemonFullList) {
+                                navController.navigate(
+                                    route.putArgument(
+                                        argumentKeys[0],
+                                        Gson().toJson(pokemonNamesList)
+                                    ).putArgument(argumentKeys[1], moveName)
+                                )
+                            }
+                        },
+                    )
+                }
+            }
+        }
+
+        with(Screen.LearnedByPokemonFullList) {
+            composable(route) { backStackEntry ->
+                backStackEntry.arguments?.getString(argumentKeys[0])?.let {
+                    LearnedByPokemonFullList(
+                        Gson().fromJson(
+                            it,
+                            getTypeOf<List<String>>()
+                        )
+                    ) { name ->
+                        with(Screen.PokemonDetailsScreen) {
+                            navController.navigate(route.putArgument(argumentKeys[0], name))
+                        }
+                    }
                 }
             }
         }

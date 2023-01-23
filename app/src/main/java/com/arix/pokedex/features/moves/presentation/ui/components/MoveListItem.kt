@@ -21,7 +21,7 @@ import com.arix.pokedex.features.pokemon_list.domain.model.details.TypeX
 import com.arix.pokedex.features.pokemon_list.presentation.ui.components.TypeItem
 import com.arix.pokedex.theme.PokedexTheme
 import com.arix.pokedex.theme.Shapes
-import com.arix.pokedex.theme.TextSize
+import com.arix.pokedex.theme.FontSizes
 import com.arix.pokedex.utils.MockResourceReader
 
 @Composable
@@ -42,13 +42,13 @@ fun MoveListItem(move: Move, onClick: (moveId: String) -> Unit) {
             color = Color.White,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
-            fontSize = TextSize.large,
+            fontSize = FontSizes.large,
             modifier = Modifier.fillMaxWidth().weight(1f)
         )
         Box {
 
             Surface(elevation = 2.dp, shape = Shapes.large, color = Color.Transparent) {
-                TypeItem(type = move.type, itemFontSize = TextSize.minimum)
+                TypeItem(type = move.type, itemFontSize = FontSizes.minimum)
             }
         }
     }

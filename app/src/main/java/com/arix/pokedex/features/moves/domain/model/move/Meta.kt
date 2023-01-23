@@ -16,6 +16,13 @@ data class Meta(
     fun turnsNotNull() = min_turns != null && max_turns != null
     fun hitsNotNull() = min_hits != null && max_hits != null
 
-    fun getTurnsRange() = if(min_turns != max_turns) "${min_turns}-${max_turns}" else max_turns
-    fun getHitsRange() = if(min_hits != max_hits) "${min_hits}-${max_hits}" else max_hits
+    fun getTurnsRange() = if (min_turns != max_turns) "${min_turns}-${max_turns}" else max_turns
+    fun getHitsRange() = if (min_hits != max_hits) "${min_hits}-${max_hits}" else max_hits
+
+    companion object {
+        val EMPTY = Meta(
+            Ailment("none", ""), 0, 0, 0,
+            0, 0, null, null, null, null, 0
+        )
+    }
 }

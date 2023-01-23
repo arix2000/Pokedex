@@ -24,7 +24,7 @@ import com.arix.pokedex.features.common.search_view.SearchableLazyColumnViewMode
 import com.arix.pokedex.features.common.search_view.domain.SearchParams
 import com.arix.pokedex.features.pokemon_list.presentation.ui.components.SearchBar
 import com.arix.pokedex.theme.PokedexTheme
-import com.arix.pokedex.theme.TextSize
+import com.arix.pokedex.theme.FontSizes
 import com.arix.pokedex.theme.WarningColor
 import com.arix.pokedex.views.ErrorScreenWithRetryButtonCondensed
 import org.koin.androidx.compose.getViewModel
@@ -108,7 +108,7 @@ private fun UnstableConnectionLabel(error: ConnectionUnstableError) {
     ) {
         Text(
             text = stringResource(error.stringId),
-            fontSize = TextSize.small,
+            fontSize = FontSizes.small,
             fontWeight = FontWeight.Bold
         )
     }

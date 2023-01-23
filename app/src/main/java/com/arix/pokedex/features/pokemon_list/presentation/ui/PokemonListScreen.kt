@@ -26,13 +26,13 @@ fun PokemonListScreen(
 ) {
     val state = viewModel.state.value
     if (state.pokemonNames != null)
-        PokemonListScreenContent(state.pokemonNames, navigateToPokemonDetails) {
+        PokemonGrid(state.pokemonNames, navigateToPokemonDetails) {
             viewModel.getPokemonListFrom(it)
         }
 }
 
 @Composable
-private fun PokemonListScreenContent(
+fun PokemonGrid(
     pokemonNames: List<String>,
     navigateToPokemonDetails: (String) -> Unit,
     namesToPokemonResponses: suspend (List<String>) -> List<Resource<PokemonDetails>>

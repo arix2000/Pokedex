@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.dp
 import com.arix.pokedex.features.pokemon_list.domain.model.details.Type
 import com.arix.pokedex.features.pokemon_list.domain.model.details.TypeX
 import com.arix.pokedex.theme.PokedexTheme
-import com.arix.pokedex.theme.TextSize
+import com.arix.pokedex.theme.FontSizes
 
 @Composable
 fun TypesSection(
@@ -56,7 +56,7 @@ private fun TypesSectionPreview() {
                     Type(2, TypeX("electric", ""))
                 ),
                 spacing = 2.dp,
-                itemFontSize = TextSize.minimum
+                itemFontSize = FontSizes.minimum
             )
         }
     }

@@ -27,7 +27,7 @@ import com.arix.pokedex.features.pokemon_list.domain.model.details.PokemonDetail
 import com.arix.pokedex.features.pokemon_list.domain.model.details.Type
 import com.arix.pokedex.theme.PokedexTheme
 import com.arix.pokedex.theme.Shapes
-import com.arix.pokedex.theme.TextSize
+import com.arix.pokedex.theme.FontSizes
 import com.arix.pokedex.utils.MockResourceReader
 import com.arix.pokedex.views.FadingHorizontalDivider
 import com.arix.pokedex.views.shimmer_effect.ShimmerAnimatedBox
@@ -67,11 +67,11 @@ fun PokemonListItem(
             FadingHorizontalDivider()
             Text(
                 text = pokemonDetails.name.capitalize(LocaleList.current),
-                fontSize = TextSize.large,
+                fontSize = FontSizes.large,
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 1
             )
-            TypesSection(pokemonDetails.types, spacing = 2.dp, itemFontSize = TextSize.minimum)
+            TypesSection(pokemonDetails.types, spacing = 2.dp, itemFontSize = FontSizes.minimum)
             Spacer(modifier = Modifier.height(10.dp))
         }
         ShowShimmerIf(modifier = modifier, isImageLoading)

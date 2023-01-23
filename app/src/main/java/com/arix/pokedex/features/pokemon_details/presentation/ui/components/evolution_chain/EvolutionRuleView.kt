@@ -22,7 +22,7 @@ import com.arix.pokedex.features.pokemon_list.domain.model.details.TypeX
 import com.arix.pokedex.features.pokemon_details.domain.model.evolution_chain.EvolutionDetail
 import com.arix.pokedex.features.pokemon_details.domain.model.evolution_chain.Item
 import com.arix.pokedex.theme.GrayA75
-import com.arix.pokedex.theme.TextSize
+import com.arix.pokedex.theme.FontSizes
 
 @Composable
 fun EvolutionRuleView(evolutionDetails: List<EvolutionDetail>) {
@@ -74,7 +74,7 @@ fun EvolutionRuleView(evolutionDetails: List<EvolutionDetail>) {
 private fun EvolutionRuleText(text: String, specifyWidth: Boolean = false) {
     Text(
         text = text,
-        fontSize = TextSize.small,
+        fontSize = FontSizes.small,
         color = GrayA75,
         softWrap = true,
         modifier = if (specifyWidth) Modifier else Modifier.width(110.dp),
@@ -86,7 +86,7 @@ private fun EvolutionRuleText(text: String, specifyWidth: Boolean = false) {
 private fun EvolutionRuleText(text: AnnotatedString) {
     Text(
         text = text,
-        fontSize = TextSize.small,
+        fontSize = FontSizes.small,
         color = GrayA75,
         softWrap = true,
         modifier = Modifier.width(110.dp),

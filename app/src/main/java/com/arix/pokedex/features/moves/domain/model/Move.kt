@@ -3,6 +3,7 @@ package com.arix.pokedex.features.moves.domain.model
 import com.arix.pokedex.features.moves.domain.model.move.*
 import com.arix.pokedex.features.moves.domain.model.move.Target
 import com.arix.pokedex.features.pokemon_list.domain.model.details.TypeX
+import com.arix.pokedex.features.pokemon_list.domain.model.list.PokemonBasicData
 
 data class Move(
     val accuracy: Int?,
@@ -11,8 +12,8 @@ data class Move(
     val effect_entries: List<EffectEntry>,
     val flavor_text_entries: List<FlavorTextEntry>,
     val id: Int,
-    val learned_by_pokemon: List<LearnedByPokemon>,
-    val meta: Meta,
+    val learned_by_pokemon: List<PokemonBasicData>,
+    val meta: Meta?,
     val name: String,
     val power: Int?,
     val pp: Int,

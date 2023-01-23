@@ -24,7 +24,6 @@ object Constants {
     }
 
     object PokemonDetailsScreen {
-        const val DESIRED_DESCRIPTION_VERSION = "omega-ruby"
         const val NO_DESCRIPTION = "No description"
         const val ITEM_URL_PREFIX = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/"
         const val PNG_EXT = ".png"
@@ -61,5 +60,6 @@ object Constants {
     object MoveScreen {
         const val EFFECT_CHANCE_ARG = "\$effect_chance"
         val TEXT_TILES_HEIGHT = 80.dp
+        const val LEARNED_BY_POKEMON_LIST_MAX_SIZE = 6
     }
 }
