@@ -40,8 +40,7 @@ import org.koin.androidx.compose.getViewModel
 @Composable
 fun PokemonDetailsScreen(
     pokemonName: String,
-    viewModel: PokemonDetailsViewModel = getViewModel(),
-    navigateToPokemonDetails: (String) -> Unit
+    viewModel: PokemonDetailsViewModel = getViewModel()
 ) {
     val state = viewModel.state.value
 
@@ -56,8 +55,7 @@ fun PokemonDetailsScreen(
         PokemonDetailsScreenContent(
             state.pokemonDetails,
             state.species,
-            state.evolutionChain,
-            navigateToPokemonDetails
+            state.evolutionChain
         )
 }
 
@@ -65,8 +63,7 @@ fun PokemonDetailsScreen(
 fun PokemonDetailsScreenContent(
     pokemonDetails: PokemonDetails,
     species: PokemonSpecies,
-    evolutionChain: PokemonEvolutionChain,
-    navigateToPokemonDetails: (String) -> Unit
+    evolutionChain: PokemonEvolutionChain
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
@@ -90,18 +87,13 @@ fun PokemonDetailsScreenContent(
             Spacer(modifier = Modifier.height(10.dp))
             EvolutionChainSection(
                 pokemonDetails,
-                evolutionChain,
-                navigateToPokemonDetails
+                evolutionChain
             )
             Spacer(modifier = Modifier.height(10.dp))
             AbilitiesSection(pokemonDetails.abilities)
             Spacer(modifier = Modifier.height(10.dp))
             if (!(species.varieties.hasOneItem() && species.varieties.first().is_default)) {
-                VarietiesSection(
-                    pokemonDetails.name,
-                    species.varieties,
-                    navigateToPokemonDetails
-                )
+                VarietiesSection(pokemonDetails.name, species.varieties)
                 Spacer(modifier = Modifier.height(10.dp))
             }
         }
@@ -111,19 +103,14 @@ fun PokemonDetailsScreenContent(
 @Composable
 private fun EvolutionChainSection(
     pokemonDetails: PokemonDetails,
-    evolutionChain: PokemonEvolutionChain,
-    navigateToPokemonDetails: (String) -> Unit
+    evolutionChain: PokemonEvolutionChain
 ) {
     ExpandableSection(
         title = stringResource(R.string.evolution_chain_title),
         expandedInitially = true
     ) {
         if (!isPreview())
-            EvolutionChainView(
-                pokemonDetails,
-                evolutionChain,
-                navigateToPokemonDetails
-            )
+            EvolutionChainView(pokemonDetails, evolutionChain)
         else DefaultProgressIndicatorScreen(
             modifier = Modifier
                 .fillMaxWidth()
@@ -148,17 +135,12 @@ private fun AbilitiesSection(abilities: List<Ability>) {
 private fun VarietiesSection(
     rootPokemonDetailsName: String,
     varieties: List<Variety>,
-    navigateToPokemonDetails: (String) -> Unit
 ) {
     ExpandableSection(
         title = stringResource(R.string.pokemon_details_variants)
     ) {
         if (!isPreview())
-            VariantsView(
-                rootPokemonDetailsName,
-                varieties,
-                navigateToPokemonDetails
-            )
+            VariantsView(rootPokemonDetailsName, varieties)
     }
 }
 
@@ -182,7 +164,7 @@ private fun PokemonDetailsScreenContentPreview() {
                     pokemonDetails,
                     pokemonSpecies,
                     pokemonEvolutionChain
-                ) { }
+                )
             }
         }
     }

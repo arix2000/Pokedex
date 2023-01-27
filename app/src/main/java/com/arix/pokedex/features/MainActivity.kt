@@ -13,12 +13,14 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.navigation.compose.rememberNavController
 import com.arix.pokedex.core.navigation.AppNavHost
 import com.arix.pokedex.core.navigation.DrawerScreens
+import com.arix.pokedex.core.navigation.Navigator
 import com.arix.pokedex.core.navigation.Screen
 import com.arix.pokedex.features.common.AppTopBar
 import com.arix.pokedex.features.common.drawer.NavDrawerContent
 import com.arix.pokedex.theme.BlackA70
 import com.arix.pokedex.theme.BlackLight
 import com.arix.pokedex.theme.PokedexTheme
+import org.koin.androidx.compose.get
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,6 +40,7 @@ fun AppContainer() {
     var topBarTitle: String? by remember { mutableStateOf(null) }
     val scaffoldState = rememberScaffoldState()
     val navController = rememberNavController().apply {
+        get<Navigator>().setNavController(this)
         addOnDestinationChangedListener { _, _, _ ->
             showBackButton = previousBackStackEntry != null
             enableDrawer =

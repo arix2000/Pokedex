@@ -12,6 +12,7 @@ import com.arix.pokedex.features.locations.LocationsScreen
 import com.arix.pokedex.features.move_details.presentation.ui.screens.LearnedByPokemonFullList
 import com.arix.pokedex.features.move_details.presentation.ui.screens.MoveDetailsScreen
 import com.arix.pokedex.features.moves.presentation.ui.MovesScreen
+import com.arix.pokedex.features.pokemon_details.presentation.ui.ImageFullScreen
 import com.arix.pokedex.features.pokemon_details.presentation.ui.PokemonDetailsScreen
 import com.arix.pokedex.features.pokemon_list.presentation.ui.PokemonListScreen
 import com.google.gson.Gson
@@ -20,19 +21,13 @@ import com.google.gson.Gson
 fun AppNavHost(navController: NavHostController) {
     NavHost(navController = navController, startDestination = Screen.PokemonListScreen.route) {
         composable(Screen.PokemonListScreen.route) {
-            PokemonListScreen {
-                with(Screen.PokemonDetailsScreen) {
-                    navController.navigate(route.putArgument(argumentKeys[0], it))
-                }
-            }
+            PokemonListScreen()
         }
 
         with(Screen.PokemonDetailsScreen) {
             composable(route) { backStackEntry ->
                 backStackEntry.arguments?.getString(argumentKeys[0])?.let {
-                    PokemonDetailsScreen(it) { name ->
-                        navController.navigate(route.putArgument(argumentKeys[0], name))
-                    }
+                    PokemonDetailsScreen(it)
                 }
             }
         }
@@ -47,24 +42,7 @@ fun AppNavHost(navController: NavHostController) {
         with(Screen.MoveDetailsScreen) {
             composable(route) { backStackEntry ->
                 backStackEntry.arguments?.getString(argumentKeys[0])?.let {
-                    MoveDetailsScreen(
-                        it.toInt(),
-                        navigateToPokemonDetails = {
-                            with(Screen.PokemonDetailsScreen) {
-                                navController.navigate(route.putArgument(argumentKeys[0], it))
-                            }
-                        },
-                        navigateToLearnedByPokemonList = { pokemonNamesList, moveName ->
-                            with(Screen.LearnedByPokemonFullList) {
-                                navController.navigate(
-                                    route.putArgument(
-                                        argumentKeys[0],
-                                        Gson().toJson(pokemonNamesList)
-                                    ).putArgument(argumentKeys[1], moveName)
-                                )
-                            }
-                        },
-                    )
+                    MoveDetailsScreen(it.toInt())
                 }
             }
         }
@@ -72,16 +50,7 @@ fun AppNavHost(navController: NavHostController) {
         with(Screen.LearnedByPokemonFullList) {
             composable(route) { backStackEntry ->
                 backStackEntry.arguments?.getString(argumentKeys[0])?.let {
-                    LearnedByPokemonFullList(
-                        Gson().fromJson(
-                            it,
-                            getTypeOf<List<String>>()
-                        )
-                    ) { name ->
-                        with(Screen.PokemonDetailsScreen) {
-                            navController.navigate(route.putArgument(argumentKeys[0], name))
-                        }
-                    }
+                    LearnedByPokemonFullList(Gson().fromJson(it, getTypeOf<List<String>>()))
                 }
             }
         }
@@ -96,6 +65,10 @@ fun AppNavHost(navController: NavHostController) {
 
         composable(Screen.AbilitiesScreen.route) {
             AbilitiesScreen()
+        }
+
+        composable(Screen.ImageFullScreen.route) {
+            ImageFullScreen()
         }
     }
 }

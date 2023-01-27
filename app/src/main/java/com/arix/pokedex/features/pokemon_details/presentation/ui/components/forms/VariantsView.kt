@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.arix.pokedex.core.navigation.Navigator
 import com.arix.pokedex.features.common.ScrollHintMask
 import com.arix.pokedex.features.pokemon_list.domain.model.details.PokemonDetails
 import com.arix.pokedex.features.pokemon_list.presentation.ui.components.PokemonListItem
@@ -20,13 +21,13 @@ import com.arix.pokedex.theme.PokedexTheme
 import com.arix.pokedex.utils.MockResourceReader
 import com.arix.pokedex.utils.drawHorizontalScrollbar
 import com.arix.pokedex.views.shimmer_effect.ShimmerAnimatedBox
+import org.koin.androidx.compose.get
 import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun VariantsView(
     rootPokemonDetailsName: String,
     varieties: List<Variety>,
-    navigateToPokemonDetails: (String) -> Unit,
     viewModel: PokemonDetailsViewModel = getViewModel()
 ) {
     val state = viewModel.varietiesSectionState.value
@@ -44,7 +45,6 @@ fun VariantsView(
         state.pokemonVarietiesDetails != null -> VariantsContentView(
             rootPokemonDetailsName,
             state.pokemonVarietiesDetails.filter { it.name != rootPokemonDetailsName },
-            navigateToPokemonDetails
         )
     }
 }
@@ -53,7 +53,8 @@ fun VariantsView(
 private fun VariantsContentView(
     rootPokemonDetailsName: String,
     pokemonDetails: List<PokemonDetails>,
-    navigateToPokemonDetails: (String) -> Unit,
+    navigator: Navigator = get()
+
 ) {
     val lazyRowState = rememberLazyListState()
     var shouldShowScrollHint by remember { mutableStateOf(pokemonDetails.size > 2) }
@@ -65,7 +66,7 @@ private fun VariantsContentView(
                     .width(155.dp)
                     .height(230.dp),
                     onClick = if (rootPokemonDetailsName != pokemonDetails[it].name) {
-                        { navigateToPokemonDetails(pokemonDetails[it].name) }
+                        { navigator.goToPokemonDetails(pokemonDetails[it].name) }
                     } else null)
             }
         }
@@ -86,7 +87,7 @@ fun VariantsContentViewPreview() {
             VariantsContentView(
                 rootPokemonDetailsName = "Scyther",
                 pokemonDetails = listOf(pokemonDetail, pokemonDetail, pokemonDetail, pokemonDetail),
-                navigateToPokemonDetails = {}
+                Navigator()
             )
         }
     }
