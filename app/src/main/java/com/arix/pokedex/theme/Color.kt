@@ -5,6 +5,7 @@ import androidx.compose.ui.graphics.Color
 val Primary = Color(0xFF950101)
 val PrimaryDark = Color(0xFF3D0000)
 val Accent = Color(0xFFFF0000)
+val DefaultBackgroundColorA90 = Color(0xE6121212)
 
 val BlackSoft = Color(0xFF090909)
 val BlackSoftA50 = Color(0x80090909)

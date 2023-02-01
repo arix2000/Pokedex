@@ -12,7 +12,6 @@ import com.arix.pokedex.features.locations.LocationsScreen
 import com.arix.pokedex.features.move_details.presentation.ui.screens.LearnedByPokemonFullList
 import com.arix.pokedex.features.move_details.presentation.ui.screens.MoveDetailsScreen
 import com.arix.pokedex.features.moves.presentation.ui.MovesScreen
-import com.arix.pokedex.features.pokemon_details.presentation.ui.ImageFullScreen
 import com.arix.pokedex.features.pokemon_details.presentation.ui.PokemonDetailsScreen
 import com.arix.pokedex.features.pokemon_list.presentation.ui.PokemonListScreen
 import com.google.gson.Gson
@@ -65,10 +64,6 @@ fun AppNavHost(navController: NavHostController) {
 
         composable(Screen.AbilitiesScreen.route) {
             AbilitiesScreen()
-        }
-
-        composable(Screen.ImageFullScreen.route) {
-            ImageFullScreen()
         }
     }
 }

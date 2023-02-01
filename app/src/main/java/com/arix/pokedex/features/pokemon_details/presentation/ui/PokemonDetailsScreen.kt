@@ -6,9 +6,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.rememberScaffoldState
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -31,6 +29,7 @@ import com.arix.pokedex.features.pokemon_details.presentation.ui.components.deta
 import com.arix.pokedex.features.pokemon_details.presentation.ui.components.evolution_chain.EvolutionChainView
 import com.arix.pokedex.features.pokemon_details.presentation.ui.components.expandable_section.ExpandableSection
 import com.arix.pokedex.features.pokemon_details.presentation.ui.components.forms.VariantsView
+import com.arix.pokedex.features.pokemon_details.presentation.ui.components.full_screen_image_dialog.FullScreenImageDialog
 import com.arix.pokedex.features.pokemon_details.presentation.ui.components.header.PokemonDetailsHeader
 import com.arix.pokedex.theme.PokedexTheme
 import com.arix.pokedex.utils.MockResourceReader
@@ -65,6 +64,8 @@ fun PokemonDetailsScreenContent(
     species: PokemonSpecies,
     evolutionChain: PokemonEvolutionChain
 ) {
+    val isDialogShowed = remember { mutableStateOf(false) }
+
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -72,7 +73,9 @@ fun PokemonDetailsScreenContent(
                 .fillMaxWidth()
                 .verticalScroll(rememberScrollState()),
         ) {
-            PokemonDetailsHeader(pokemonDetails, species)
+            PokemonDetailsHeader(pokemonDetails, species, onImageClicked = {
+                isDialogShowed.value = true
+            })
             Spacer(modifier = Modifier.height(12.dp))
             ExpandableSection(
                 title = stringResource(R.string.details_title),
@@ -98,6 +101,10 @@ fun PokemonDetailsScreenContent(
             }
         }
     }
+    FullScreenImageDialog(
+        isDialogShowed = isDialogShowed,
+        imageUrl = pokemonDetails.sprites.other.official_artwork.front_default
+    )
 }
 
 @Composable

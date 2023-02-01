@@ -19,7 +19,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.arix.pokedex.R
-import com.arix.pokedex.core.navigation.Navigator
 import com.arix.pokedex.features.pokemon_details.domain.model.species.PokemonSpecies
 import com.arix.pokedex.features.pokemon_list.domain.model.details.PokemonDetails
 import com.arix.pokedex.features.pokemon_list.presentation.ui.components.TypesSection
@@ -28,13 +27,12 @@ import com.arix.pokedex.theme.PokedexTheme
 import com.arix.pokedex.theme.WhiteA50
 import com.arix.pokedex.utils.MockResourceReader
 import com.arix.pokedex.views.FadingHorizontalDivider
-import org.koin.androidx.compose.get
 
 @Composable
 fun PokemonDetailsHeader(
     pokemonDetails: PokemonDetails,
     species: PokemonSpecies,
-    navigator: Navigator = get()
+    onImageClicked: () -> Unit
 ) {
     Box {
         BackgroundGradientBasedOn(pokemonDetails.types)
@@ -52,7 +50,7 @@ fun PokemonDetailsHeader(
                     .clickable(
                         indication = rememberRipple(bounded = false, radius = 130.dp),
                         interactionSource = remember { MutableInteractionSource() }
-                    ) { navigator.goToImageFullScreen() },
+                    ) { onImageClicked() },
                 placeholder = painterResource(id = R.drawable.scyther),
                 error = painterResource(id = R.drawable.pokemon_not_found_image)
             )
@@ -82,7 +80,7 @@ fun PokemonDetailsHeaderPreview() {
     val species = remember { MockResourceReader(context).getPokemonSpeciesMock() }
     PokedexTheme {
         Surface(modifier = Modifier.fillMaxWidth()) {
-            PokemonDetailsHeader(pokemonDetails, species, Navigator())
+            PokemonDetailsHeader(pokemonDetails, species) {}
         }
     }
 }

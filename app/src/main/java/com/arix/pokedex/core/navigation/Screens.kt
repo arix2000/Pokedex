@@ -39,6 +39,4 @@ sealed class Screen(
 
     object LearnedByPokemonFullList
         : Screen("learnedByPokemonFullList", "pokemonNames", "moveName")
-
-    object ImageFullScreen : Screen("imageFullScreen")
 }

@@ -11,10 +11,6 @@ class Navigator {
         this.navController = navController
     }
 
-    fun goToImageFullScreen() {
-        navController.navigate(Screen.ImageFullScreen.route)
-    }
-
     fun goToPokemonDetails(nameOrId: String) {
         with(Screen.PokemonDetailsScreen) {
             navController.navigate(route.putArgument(argumentKeys[0], nameOrId))
