@@ -7,11 +7,6 @@ data class MoveList(
     val count: Int,
     val next: String?,
     val previous: String?,
-    val moves: List<Move>
-) {
-    companion object {
-        fun from(raw: MoveListRaw, moves: List<Move>): MoveList {
-            return MoveList(raw.count, raw.next, raw.previous, moves)
-        }
-    }
-}
+    @SerializedName("results")
+    val moveLinks: List<MoveLink>
+)

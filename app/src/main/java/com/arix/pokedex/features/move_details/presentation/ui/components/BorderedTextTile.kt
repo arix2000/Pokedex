@@ -14,7 +14,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
 import androidx.compose.ui.unit.dp
 import com.arix.pokedex.features.common.text.ExpandableText
-import com.arix.pokedex.features.pokemon_list.domain.model.details.TypeX
+import com.arix.pokedex.features.pokemon_list.domain.model.details.Type
 import com.arix.pokedex.theme.DisabledColor
 import com.arix.pokedex.theme.Gradients
 import com.arix.pokedex.theme.PokedexTheme
@@ -105,7 +105,7 @@ private fun BorderedTextTilePreview() {
                         .height(80.dp),
                     "Some label:",
                     "100%",
-                    TypeX("grass", "").getTypeColor(),
+                    Type("grass").getTypeColor(),
                 )
                 Spacer(Modifier.width(10.dp))
                 BorderedTextTile(
@@ -114,7 +114,7 @@ private fun BorderedTextTilePreview() {
                         .height(80.dp),
                     "Some label:",
                     "100%",
-                    TypeX("grass", "").getTypeColor(),
+                    Type("grass").getTypeColor(),
                     false
                 )
             }
@@ -131,7 +131,7 @@ private fun BorderedTextTileOnlyValuePreview() {
                 BorderedTextTile(
                     Modifier.fillMaxWidth(),
                     LoremIpsum(20).values.joinToString(" "),
-                    TypeX("grass", "").getTypeColor(),
+                    Type("grass").getTypeColor(),
                     PaddingValues(vertical = 10.dp, horizontal = 15.dp)
                 )
             }

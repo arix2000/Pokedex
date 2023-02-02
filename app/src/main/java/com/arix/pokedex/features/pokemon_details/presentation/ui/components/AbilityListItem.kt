@@ -24,10 +24,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.arix.pokedex.R
 import com.arix.pokedex.features.pokemon_list.domain.model.details.Ability
+import com.arix.pokedex.theme.FontSizes
 import com.arix.pokedex.theme.PokedexTheme
 import com.arix.pokedex.theme.PrimaryDark
 import com.arix.pokedex.theme.Shapes
-import com.arix.pokedex.theme.FontSizes
 import com.arix.pokedex.utils.MockResourceReader
 
 @Composable
@@ -46,10 +46,10 @@ fun AbilityListItem(ability: Ability) {
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
-                    text = ability.ability.name.capitalize(LocaleList.current).replace("-", " "),
+                    text = ability.name.capitalize(LocaleList.current).replace("-", " "),
                     fontSize = 18.sp
                 )
-                if (ability.is_hidden) {
+                if (ability.isHidden) {
                     Spacer(modifier = Modifier.width(5.dp))
                     HiddenLabel()
                 }

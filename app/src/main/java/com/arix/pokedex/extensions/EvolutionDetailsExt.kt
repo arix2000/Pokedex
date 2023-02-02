@@ -1,9 +1,9 @@
 package com.arix.pokedex.extensions
 
 import androidx.compose.runtime.Composable
-import com.arix.pokedex.features.pokemon_list.domain.model.details.TypeX
 import com.arix.pokedex.features.pokemon_details.domain.model.evolution_chain.EvolutionDetail
 import com.arix.pokedex.features.pokemon_details.domain.model.evolution_chain.Item
+import com.arix.pokedex.features.pokemon_list.domain.model.details.Type
 
 @Composable
 fun List<EvolutionDetail>.ScanEvolutionDetails(
@@ -14,7 +14,7 @@ fun List<EvolutionDetail>.ScanEvolutionDetails(
     evolveByTimeOfDay: @Composable (String) -> Unit,
     evolveByTrade: @Composable () -> Unit,
     evolveByKnownMove: @Composable (String) -> Unit,
-    evolveByKnownMoveType: @Composable (TypeX) -> Unit
+    evolveByKnownMoveType: @Composable (Type) -> Unit
 ) {
     val isAlreadyDoneList = mutableListOf<Boolean>()
     repeat(8) {
@@ -46,7 +46,7 @@ fun List<EvolutionDetail>.ScanEvolutionDetails(
             isAlreadyDoneList[5] = true
         }
         if (it.known_move_type != null && !isAlreadyDoneList[6]) {
-            evolveByKnownMoveType(it.known_move_type)
+            evolveByKnownMoveType(it.getKnownMoveType())
             isAlreadyDoneList[6] = true
         }
         if (it.held_item != null && !isAlreadyDoneList[7]) {

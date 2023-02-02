@@ -17,7 +17,7 @@ import com.arix.pokedex.features.pokemon_list.domain.model.details.PokemonDetail
 import com.arix.pokedex.features.pokemon_list.presentation.PokemonListViewModel
 import com.arix.pokedex.features.pokemon_list.presentation.ui.components.PokemonListItem
 import com.arix.pokedex.theme.PokedexTheme
-import com.arix.pokedex.utils.Resource
+import com.arix.pokedex.utils.ApiResponse
 import org.koin.androidx.compose.get
 import org.koin.androidx.compose.getViewModel
 
@@ -35,7 +35,7 @@ fun PokemonListScreen(
 @Composable
 fun PokemonGrid(
     pokemonNames: List<String>,
-    namesToPokemonResponses: suspend (List<String>) -> List<Resource<PokemonDetails>>,
+    namesToPokemonResponses: suspend (List<String>) -> List<ApiResponse<PokemonDetails>>,
     navigator: Navigator = get()
 ) {
     SearchableLazyColumn(

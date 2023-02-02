@@ -18,11 +18,11 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.arix.pokedex.R
 import com.arix.pokedex.extensions.ScanEvolutionDetails
-import com.arix.pokedex.features.pokemon_list.domain.model.details.TypeX
 import com.arix.pokedex.features.pokemon_details.domain.model.evolution_chain.EvolutionDetail
 import com.arix.pokedex.features.pokemon_details.domain.model.evolution_chain.Item
-import com.arix.pokedex.theme.GrayA75
+import com.arix.pokedex.features.pokemon_list.domain.model.details.Type
 import com.arix.pokedex.theme.FontSizes
+import com.arix.pokedex.theme.GrayA75
 
 @Composable
 fun EvolutionRuleView(evolutionDetails: List<EvolutionDetail>) {
@@ -96,7 +96,7 @@ private fun EvolutionRuleText(text: AnnotatedString) {
 
 
 @Composable
-private fun buildKnownMoveTypeAnnotatedString(type: TypeX) =
+private fun buildKnownMoveTypeAnnotatedString(type: Type) =
     buildAnnotatedString {
         append("Knows ")
         append(

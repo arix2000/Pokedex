@@ -230,7 +230,7 @@ private fun MoveDetailsTilesPreview() {
     val move = remember { MockResourceReader(context).getPokemonMoveMock() }
     PokedexTheme {
         Surface {
-            MoveDetailsTiles(UiMove.fromMove(move))
+            MoveDetailsTiles(UiMove.fromRaw(move))
         }
     }
 }

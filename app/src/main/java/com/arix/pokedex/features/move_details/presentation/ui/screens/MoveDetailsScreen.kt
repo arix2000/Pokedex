@@ -72,7 +72,7 @@ private fun MoveDetailsScreenPreview() {
     val move = remember { MockResourceReader(context).getPokemonMoveMock() }
     PokedexTheme {
         Surface {
-            MoveDetailsScreenContent(UiMove.fromMove(move), Navigator())
+            MoveDetailsScreenContent(UiMove.fromRaw(move), Navigator())
         }
     }
 }

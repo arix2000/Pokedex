@@ -12,7 +12,7 @@ import com.arix.pokedex.core.errors.NoConnectionError
 import com.arix.pokedex.extensions.*
 import com.arix.pokedex.features.common.search_view.ui.SearchableLazyColumnEvent
 import com.arix.pokedex.features.common.search_view.ui.SearchableLazyColumnState
-import com.arix.pokedex.utils.Resource
+import com.arix.pokedex.utils.ApiResponse
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
@@ -20,7 +20,7 @@ class SearchableLazyColumnViewModel<T>(
     private val itemNames: List<String>,
     private val itemsLimit: Int,
     private val emptyItem: T,
-    private val objectFromNames: suspend (List<String>) -> List<Resource<T>>
+    private val objectFromNames: suspend (List<String>) -> List<ApiResponse<T>>
 ) : ViewModel() {
 
     private val _state = mutableStateOf(SearchableLazyColumnState<T>())
@@ -99,7 +99,7 @@ class SearchableLazyColumnViewModel<T>(
         getItemsByNameJob?.invokeOnCompletion { onJobCompleted() }
     }
 
-    private fun handleResults(nextMoves: List<Resource<T>>) {
+    private fun handleResults(nextMoves: List<ApiResponse<T>>) {
         _state.run {
             when {
                 nextMoves.ifAllErrors() -> value = value.copy(
@@ -113,7 +113,7 @@ class SearchableLazyColumnViewModel<T>(
                     items = (value.items ?: emptyList()).plus(nextMoves.map {
                         it.data ?: emptyItem
                     }),
-                    error = ConnectionUnstableError(nextMoves.firstOrNull { it is Resource.Error }?.message)
+                    error = ConnectionUnstableError(nextMoves.firstOrNull { it is ApiResponse.Error }?.message)
                 )
             }
         }

@@ -18,8 +18,6 @@ import com.arix.pokedex.R
 import com.arix.pokedex.extensions.hasOneItem
 import com.arix.pokedex.extensions.isPreview
 import com.arix.pokedex.features.common.AppTopBar
-import com.arix.pokedex.features.pokemon_list.domain.model.details.Ability
-import com.arix.pokedex.features.pokemon_list.domain.model.details.PokemonDetails
 import com.arix.pokedex.features.pokemon_details.domain.model.evolution_chain.PokemonEvolutionChain
 import com.arix.pokedex.features.pokemon_details.domain.model.species.PokemonSpecies
 import com.arix.pokedex.features.pokemon_details.domain.model.species.Variety
@@ -31,6 +29,8 @@ import com.arix.pokedex.features.pokemon_details.presentation.ui.components.expa
 import com.arix.pokedex.features.pokemon_details.presentation.ui.components.forms.VariantsView
 import com.arix.pokedex.features.pokemon_details.presentation.ui.components.full_screen_image_dialog.FullScreenImageDialog
 import com.arix.pokedex.features.pokemon_details.presentation.ui.components.header.PokemonDetailsHeader
+import com.arix.pokedex.features.pokemon_list.domain.model.details.Ability
+import com.arix.pokedex.features.pokemon_list.domain.model.details.PokemonDetails
 import com.arix.pokedex.theme.PokedexTheme
 import com.arix.pokedex.utils.MockResourceReader
 import com.arix.pokedex.views.DefaultProgressIndicatorScreen
@@ -65,6 +65,7 @@ fun PokemonDetailsScreenContent(
     evolutionChain: PokemonEvolutionChain
 ) {
     val isDialogShowed = remember { mutableStateOf(false) }
+    var clickedImageUrl by remember { mutableStateOf(pokemonDetails.sprites.front_default) }
 
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
@@ -74,6 +75,7 @@ fun PokemonDetailsScreenContent(
                 .verticalScroll(rememberScrollState()),
         ) {
             PokemonDetailsHeader(pokemonDetails, species, onImageClicked = {
+                clickedImageUrl = it
                 isDialogShowed.value = true
             })
             Spacer(modifier = Modifier.height(12.dp))
@@ -103,7 +105,7 @@ fun PokemonDetailsScreenContent(
     }
     FullScreenImageDialog(
         isDialogShowed = isDialogShowed,
-        imageUrl = pokemonDetails.sprites.other.official_artwork.front_default
+        imageUrl = clickedImageUrl
     )
 }
 
