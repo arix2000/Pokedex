@@ -1,5 +1,7 @@
 package com.arix.pokedex.core.di
 
+import com.arix.pokedex.features.items.data.data_sources.ItemLocalDataSource
+import com.arix.pokedex.features.items.data.data_sources.ItemRemoteDataSource
 import com.arix.pokedex.features.moves.data.data_sources.MovesLocalDataSource
 import com.arix.pokedex.features.moves.data.data_sources.MovesRemoteDataSource
 import com.arix.pokedex.features.pokemon_list.data.data_sources.PokemonLocalDataSource
@@ -17,4 +19,8 @@ val dataSourceModule = module {
     factory { MovesRemoteDataSource(get()) }
 
     factory { MovesLocalDataSource(get()) }
+
+    factory { ItemRemoteDataSource(get()) }
+
+    factory { ItemLocalDataSource(get()) }
 }
