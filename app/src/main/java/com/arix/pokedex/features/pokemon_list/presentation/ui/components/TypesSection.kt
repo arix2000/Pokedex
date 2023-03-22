@@ -13,9 +13,8 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import com.arix.pokedex.features.pokemon_list.domain.model.details.Type
-import com.arix.pokedex.features.pokemon_list.domain.model.details.TypeX
-import com.arix.pokedex.theme.PokedexTheme
 import com.arix.pokedex.theme.FontSizes
+import com.arix.pokedex.theme.PokedexTheme
 
 @Composable
 fun TypesSection(
@@ -26,14 +25,14 @@ fun TypesSection(
 ) {
     Row(horizontalArrangement = Arrangement.Center) {
         types.forEach {
-            TypeItem(it.type, modifier, itemFontSize)
+            TypeItem(it, modifier, itemFontSize)
             Spacer(modifier = Modifier.width(spacing))
         }
     }
 }
 
 @Composable
-fun TypeItem(type: TypeX, modifier: Modifier = Modifier, itemFontSize: TextUnit) {
+fun TypeItem(type: Type, modifier: Modifier = Modifier, itemFontSize: TextUnit) {
     Box(
         modifier = modifier
             .background(type.getTypeColor(), CircleShape)
@@ -52,8 +51,8 @@ private fun TypesSectionPreview() {
         Surface {
             TypesSection(
                 types = listOf(
-                    Type(1, TypeX("fighting", "")),
-                    Type(2, TypeX("electric", ""))
+                    Type("fighting"),
+                    Type("electric")
                 ),
                 spacing = 2.dp,
                 itemFontSize = FontSizes.minimum

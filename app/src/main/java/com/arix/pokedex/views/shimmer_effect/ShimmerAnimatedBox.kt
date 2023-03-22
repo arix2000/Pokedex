@@ -30,7 +30,7 @@ fun ShimmerAnimatedBox(
 @Preview
 private fun ShimmerBoxPreview() {
     PokedexTheme {
-        Surface() {
+        Surface {
             ShimmerAnimatedBox(modifier = Modifier.size(100.dp))
         }
     }

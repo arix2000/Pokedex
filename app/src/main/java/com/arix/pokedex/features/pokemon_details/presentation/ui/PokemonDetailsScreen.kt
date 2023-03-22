@@ -6,9 +6,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.rememberScaffoldState
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -20,8 +18,6 @@ import com.arix.pokedex.R
 import com.arix.pokedex.extensions.hasOneItem
 import com.arix.pokedex.extensions.isPreview
 import com.arix.pokedex.features.common.AppTopBar
-import com.arix.pokedex.features.pokemon_list.domain.model.details.Ability
-import com.arix.pokedex.features.pokemon_list.domain.model.details.PokemonDetails
 import com.arix.pokedex.features.pokemon_details.domain.model.evolution_chain.PokemonEvolutionChain
 import com.arix.pokedex.features.pokemon_details.domain.model.species.PokemonSpecies
 import com.arix.pokedex.features.pokemon_details.domain.model.species.Variety
@@ -31,7 +27,10 @@ import com.arix.pokedex.features.pokemon_details.presentation.ui.components.deta
 import com.arix.pokedex.features.pokemon_details.presentation.ui.components.evolution_chain.EvolutionChainView
 import com.arix.pokedex.features.pokemon_details.presentation.ui.components.expandable_section.ExpandableSection
 import com.arix.pokedex.features.pokemon_details.presentation.ui.components.forms.VariantsView
+import com.arix.pokedex.features.pokemon_details.presentation.ui.components.full_screen_image_dialog.FullScreenImageDialog
 import com.arix.pokedex.features.pokemon_details.presentation.ui.components.header.PokemonDetailsHeader
+import com.arix.pokedex.features.pokemon_list.domain.model.details.Ability
+import com.arix.pokedex.features.pokemon_list.domain.model.details.PokemonDetails
 import com.arix.pokedex.theme.PokedexTheme
 import com.arix.pokedex.utils.MockResourceReader
 import com.arix.pokedex.views.DefaultProgressIndicatorScreen
@@ -40,8 +39,7 @@ import org.koin.androidx.compose.getViewModel
 @Composable
 fun PokemonDetailsScreen(
     pokemonName: String,
-    viewModel: PokemonDetailsViewModel = getViewModel(),
-    navigateToPokemonDetails: (String) -> Unit
+    viewModel: PokemonDetailsViewModel = getViewModel()
 ) {
     val state = viewModel.state.value
 
@@ -56,8 +54,7 @@ fun PokemonDetailsScreen(
         PokemonDetailsScreenContent(
             state.pokemonDetails,
             state.species,
-            state.evolutionChain,
-            navigateToPokemonDetails
+            state.evolutionChain
         )
 }
 
@@ -65,9 +62,11 @@ fun PokemonDetailsScreen(
 fun PokemonDetailsScreenContent(
     pokemonDetails: PokemonDetails,
     species: PokemonSpecies,
-    evolutionChain: PokemonEvolutionChain,
-    navigateToPokemonDetails: (String) -> Unit
+    evolutionChain: PokemonEvolutionChain
 ) {
+    val isDialogShowed = remember { mutableStateOf(false) }
+    var clickedImageUrl by remember { mutableStateOf(pokemonDetails.sprites.front_default) }
+
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -75,7 +74,10 @@ fun PokemonDetailsScreenContent(
                 .fillMaxWidth()
                 .verticalScroll(rememberScrollState()),
         ) {
-            PokemonDetailsHeader(pokemonDetails, species)
+            PokemonDetailsHeader(pokemonDetails, species, onImageClicked = {
+                clickedImageUrl = it
+                isDialogShowed.value = true
+            })
             Spacer(modifier = Modifier.height(12.dp))
             ExpandableSection(
                 title = stringResource(R.string.details_title),
@@ -90,40 +92,34 @@ fun PokemonDetailsScreenContent(
             Spacer(modifier = Modifier.height(10.dp))
             EvolutionChainSection(
                 pokemonDetails,
-                evolutionChain,
-                navigateToPokemonDetails
+                evolutionChain
             )
             Spacer(modifier = Modifier.height(10.dp))
             AbilitiesSection(pokemonDetails.abilities)
             Spacer(modifier = Modifier.height(10.dp))
             if (!(species.varieties.hasOneItem() && species.varieties.first().is_default)) {
-                VarietiesSection(
-                    pokemonDetails.name,
-                    species.varieties,
-                    navigateToPokemonDetails
-                )
+                VarietiesSection(pokemonDetails.name, species.varieties)
                 Spacer(modifier = Modifier.height(10.dp))
             }
         }
     }
+    FullScreenImageDialog(
+        isDialogShowed = isDialogShowed,
+        imageUrl = clickedImageUrl
+    )
 }
 
 @Composable
 private fun EvolutionChainSection(
     pokemonDetails: PokemonDetails,
-    evolutionChain: PokemonEvolutionChain,
-    navigateToPokemonDetails: (String) -> Unit
+    evolutionChain: PokemonEvolutionChain
 ) {
     ExpandableSection(
         title = stringResource(R.string.evolution_chain_title),
         expandedInitially = true
     ) {
         if (!isPreview())
-            EvolutionChainView(
-                pokemonDetails,
-                evolutionChain,
-                navigateToPokemonDetails
-            )
+            EvolutionChainView(pokemonDetails, evolutionChain)
         else DefaultProgressIndicatorScreen(
             modifier = Modifier
                 .fillMaxWidth()
@@ -148,17 +144,12 @@ private fun AbilitiesSection(abilities: List<Ability>) {
 private fun VarietiesSection(
     rootPokemonDetailsName: String,
     varieties: List<Variety>,
-    navigateToPokemonDetails: (String) -> Unit
 ) {
     ExpandableSection(
         title = stringResource(R.string.pokemon_details_variants)
     ) {
         if (!isPreview())
-            VariantsView(
-                rootPokemonDetailsName,
-                varieties,
-                navigateToPokemonDetails
-            )
+            VariantsView(rootPokemonDetailsName, varieties)
     }
 }
 
@@ -182,7 +173,7 @@ private fun PokemonDetailsScreenContentPreview() {
                     pokemonDetails,
                     pokemonSpecies,
                     pokemonEvolutionChain
-                ) { }
+                )
             }
         }
     }

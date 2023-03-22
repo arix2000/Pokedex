@@ -18,6 +18,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.arix.pokedex.R
+import com.arix.pokedex.core.navigation.Navigator
 import com.arix.pokedex.features.move_details.presentation.MoveDetailsViewModel
 import com.arix.pokedex.features.move_details.presentation.ui.MoveDetailsEvent
 import com.arix.pokedex.features.move_details.presentation.ui.components.GridView
@@ -30,23 +31,24 @@ import com.arix.pokedex.theme.FontSizes
 import com.arix.pokedex.utils.MockResourceReader
 import com.arix.pokedex.views.DefaultProgressIndicatorScreen
 import com.arix.pokedex.views.ErrorScreenWithRetryButton
+import org.koin.androidx.compose.get
 import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun LearnedByPokemonSection(
     pokemonNames: List<PokemonBasicData>,
-    navigateToPokemonDetails: (String) -> Unit,
-    navigateToLearnedByPokemonList: (List<String>) -> Unit,
+    onSeeAllClicked: (List<String>) -> Unit,
     viewModel: MoveDetailsViewModel = getViewModel()
 ) {
 
     val state = viewModel.learnedByPokemonState.value
 
     when {
-        state.pokemonList != null -> LearnedByPokemonSectionContent(state.pokemonList,
-            navigateToPokemonDetails,
-            navigateToLearnedByPokemonList,
-            pokemonNames.map { it.name })
+        state.pokemonList != null -> LearnedByPokemonSectionContent(
+            state.pokemonList,
+            onSeeAllClicked,
+            pokemonNames.map { it.name },
+        )
         state.isLoading -> DefaultProgressIndicatorScreen(modifier = Modifier.height(100.dp))
         state.errorMessage != null -> ErrorScreenWithRetryButton {
             viewModel.invokeEvent(MoveDetailsEvent.LoadLearnedBySection(pokemonNames))
@@ -57,9 +59,9 @@ fun LearnedByPokemonSection(
 @Composable
 fun LearnedByPokemonSectionContent(
     pokemonList: List<PokemonDetails>,
-    navigateToPokemonDetails: (String) -> Unit,
-    navigateToLearnedByPokemonList: (List<String>) -> Unit,
-    pokemonNames: List<String>
+    onSeeAllClicked: (pokemonNames: List<String>) -> Unit,
+    pokemonNames: List<String>,
+    navigator: Navigator = get()
 ) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -75,7 +77,7 @@ fun LearnedByPokemonSectionContent(
         )
         if (pokemonNames.size > 6)
             Button(
-                onClick = { navigateToLearnedByPokemonList(pokemonNames); },
+                onClick = { onSeeAllClicked(pokemonNames); },
                 contentPadding = PaddingValues(
                     top = 3.dp, bottom = 3.dp, start = 10.dp, end = 5.dp
                 ),
@@ -99,7 +101,7 @@ fun LearnedByPokemonSectionContent(
                 .fillMaxWidth()
                 .height(240.dp)
         ) {
-            navigateToPokemonDetails(it.name)
+            navigator.goToPokemonDetails(it.name)
         }
     }
 }
@@ -116,7 +118,7 @@ private fun LearnedByPokemonSectionPreview() {
     PokedexTheme {
         Surface {
             Column {
-                LearnedByPokemonSectionContent(pokeList, {}, {}, pokeNames)
+                LearnedByPokemonSectionContent(pokeList, {}, pokeNames, Navigator())
             }
         }
     }

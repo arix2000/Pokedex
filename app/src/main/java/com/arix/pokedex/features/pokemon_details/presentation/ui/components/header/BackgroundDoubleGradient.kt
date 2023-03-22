@@ -15,7 +15,6 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import com.arix.pokedex.features.pokemon_list.domain.model.details.Type
-import com.arix.pokedex.features.pokemon_list.domain.model.details.TypeX
 import com.arix.pokedex.theme.PokedexTheme
 
 @Composable
@@ -96,8 +95,8 @@ fun BackgroundDoubleCornerGradientPreview() {
             Box(modifier = Modifier.fillMaxWidth()) {
                 BackgroundGradientBasedOn(
                     types = listOf(
-                        Type(0, TypeX("grass", "")),
-                        Type(0, TypeX("fire", ""))
+                        Type("grass"),
+                        Type("fire")
                     )
                 )
             }
@@ -113,7 +112,7 @@ fun BackgroundGradientFromTopPreview() {
             Box(modifier = Modifier.fillMaxWidth()) {
                 BackgroundGradientBasedOn(
                     types = listOf(
-                        Type(0, TypeX("grass", ""))
+                        Type("grass")
                     )
                 )
             }

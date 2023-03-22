@@ -36,7 +36,7 @@ inline fun <reified T> SearchableLazyColumn(
     searchParams: SearchParams<T>,
     viewModel: SearchableLazyColumnViewModel<T> = getViewModel(qualifier = named(T::class.java.simpleName)) {
         with(searchParams) {
-            parametersOf(itemNames, itemsLimit, emptyItem, objectFromNames)
+            parametersOf(itemNames, itemsLimit, emptyItem, objectsFromNames)
         }
     },
     noinline searchableContent: LazyListScope.(List<T>) -> Unit

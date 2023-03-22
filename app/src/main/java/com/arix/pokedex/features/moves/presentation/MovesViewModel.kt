@@ -4,11 +4,11 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.arix.pokedex.features.moves.domain.model.Move
+import com.arix.pokedex.features.move_details.domain.model.UiMove
 import com.arix.pokedex.features.moves.domain.use_cases.GetMoveNamesUseCase
 import com.arix.pokedex.features.moves.domain.use_cases.GetMovesByNamesUseCase
 import com.arix.pokedex.features.moves.presentation.ui.MovesScreenState
-import com.arix.pokedex.utils.Resource
+import com.arix.pokedex.utils.ApiResponse
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
@@ -32,7 +32,7 @@ class MovesViewModel(
         }
     }
 
-    suspend fun getMoveListFrom(moveNames: List<String>): List<Resource<Move>> {
+    suspend fun getMoveListFrom(moveNames: List<String>): List<ApiResponse<UiMove>> {
         return getMovesByNamesUseCase(moveNames)
     }
 }

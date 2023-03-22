@@ -1,7 +1,8 @@
 package com.arix.pokedex.features.pokemon_details.domain.model.evolution_chain
 
 import com.arix.pokedex.features.moves.domain.model.move_list.MoveLink
-import com.arix.pokedex.features.pokemon_list.domain.model.details.TypeX
+import com.arix.pokedex.features.pokemon_list.domain.model.details.Type
+import com.arix.pokedex.features.pokemon_list.domain.model.details.raw.TypeX
 
 data class EvolutionDetail(
     val gender: Any?,
@@ -22,4 +23,8 @@ data class EvolutionDetail(
     val trade_species: Any?,
     val trigger: Trigger,
     val turn_upside_down: Boolean?
-)
+) {
+    fun getKnownMoveType(): Type {
+        return Type(known_move_type?.name ?: "")
+    }
+}

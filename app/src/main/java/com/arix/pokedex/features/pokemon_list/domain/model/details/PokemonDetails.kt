@@ -3,21 +3,15 @@ package com.arix.pokedex.features.pokemon_list.domain.model.details
 import com.arix.pokedex.core.Constants.UnitsOfMeasure.KG
 import com.arix.pokedex.core.Constants.UnitsOfMeasure.M
 import com.arix.pokedex.extensions.formatToUserFriendlyString
+import com.arix.pokedex.features.pokemon_list.domain.model.details.raw.*
 
 data class PokemonDetails(
     val abilities: List<Ability>,
-    val base_experience: Int,
-    val forms: List<Form>,
-    val game_indices: List<GameIndice>,
     val height: Int,
-    val held_items: List<Any>,
     val id: Int,
-    val is_default: Boolean,
-    val location_area_encounters: String,
-    val moves: List<MoveWrapper>,
+    val locationAreaEncounters: String,
+    val moves: List<String>,
     val name: String,
-    val order: Int,
-    val past_types: List<Any>,
     val species: Species,
     val sprites: Sprites,
     val stats: List<Stat>,
@@ -31,10 +25,30 @@ data class PokemonDetails(
 
     companion object {
         val EMPTY = PokemonDetails(
-            emptyList(), 1, emptyList(),
-            emptyList(), 1, emptyList(), 1, false, "",
-            emptyList(), "", 1, emptyList(), Species("", ""), Sprites.EMPTY,
+            emptyList(), 1, 1, "",
+            emptyList(), "", Species("", ""), Sprites("", ""),
             emptyList(), emptyList(), 1,
         )
+
+        fun fromRaw(raw: RawPokemonDetails): PokemonDetails {
+            with(raw) {
+                return PokemonDetails(
+                    abilities.map { Ability(it.ability.name, it.ability.url, it.is_hidden) },
+                    height,
+                    id,
+                    location_area_encounters,
+                    moves.map { it.move.name },
+                    name,
+                    species,
+                    Sprites(
+                        sprites.other.official_artwork.front_default,
+                        sprites.other.official_artwork.front_shiny
+                    ),
+                    stats.map { Stat(it.base_stat, it.effort, it.stat.name) },
+                    types.map { Type(it.type.name) },
+                    weight
+                )
+            }
+        }
     }
 }

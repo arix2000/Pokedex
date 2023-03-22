@@ -6,6 +6,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import com.arix.pokedex.extensions.gridItems
+import com.arix.pokedex.features.items.presentation.ui.components.ItemListItem
 import com.arix.pokedex.features.moves.presentation.ui.components.MoveListItem
 import com.arix.pokedex.features.pokemon_list.presentation.ui.components.PokemonListItem
 import com.arix.pokedex.theme.PokedexTheme
@@ -50,6 +51,28 @@ private fun SearchableLazyColumnMovesPreview() {
                         PokemonListItem(it)
                     }
                 }) {}
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun SearchableLazyColumnItemsPreview() {
+    PokedexTheme {
+        Surface {
+            val context = LocalContext.current
+            val items = remember { MockResourceReader(context).getPokemonItemListMock() }
+
+            SearchableLazyColumnContent(
+                state = SearchableLazyColumnState(
+                    items = items,
+                ),
+                searchableContent = {
+                    items(items.size) {
+                        ItemListItem(items[it]) {}
+                    }
+                },
+            ) {}
         }
     }
 }

@@ -6,13 +6,12 @@ import androidx.lifecycle.viewModelScope
 import com.arix.pokedex.core.Constants.MoveScreen.LEARNED_BY_POKEMON_LIST_MAX_SIZE
 import com.arix.pokedex.extensions.ifAllErrors
 import com.arix.pokedex.features.move_details.domain.GetMoveUseCase
-import com.arix.pokedex.features.move_details.domain.model.UiMove
 import com.arix.pokedex.features.move_details.presentation.ui.MoveDetailsEvent
 import com.arix.pokedex.features.move_details.presentation.ui.MoveDetailsState
 import com.arix.pokedex.features.move_details.presentation.ui.components.learnedByPokemon.LearnedByPokemonState
 import com.arix.pokedex.features.pokemon_list.domain.model.list.PokemonBasicData
 import com.arix.pokedex.features.pokemon_list.domain.use_cases.GetPokemonListByNamesUseCase
-import com.arix.pokedex.utils.Resource
+import com.arix.pokedex.utils.ApiResponse
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
@@ -43,15 +42,15 @@ class MoveDetailsViewModel(
                 value = value.copy(isLoading = true)
                 val response = getMoveUseCase(moveId.toString())
                 value = when (response) {
-                    is Resource.Success -> {
-                        val move = UiMove.fromMove(response.data!!)
+                    is ApiResponse.Success -> {
+                        val move = response.data!!
                         loadLearnedByPokemonList(move.learned_by_pokemon)
                         value.copy(
                             move = move,
                             isLoading = false
                         )
                     }
-                    is Resource.Error -> value.copy(
+                    is ApiResponse.Error -> value.copy(
                         errorMessage = response.message,
                         isLoading = false
                     )

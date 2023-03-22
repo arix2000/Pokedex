@@ -78,7 +78,7 @@ private fun BaseMoveInfo(move: UiMove) {
             )
         }
         BorderedTextTile(
-            value = description ?: stringResource(R.string.desc_not_found),
+            text = description ?: stringResource(R.string.desc_not_found),
             borderColor = typeColor,
             modifier = Modifier
                 .fillMaxWidth()
@@ -113,7 +113,7 @@ private fun EffectMoveInfo(move: UiMove) {
         )
     }
     BorderedTextTile(
-        value = move.effectDesc ?: stringResource(R.string.effect_desc_not_found),
+        text = move.effectDesc ?: stringResource(R.string.effect_desc_not_found),
         borderColor = move.typeColor,
         modifier = Modifier
             .fillMaxWidth()
@@ -230,7 +230,7 @@ private fun MoveDetailsTilesPreview() {
     val move = remember { MockResourceReader(context).getPokemonMoveMock() }
     PokedexTheme {
         Surface {
-            MoveDetailsTiles(UiMove.fromMove(move))
+            MoveDetailsTiles(move)
         }
     }
 }

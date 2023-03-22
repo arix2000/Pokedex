@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.arix.pokedex.core.Constants.PokemonListScreen.POKEMON_LIST_ITEM_LIMIT
+import com.arix.pokedex.core.navigation.Navigator
 import com.arix.pokedex.extensions.gridItems
 import com.arix.pokedex.features.common.search_view.domain.SearchParams
 import com.arix.pokedex.features.common.search_view.ui.SearchableLazyColumn
@@ -16,33 +17,33 @@ import com.arix.pokedex.features.pokemon_list.domain.model.details.PokemonDetail
 import com.arix.pokedex.features.pokemon_list.presentation.PokemonListViewModel
 import com.arix.pokedex.features.pokemon_list.presentation.ui.components.PokemonListItem
 import com.arix.pokedex.theme.PokedexTheme
-import com.arix.pokedex.utils.Resource
+import com.arix.pokedex.utils.ApiResponse
+import org.koin.androidx.compose.get
 import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun PokemonListScreen(
-    viewModel: PokemonListViewModel = getViewModel(),
-    navigateToPokemonDetails: (String) -> Unit
+    viewModel: PokemonListViewModel = getViewModel()
 ) {
     val state = viewModel.state.value
     if (state.pokemonNames != null)
-        PokemonGrid(state.pokemonNames, navigateToPokemonDetails) {
+        PokemonGrid(state.pokemonNames, namesToPokemonResponses = {
             viewModel.getPokemonListFrom(it)
-        }
+        })
 }
 
 @Composable
 fun PokemonGrid(
     pokemonNames: List<String>,
-    navigateToPokemonDetails: (String) -> Unit,
-    namesToPokemonResponses: suspend (List<String>) -> List<Resource<PokemonDetails>>
+    namesToPokemonResponses: suspend (List<String>) -> List<ApiResponse<PokemonDetails>>,
+    navigator: Navigator = get()
 ) {
     SearchableLazyColumn(
         SearchParams(
             itemNames = pokemonNames,
             itemsLimit = POKEMON_LIST_ITEM_LIMIT,
             emptyItem = PokemonDetails.EMPTY,
-            objectFromNames = namesToPokemonResponses
+            objectsFromNames = namesToPokemonResponses
         )
     ) { pokemonList ->
         gridItems(pokemonList, cells = 2) {
@@ -52,7 +53,7 @@ fun PokemonGrid(
                     .fillMaxWidth()
                     .height(240.dp)
             ) {
-                navigateToPokemonDetails(it.name)
+                navigator.goToPokemonDetails(it.name)
             }
         }
     }

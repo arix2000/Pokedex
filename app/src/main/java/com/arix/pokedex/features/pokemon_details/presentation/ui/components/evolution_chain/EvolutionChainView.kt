@@ -16,6 +16,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.arix.pokedex.R
+import com.arix.pokedex.core.navigation.Navigator
 import com.arix.pokedex.extensions.hasOneItem
 import com.arix.pokedex.extensions.isLastElement
 import com.arix.pokedex.extensions.isNotFirstElement
@@ -32,13 +33,13 @@ import com.arix.pokedex.theme.PokedexTheme
 import com.arix.pokedex.utils.MockResourceReader
 import com.arix.pokedex.utils.drawVerticalScrollbar
 import com.arix.pokedex.views.shimmer_effect.ShimmerAnimatedBox
+import org.koin.androidx.compose.get
 import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun EvolutionChainView(
     pokemonDetails: PokemonDetails,
     evolutionChain: PokemonEvolutionChain,
-    navigateToPokemonDetails: (String) -> Unit,
     viewModel: PokemonDetailsViewModel = getViewModel()
 ) {
     val state = viewModel.evolutionSectionState.value
@@ -62,8 +63,7 @@ fun EvolutionChainView(
         ) {
             EvolutionChainContent(
                 pokemonDetails,
-                state.pokemonEvolutionSteps,
-                navigateToPokemonDetails
+                state.pokemonEvolutionSteps
             )
         }
         state.errorMessage != null -> Text(text = stringResource(R.string.unexpected_error))
@@ -74,7 +74,7 @@ fun EvolutionChainView(
 private fun EvolutionChainContent(
     rootPokemonDetails: PokemonDetails,
     pokemonEvolutionSteps: List<EvolutionStep>,
-    navigateToPokemonDetails: (String) -> Unit
+    navigator: Navigator = get()
 ) {
     val commonScrollState = rememberScrollState()
     var positionArrow = remember { 0f }
@@ -130,7 +130,7 @@ private fun EvolutionChainContent(
                             .width(155.dp)
                             .height(230.dp),
                         onClick = if (rootPokemonDetails.name != it.pokemonDetails.name) {
-                            { navigateToPokemonDetails(it.pokemonDetails.name) }
+                            { navigator.goToPokemonDetails(it.pokemonDetails.name) }
                         } else null
                     )
                     if (evolutionStep.pokemonEvolutionDetails.isLastElement(it))
@@ -182,8 +182,9 @@ fun EvolutionChainContentPreview() {
                                 )
                             )
                         )
-                    )
-                ) {}
+                    ),
+                    Navigator()
+                )
             }
         }
     }

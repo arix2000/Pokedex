@@ -8,7 +8,7 @@ import com.arix.pokedex.features.pokemon_list.domain.model.details.PokemonDetail
 import com.arix.pokedex.features.pokemon_list.domain.use_cases.GetPokemonListByNamesUseCase
 import com.arix.pokedex.features.pokemon_list.domain.use_cases.GetPokemonNamesUseCase
 import com.arix.pokedex.features.pokemon_list.presentation.ui.PokemonListState
-import com.arix.pokedex.utils.Resource
+import com.arix.pokedex.utils.ApiResponse
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
@@ -32,7 +32,7 @@ class PokemonListViewModel(
         }
     }
 
-    suspend fun getPokemonListFrom(names: List<String>): List<Resource<PokemonDetails>> {
+    suspend fun getPokemonListFrom(names: List<String>): List<ApiResponse<PokemonDetails>> {
         return getPokemonListByNames(names)
     }
 }

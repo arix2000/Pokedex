@@ -16,16 +16,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.arix.pokedex.extensions.clickableOnceInTime
 import com.arix.pokedex.extensions.toSentenceCase
-import com.arix.pokedex.features.moves.domain.model.Move
-import com.arix.pokedex.features.pokemon_list.domain.model.details.TypeX
+import com.arix.pokedex.features.move_details.domain.model.UiMove
+import com.arix.pokedex.features.pokemon_list.domain.model.details.Type
 import com.arix.pokedex.features.pokemon_list.presentation.ui.components.TypeItem
+import com.arix.pokedex.theme.FontSizes
 import com.arix.pokedex.theme.PokedexTheme
 import com.arix.pokedex.theme.Shapes
-import com.arix.pokedex.theme.FontSizes
 import com.arix.pokedex.utils.MockResourceReader
 
 @Composable
-fun MoveListItem(move: Move, onClick: (moveId: String) -> Unit) {
+fun MoveListItem(move: UiMove, onClick: (moveId: String) -> Unit) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
@@ -46,7 +46,6 @@ fun MoveListItem(move: Move, onClick: (moveId: String) -> Unit) {
             modifier = Modifier.fillMaxWidth().weight(1f)
         )
         Box {
-
             Surface(elevation = 2.dp, shape = Shapes.large, color = Color.Transparent) {
                 TypeItem(type = move.type, itemFontSize = FontSizes.minimum)
             }
@@ -54,7 +53,7 @@ fun MoveListItem(move: Move, onClick: (moveId: String) -> Unit) {
     }
 }
 
-private fun getBrushBasedBy(type: TypeX): Brush {
+private fun getBrushBasedBy(type: Type): Brush {
     return Brush.horizontalGradient(
         colors = listOf(
             Color.Black,

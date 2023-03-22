@@ -15,9 +15,8 @@ import org.koin.androidx.compose.getViewModel
 fun LearnedByPokemonFullList(
     pokemonNames: List<String>,
     viewModel: LearnedByPokemonFullListViewModel = getViewModel(),
-    navigateToPokemonDetails: (String) -> Unit
 ) {
-    PokemonGrid(pokemonNames, navigateToPokemonDetails, namesToPokemonResponses = {
+    PokemonGrid(pokemonNames, namesToPokemonResponses = {
         viewModel.getPokemonListFrom(it)
     })
 }

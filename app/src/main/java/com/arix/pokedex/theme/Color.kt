@@ -5,6 +5,7 @@ import androidx.compose.ui.graphics.Color
 val Primary = Color(0xFF950101)
 val PrimaryDark = Color(0xFF3D0000)
 val Accent = Color(0xFFFF0000)
+val DefaultBackgroundColorA90 = Color(0xE6121212)
 
 val BlackSoft = Color(0xFF090909)
 val BlackSoftA50 = Color(0x80090909)
@@ -44,4 +45,15 @@ object TypeColors {
 
     /** Additional Move Type **/
     val shadow = Color(0xFF452B74)
+}
+
+object ItemCategoryColors {
+    val items = Color(0xFFD0688F)
+    val berries = Color(0xFF00B65E)
+    val pokeBalls = Color(0xFFDF4F3A)
+    val medicine = Color(0xFFE99D44)
+    val allMachines = Color(0xFF5485E6)
+    val key = Color(0xFFA062E4)
+    val battle = Color(0xFFA20808)
+    val mail = Color(0xFF009688)
 }

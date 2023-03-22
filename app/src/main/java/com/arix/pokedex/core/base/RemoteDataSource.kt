@@ -1,17 +1,17 @@
 package com.arix.pokedex.core.base
 
 import android.util.Log
-import com.arix.pokedex.utils.Resource
+import com.arix.pokedex.utils.ApiResponse
 
 abstract class RemoteDataSource {
 
-    suspend fun <T> makeHttpRequest(request: suspend () -> T): Resource<T> {
+    suspend fun <T> makeHttpRequest(request: suspend () -> T): ApiResponse<T> {
         val result = try {
             request.invoke()
         } catch (e: Exception) {
             Log.e("SERVER_ERROR", e.stackTraceToString())
-            return Resource.Error(e.message ?: "UnexpectedError")
+            return ApiResponse.Error(e.message ?: "UnexpectedError")
         }
-        return Resource.Success(result)
+        return ApiResponse.Success(result)
     }
 }

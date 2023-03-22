@@ -17,7 +17,7 @@ import com.arix.pokedex.features.pokemon_details.presentation.ui.PokemonDetailsE
 import com.arix.pokedex.features.pokemon_details.presentation.ui.states.PokemonDetailsState
 import com.arix.pokedex.features.pokemon_details.presentation.ui.states.PokemonEvolutionState
 import com.arix.pokedex.features.pokemon_details.presentation.ui.states.PokemonVarietiesState
-import com.arix.pokedex.utils.Resource
+import com.arix.pokedex.utils.ApiResponse
 import kotlinx.coroutines.*
 
 class PokemonDetailsViewModel(
@@ -59,11 +59,11 @@ class PokemonDetailsViewModel(
             _state.value = _state.value.copy(isLoading = true)
             with(getPokemonUseCase(pokemonName)) {
                 when (this) {
-                    is Resource.Success -> {
+                    is ApiResponse.Success -> {
                         _state.value = _state.value.copy(pokemonDetails = data)
                         getPokemonSpecies(data?.species?.name ?: "")
                     }
-                    is Resource.Error -> onError(message)
+                    is ApiResponse.Error -> onError(message)
                 }
             }
         }
@@ -73,11 +73,11 @@ class PokemonDetailsViewModel(
         viewModelScope.launch {
             with(getPokemonSpeciesUseCase(pokemonSpeciesName)) {
                 when (this) {
-                    is Resource.Success -> {
+                    is ApiResponse.Success -> {
                         _state.value = _state.value.copy(species = data)
                         getPokemonEvolutionChain(data?.evolution_chain?.url!!)
                     }
-                    is Resource.Error -> onError(message)
+                    is ApiResponse.Error -> onError(message)
                 }
             }
         }
@@ -87,9 +87,9 @@ class PokemonDetailsViewModel(
         viewModelScope.launch {
             with(getPokemonEvolutionChainUseCase(evolutionChainUrl.getIdFromUrl())) {
                 when (this) {
-                    is Resource.Success -> _state.value =
+                    is ApiResponse.Success -> _state.value =
                         _state.value.copy(evolutionChain = data, isLoading = false)
-                    is Resource.Error -> onError(message)
+                    is ApiResponse.Error -> onError(message)
                 }
             }
         }
@@ -131,8 +131,8 @@ class PokemonDetailsViewModel(
     private suspend fun getPokemon(id: Int): PokemonDetails {
         getPokemonUseCase(id.toString()).run {
             return when (this) {
-                is Resource.Success -> data!!
-                is Resource.Error -> PokemonDetails.EMPTY
+                is ApiResponse.Success -> data!!
+                is ApiResponse.Error -> PokemonDetails.EMPTY
             }
         }
     }

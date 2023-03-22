@@ -11,6 +11,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import com.arix.pokedex.core.navigation.Navigator
 import com.arix.pokedex.extensions.isPreview
 import com.arix.pokedex.features.move_details.domain.model.UiMove
 import com.arix.pokedex.features.move_details.presentation.MoveDetailsViewModel
@@ -23,13 +24,12 @@ import com.arix.pokedex.utils.MockResourceReader
 import com.arix.pokedex.views.DefaultProgressIndicatorScreen
 import com.arix.pokedex.views.ErrorScreenWithRetryButton
 import com.arix.pokedex.views.FadingHorizontalDivider
+import org.koin.androidx.compose.get
 import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun MoveDetailsScreen(
     moveId: Int,
-    navigateToPokemonDetails: (String) -> Unit,
-    navigateToLearnedByPokemonList: (List<String>, String) -> Unit,
     viewModel: MoveDetailsViewModel = getViewModel()
 ) {
     LaunchedEffect(key1 = true) {
@@ -39,8 +39,7 @@ fun MoveDetailsScreen(
     val state = viewModel.state.value
     when {
         state.move != null -> {
-            MoveDetailsScreenContent(
-                move = state.move, navigateToPokemonDetails, navigateToLearnedByPokemonList
+            MoveDetailsScreenContent(move = state.move
             )
         }
         state.isLoading -> DefaultProgressIndicatorScreen()
@@ -51,12 +50,7 @@ fun MoveDetailsScreen(
 }
 
 @Composable
-private fun MoveDetailsScreenContent(
-    move: UiMove,
-    navigateToPokemonDetails: (String) -> Unit,
-    navigateToLearnedByPokemonList: (List<String>, String) -> Unit
-) {
-
+private fun MoveDetailsScreenContent(move: UiMove, navigator: Navigator = get()) {
     Column(
         Modifier
             .fillMaxWidth()
@@ -67,8 +61,7 @@ private fun MoveDetailsScreenContent(
         MoveDetailsTiles(move)
         if (!isPreview())
             LearnedByPokemonSection(move.learned_by_pokemon,
-                navigateToPokemonDetails,
-                { navigateToLearnedByPokemonList(it, move.name) })
+                { navigator.goToLearnedByPokemonList(it, move.name) })
     }
 }
 
@@ -79,7 +72,7 @@ private fun MoveDetailsScreenPreview() {
     val move = remember { MockResourceReader(context).getPokemonMoveMock() }
     PokedexTheme {
         Surface {
-            MoveDetailsScreenContent(UiMove.fromMove(move), {}, { _, _ -> })
+            MoveDetailsScreenContent(move, Navigator())
         }
     }
 }

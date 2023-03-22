@@ -25,9 +25,9 @@ import com.arix.pokedex.R
 import com.arix.pokedex.extensions.clickableOnceInTime
 import com.arix.pokedex.features.pokemon_list.domain.model.details.PokemonDetails
 import com.arix.pokedex.features.pokemon_list.domain.model.details.Type
+import com.arix.pokedex.theme.FontSizes
 import com.arix.pokedex.theme.PokedexTheme
 import com.arix.pokedex.theme.Shapes
-import com.arix.pokedex.theme.FontSizes
 import com.arix.pokedex.utils.MockResourceReader
 import com.arix.pokedex.views.FadingHorizontalDivider
 import com.arix.pokedex.views.shimmer_effect.ShimmerAnimatedBox
@@ -55,7 +55,7 @@ fun PokemonListItem(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             AsyncImage(
-                model = pokemonDetails.sprites.other.official_artwork.front_default,
+                model = pokemonDetails.sprites.front_default,
                 contentDescription = pokemonDetails.name,
                 contentScale = ContentScale.FillWidth,
                 modifier = Modifier.fillMaxWidth(),
@@ -100,7 +100,7 @@ fun PokemonItemPreview() {
     val context = LocalContext.current
     val pokemonDetails = remember { MockResourceReader(context).getPokemonDetailsMock() }
     PokedexTheme {
-        Surface() {
+        Surface {
             PokemonListItem(pokemonDetails, Modifier.width(180.dp))
         }
     }
