@@ -3,6 +3,7 @@ package com.arix.pokedex.core.di
 import com.arix.pokedex.features.items.data.ItemRepositoryImpl
 import com.arix.pokedex.features.items.domain.use_cases.GetItemListUseCase
 import com.arix.pokedex.features.items.domain.use_cases.GetItemNamesUseCase
+import com.arix.pokedex.features.items.domain.use_cases.GetItemsByNamesUseCase
 import com.arix.pokedex.features.items.domain.use_cases.SaveItemNamesUseCase
 import com.arix.pokedex.features.move_details.domain.GetMoveUseCase
 import com.arix.pokedex.features.moves.data.MovesRepositoryImpl
@@ -43,6 +44,8 @@ val useCaseModule = module {
     factory { GetMovesByNamesUseCase(get<MovesRepositoryImpl>()) }
 
     factory { GetItemListUseCase(get<ItemRepositoryImpl>()) }
+
+    factory { GetItemsByNamesUseCase(get<ItemRepositoryImpl>()) }
 
     factory { GetItemNamesUseCase(get<ItemRepositoryImpl>()) }
 

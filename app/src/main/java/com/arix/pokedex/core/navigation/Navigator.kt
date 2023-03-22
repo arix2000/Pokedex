@@ -25,4 +25,10 @@ class Navigator {
             )
         }
     }
+
+    fun goToMoveDetails(moveId: String) {
+        with(Screen.MoveDetailsScreen) {
+            navController.navigate(route.putArgument(argumentKeys[0], moveId))
+        }
+    }
 }

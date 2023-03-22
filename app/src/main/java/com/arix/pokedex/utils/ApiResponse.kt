@@ -9,4 +9,10 @@ sealed class ApiResponse<T>(val data: T? = null, val message: String? = null) {
             Success(converter(data!!))
         else Error(message!!, null)
     }
+
+    suspend fun <R> mapSuccessAsync(converter: suspend (T) -> R): ApiResponse<R> {
+        return if (this is Success)
+            Success(converter(data!!))
+        else Error(message!!, null)
+    }
 }

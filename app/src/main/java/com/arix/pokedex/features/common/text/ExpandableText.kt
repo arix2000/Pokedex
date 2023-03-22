@@ -9,6 +9,7 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -22,6 +23,7 @@ fun ExpandableText(
     text: String,
     maxLines: Int = 3,
     duration: Int = ANIMATIONS_DURATION,
+    textAlign: TextAlign = TextAlign.Center
 ) {
     var expanded by remember { mutableStateOf(false) }
     Box(modifier = modifier
@@ -32,16 +34,45 @@ fun ExpandableText(
         ) { expanded = !expanded }
     ) {
         if (expanded)
-            Text(text = text, textAlign = TextAlign.Center)
+            Text(text = text, textAlign = textAlign)
         else
             Text(
                 text = text,
-                textAlign = TextAlign.Center,
+                textAlign = textAlign,
                 maxLines = maxLines,
                 overflow = TextOverflow.Ellipsis,
             )
     }
 }
+
+@Composable
+fun ExpandableText(
+    modifier: Modifier = Modifier,
+    text: AnnotatedString,
+    maxLines: Int = 3,
+    duration: Int = ANIMATIONS_DURATION,
+    textAlign: TextAlign = TextAlign.Center
+) {
+    var expanded by remember { mutableStateOf(false) }
+    Box(modifier = modifier
+        .animateContentSize(tween(duration))
+        .clickable(
+            interactionSource = remember { MutableInteractionSource() },
+            indication = null
+        ) { expanded = !expanded }
+    ) {
+        if (expanded)
+            Text(text = text, textAlign = textAlign)
+        else
+            Text(
+                text = text,
+                textAlign = textAlign,
+                maxLines = maxLines,
+                overflow = TextOverflow.Ellipsis,
+            )
+    }
+}
+
 
 @Preview
 @Composable

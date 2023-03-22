@@ -5,7 +5,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.arix.pokedex.extensions.getTypeOf
-import com.arix.pokedex.extensions.putArgument
 import com.arix.pokedex.features.abilities.AbilitiesScreen
 import com.arix.pokedex.features.items.presentation.ui.ItemsScreen
 import com.arix.pokedex.features.locations.LocationsScreen
@@ -32,11 +31,7 @@ fun AppNavHost(navController: NavHostController) {
         }
 
         composable(Screen.MovesScreen.route) {
-            MovesScreen {
-                with(Screen.MoveDetailsScreen) {
-                    navController.navigate(route.putArgument(argumentKeys[0], it))
-                }
-            }
+            MovesScreen()
         }
         with(Screen.MoveDetailsScreen) {
             composable(route) { backStackEntry ->

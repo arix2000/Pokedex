@@ -14,7 +14,7 @@ class GetMovesByNamesUseCase(private val repository: MovesRepository) {
         val moveResponses = names
             .map { CoroutineScope(Dispatchers.IO).async { repository.getMove(it) } }
         return moveResponses.awaitAll()
-            .map { responses -> responses.mapSuccess { UiMove.fromRaw(it) } }
+            .map { response -> response.mapSuccess { UiMove.fromRaw(it) } }
     }
 }
 

@@ -100,7 +100,7 @@ fun PokemonItemPreview() {
     val context = LocalContext.current
     val pokemonDetails = remember { MockResourceReader(context).getPokemonDetailsMock() }
     PokedexTheme {
-        Surface() {
+        Surface {
             PokemonListItem(pokemonDetails, Modifier.width(180.dp))
         }
     }

@@ -46,3 +46,14 @@ object TypeColors {
     /** Additional Move Type **/
     val shadow = Color(0xFF452B74)
 }
+
+object ItemCategoryColors {
+    val items = Color(0xFFD0688F)
+    val berries = Color(0xFF00B65E)
+    val pokeBalls = Color(0xFFDF4F3A)
+    val medicine = Color(0xFFE99D44)
+    val allMachines = Color(0xFF5485E6)
+    val key = Color(0xFFA062E4)
+    val battle = Color(0xFFA20808)
+    val mail = Color(0xFF009688)
+}

@@ -8,6 +8,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -15,10 +18,7 @@ import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
 import androidx.compose.ui.unit.dp
 import com.arix.pokedex.features.common.text.ExpandableText
 import com.arix.pokedex.features.pokemon_list.domain.model.details.Type
-import com.arix.pokedex.theme.DisabledColor
-import com.arix.pokedex.theme.Gradients
-import com.arix.pokedex.theme.PokedexTheme
-import com.arix.pokedex.theme.Shapes
+import com.arix.pokedex.theme.*
 
 @Composable
 fun BorderedTextTile(
@@ -56,17 +56,21 @@ fun BorderedTextTile(
 @Composable
 fun BorderedTextTile(
     modifier: Modifier = Modifier,
-    value: String,
+    title: String? = null,
+    text: String,
     borderColor: Color,
     contentPadding: PaddingValues = PaddingValues(vertical = 10.dp, horizontal = 15.dp)
 ) {
-    Box(
+    Column(
         modifier
             .border(0.5.dp, Gradients.getBorderVerticalGradient(borderColor), Shapes.large)
             .padding(contentPadding),
-        contentAlignment = Alignment.Center
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
     ) {
-        ExpandableText(text = value)
+        if (title != null)
+            Text(text = title, fontSize = FontSizes.large, textAlign = TextAlign.Center)
+        ExpandableText(text = text)
     }
 }
 
@@ -90,6 +94,24 @@ fun BorderedTextTile(
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             content()
         }
+    }
+}
+
+@Composable
+fun BorderedTextTile(
+    modifier: Modifier = Modifier,
+    text: AnnotatedString,
+    borderColor: Color,
+    contentPadding: PaddingValues = PaddingValues(vertical = 10.dp, horizontal = 15.dp)
+) {
+    Column(
+        modifier
+            .border(0.5.dp, Gradients.getBorderVerticalGradient(borderColor), Shapes.large)
+            .padding(contentPadding),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        ExpandableText(text = text)
     }
 }
 
@@ -127,10 +149,35 @@ private fun BorderedTextTilePreview() {
 private fun BorderedTextTileOnlyValuePreview() {
     PokedexTheme {
         Surface {
-            Box(modifier = Modifier.padding(10.dp)) {
+            Column(modifier = Modifier.padding(10.dp)) {
                 BorderedTextTile(
                     Modifier.fillMaxWidth(),
+                    null,
                     LoremIpsum(20).values.joinToString(" "),
+                    Type("grass").getTypeColor(),
+                    PaddingValues(vertical = 10.dp, horizontal = 15.dp)
+                )
+
+                BorderedTextTile(
+                    Modifier.fillMaxWidth(),
+                    "Some not so long title",
+                    LoremIpsum(20).values.joinToString(" "),
+                    Type("grass").getTypeColor(),
+                    PaddingValues(vertical = 10.dp, horizontal = 15.dp)
+                )
+
+                BorderedTextTile(
+                    Modifier.fillMaxWidth(),
+                    buildAnnotatedString {
+                        append(LoremIpsum(10).values.joinToString(" "))
+                        append(
+                            AnnotatedString(
+                                " some text with other style ",
+                                spanStyle = SpanStyle(background = Color.Blue)
+                            )
+                        )
+                        append(LoremIpsum(10).values.joinToString(" "))
+                    },
                     Type("grass").getTypeColor(),
                     PaddingValues(vertical = 10.dp, horizontal = 15.dp)
                 )

@@ -46,7 +46,6 @@ fun MoveListItem(move: UiMove, onClick: (moveId: String) -> Unit) {
             modifier = Modifier.fillMaxWidth().weight(1f)
         )
         Box {
-
             Surface(elevation = 2.dp, shape = Shapes.large, color = Color.Transparent) {
                 TypeItem(type = move.type, itemFontSize = FontSizes.minimum)
             }
@@ -70,7 +69,7 @@ fun MoveListItemPreview() {
         Surface(modifier = Modifier.fillMaxWidth()) {
             val context = LocalContext.current
             val move = MockResourceReader(context).getPokemonMoveMock()
-            MoveListItem(UiMove.fromRaw(move)) {}
+            MoveListItem(move) {}
         }
     }
 }

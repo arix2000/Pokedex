@@ -43,7 +43,7 @@ fun PokemonGrid(
             itemNames = pokemonNames,
             itemsLimit = POKEMON_LIST_ITEM_LIMIT,
             emptyItem = PokemonDetails.EMPTY,
-            objectFromNames = namesToPokemonResponses
+            objectsFromNames = namesToPokemonResponses
         )
     ) { pokemonList ->
         gridItems(pokemonList, cells = 2) {

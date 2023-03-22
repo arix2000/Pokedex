@@ -11,6 +11,7 @@ object Constants {
     object UnitsOfMeasure {
         /**Kilograms**/
         const val KG = "kg"
+
         /**Meters**/
         const val M = "m"
     }
@@ -25,7 +26,8 @@ object Constants {
 
     object PokemonDetailsScreen {
         const val NO_DESCRIPTION = "No description"
-        const val ITEM_URL_PREFIX = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/"
+        const val ITEM_URL_PREFIX =
+            "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/"
         const val PNG_EXT = ".png"
         const val VARIETIES_SCROLL_HINT_ANIM_DURATION = 600
     }
@@ -45,10 +47,6 @@ object Constants {
         const val GANDER_RATE_WHEN_ONLY_FEMALES = 8
     }
 
-    object PokemonMovesScreen {
-        const val MOVES_ITEM_LIMIT = 30
-    }
-
     object SplashScreen {
         const val MAX_LIMIT = 1000000
     }
@@ -61,5 +59,12 @@ object Constants {
         const val EFFECT_CHANCE_ARG = "\$effect_chance"
         val TEXT_TILES_HEIGHT = 80.dp
         const val LEARNED_BY_POKEMON_LIST_MAX_SIZE = 6
+        const val MOVES_ITEM_LIMIT = 30
     }
+
+    object ItemsScreenConst {
+        const val ITEMS_LIMIT = 30
+        const val NO_EFFECT_STRING = "No effect."
+    }
+
 }

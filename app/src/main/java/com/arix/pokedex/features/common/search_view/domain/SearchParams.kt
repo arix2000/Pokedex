@@ -6,5 +6,5 @@ data class SearchParams<T>(
     val itemNames: List<String>,
     val itemsLimit: Int,
     val emptyItem: T,
-    val objectFromNames: suspend (List<String>) -> List<ApiResponse<T>>
+    val objectsFromNames: suspend (List<String>) -> List<ApiResponse<T>>
 )

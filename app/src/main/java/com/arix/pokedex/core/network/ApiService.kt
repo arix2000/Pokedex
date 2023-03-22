@@ -1,6 +1,7 @@
 package com.arix.pokedex.core.network
 
 import com.arix.pokedex.features.items.domain.model.ItemList
+import com.arix.pokedex.features.items.domain.model.move_details.raw.RawItemDetails
 import com.arix.pokedex.features.moves.domain.model.RawMove
 import com.arix.pokedex.features.moves.domain.model.MoveList
 import com.arix.pokedex.features.pokemon_details.domain.model.evolution_chain.PokemonEvolutionChain
@@ -50,6 +51,11 @@ interface ApiService {
         @Query("limit") limit: Int,
         @Query("offset") offset: Int
     ): ItemList
+
+    @GET("item/{itemId}")
+    suspend fun getItem(
+        @Path("itemId") itemId: String
+    ): RawItemDetails
 
 
 }

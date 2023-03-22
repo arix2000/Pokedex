@@ -41,7 +41,7 @@ private fun MoveDetailsHeaderPreview() {
     val move = remember { MockResourceReader(context).getPokemonMoveMock() }
     PokedexTheme {
         Surface {
-            MoveDetailsHeader(UiMove.fromRaw(move))
+            MoveDetailsHeader(move)
         }
     }
 }

@@ -3,6 +3,7 @@ package com.arix.pokedex.core.di
 import android.content.Context
 import com.arix.pokedex.extensions.dataStore
 import com.arix.pokedex.features.common.search_view.SearchableLazyColumnViewModel
+import com.arix.pokedex.features.items.domain.model.move_details.ItemDetails
 import com.arix.pokedex.features.items.presentation.ItemsViewModel
 import com.arix.pokedex.features.move_details.domain.model.UiMove
 import com.arix.pokedex.features.move_details.presentation.MoveDetailsViewModel
@@ -29,7 +30,7 @@ val viewModelModule = module {
 
     viewModel { LearnedByPokemonFullListViewModel(get()) }
 
-    viewModel { ItemsViewModel(get()) }
+    viewModel { ItemsViewModel(get(), get()) }
 
     viewModel(named(PokemonDetails::class.java.simpleName)) { params ->
         SearchableLazyColumnViewModel<PokemonDetails>(
@@ -42,6 +43,15 @@ val viewModelModule = module {
 
     viewModel(named(UiMove::class.java.simpleName)) { params ->
         SearchableLazyColumnViewModel<UiMove>(
+            itemsLimit = params.get(),
+            itemNames = params.get(),
+            emptyItem = params.get(),
+            objectFromNames = params.get()
+        )
+    }
+
+    viewModel(named(ItemDetails::class.java.simpleName)) { params ->
+        SearchableLazyColumnViewModel<ItemDetails>(
             itemsLimit = params.get(),
             itemNames = params.get(),
             emptyItem = params.get(),
