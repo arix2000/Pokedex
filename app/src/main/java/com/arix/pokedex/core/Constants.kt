@@ -5,7 +5,9 @@ import androidx.compose.ui.unit.dp
 object Constants {
 
     object Network {
-        const val BASE_URL = "https://pokeapi.co/api/v2/"
+        const val POKE_API_BASE_URL = "https://pokeapi.co/api/v2/"
+        const val POKE_LIST_API_BASE_URL = "http://192.168.1.21:8080/"
+
     }
 
     object UnitsOfMeasure {

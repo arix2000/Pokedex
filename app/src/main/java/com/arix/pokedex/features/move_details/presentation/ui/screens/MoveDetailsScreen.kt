@@ -60,7 +60,7 @@ private fun MoveDetailsScreenContent(move: UiMove, navigator: Navigator = get())
         FadingHorizontalDivider()
         MoveDetailsTiles(move)
         if (!isPreview())
-            LearnedByPokemonSection(move.learned_by_pokemon,
+            LearnedByPokemonSection(move.learnedByPokemon,
                 { navigator.goToLearnedByPokemonList(it, move.name) })
     }
 }

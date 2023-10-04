@@ -7,9 +7,9 @@ import androidx.compose.ui.text.toLowerCase
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.arix.pokedex.core.Constants.SearchableLazyColumn.INITIAL_OFFSET
-import com.arix.pokedex.core.errors.ConnectionUnstableError
 import com.arix.pokedex.core.errors.NoConnectionError
 import com.arix.pokedex.extensions.*
+import com.arix.pokedex.features.common.search_view.domain.Page
 import com.arix.pokedex.features.common.search_view.ui.SearchableLazyColumnEvent
 import com.arix.pokedex.features.common.search_view.ui.SearchableLazyColumnState
 import com.arix.pokedex.utils.ApiResponse
@@ -17,10 +17,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 class SearchableLazyColumnViewModel<T>(
-    private val itemNames: List<String>,
-    private val itemsLimit: Int,
-    private val emptyItem: T,
-    private val objectFromNames: suspend (List<String>) -> List<ApiResponse<T>>
+    private val getItemList: suspend (offset: Int, searchQuery: String) -> ApiResponse<Page<T>>
 ) : ViewModel() {
 
     private val _state = mutableStateOf(SearchableLazyColumnState<T>())
@@ -32,7 +29,8 @@ class SearchableLazyColumnViewModel<T>(
             searchItem()
         }
     private var previousSearchQuery = ""
-    private var getItemsByNameJob: Job? = null
+    private var getItemListJob: Job? = null
+    private var offset: Int = INITIAL_OFFSET
 
     init {
         getNextItems()
@@ -46,6 +44,7 @@ class SearchableLazyColumnViewModel<T>(
     }
 
     private fun searchItem() {
+        offset = 0
         val previousQuery = previousSearchQuery
         previousSearchQuery = searchQuery
         if (searchQuery == previousQuery) return
@@ -72,61 +71,34 @@ class SearchableLazyColumnViewModel<T>(
     }
 
     private fun getNextItems() {
-        val filteredItemNames = itemNames.filterAndSortListBy(searchQuery)
         _state.run {
-            value = value.copy(emptySearchResult = filteredItemNames.isEmpty(), error = null)
-
-            getItemListFrom(
-                filteredItemNames.subList(
-                    (value.items?.size ?: INITIAL_OFFSET), getDefaultLimitOrHowManyLeft(
-                        filteredItemNames
-                    )
-                )
-            ) {
-                value = value.copy(
-                    isListEndReached = value.items.isSizeEqualsOrGreaterThan(filteredItemNames)
-                )
+            getItemListJob?.cancel()
+            getItemListJob = viewModelScope.launch {
+                val nextMoves = getItemList(offset, searchQuery)
+                handleResults(nextMoves)
             }
         }
     }
 
-    private fun getItemListFrom(itemNames: List<String>, onJobCompleted: () -> Unit) {
-        getItemsByNameJob?.cancel()
-        getItemsByNameJob = viewModelScope.launch {
-            val nextMoves = objectFromNames(itemNames)
-            handleResults(nextMoves)
-        }
-        getItemsByNameJob?.invokeOnCompletion { onJobCompleted() }
-    }
-
-    private fun handleResults(nextMoves: List<ApiResponse<T>>) {
+    private fun handleResults(nextMoves: ApiResponse<Page<T>>) {
         _state.run {
             when {
-                nextMoves.ifAllErrors() -> value = value.copy(
-                    error = NoConnectionError(nextMoves.firstOrNull()?.message)
-                )
-                nextMoves.ifAllSuccess() -> value = value.copy(
-                    items = (value.items ?: emptyList()).plus(nextMoves.map { it.data!! }),
-                    error = null
-                )
-                nextMoves.ifAnyError() -> value = value.copy(
-                    items = (value.items ?: emptyList()).plus(nextMoves.map {
-                        it.data ?: emptyItem
-                    }),
-                    error = ConnectionUnstableError(nextMoves.firstOrNull { it is ApiResponse.Error }?.message)
+                nextMoves.isSuccess() -> {
+                    nextMoves.data?.run {
+                        value = value.copy(
+                            items = (value.items ?: emptyList()).plus(nextMoves.data.items),
+                            emptySearchResult = items.isEmpty(),
+                            isListEndReached = !hasNext,
+                            error = null
+                        )
+                        offset += items.size
+                    }
+                }
+
+                else -> value = value.copy(
+                    error = NoConnectionError(nextMoves.message)
                 )
             }
         }
     }
-
-    private fun getDefaultLimitOrHowManyLeft(filteredItems: List<String>): Int {
-        val actualList = _state.value.items ?: emptyList()
-
-        return if (canTakeNextItems(actualList.size, filteredItems.size))
-            itemsLimit + actualList.size
-        else filteredItems.size
-    }
-
-    private fun canTakeNextItems(actualListSize: Int, allItemsListSize: Int) =
-        actualListSize < allItemsListSize - itemsLimit
 }

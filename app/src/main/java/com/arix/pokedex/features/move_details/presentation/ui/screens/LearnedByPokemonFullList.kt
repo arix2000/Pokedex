@@ -16,8 +16,10 @@ fun LearnedByPokemonFullList(
     pokemonNames: List<String>,
     viewModel: LearnedByPokemonFullListViewModel = getViewModel(),
 ) {
-    PokemonGrid(pokemonNames, namesToPokemonResponses = {
-        viewModel.getPokemonListFrom(it)
+    PokemonGrid(getPokemonList = { offset, searchQuery ->
+        viewModel.getPokemonList(offset, searchQuery)
+    //TODO to be replaced, we need to get list from pokemon names from backend
+    // (changes on backend required)
     })
 }
 

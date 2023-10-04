@@ -12,10 +12,4 @@ class PokemonLocalDataSource(private val dataStore: DataStore<Preferences>) {
     fun getPokemonNames(): Flow<List<String>> {
         return dataStore.data.map { it[ALL_POKEMON_NAMES]?.toList() ?: emptyList() }
     }
-
-    suspend fun savePokemonNames(names: List<String>) {
-        dataStore.edit {
-            it[ALL_POKEMON_NAMES] = names.toSet()
-        }
-    }
 }

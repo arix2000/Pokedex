@@ -125,7 +125,7 @@ private fun EvolutionChainContent(
                         }
                     })
                     PokemonListItem(
-                        pokemonDetails = it.pokemonDetails,
+                        pokemonItem = it.pokemonDetails,
                         modifier = Modifier
                             .width(155.dp)
                             .height(230.dp),

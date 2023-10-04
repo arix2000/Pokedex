@@ -1,10 +1,12 @@
-package com.arix.pokedex.features.items.domain.model.move_details
+package com.arix.pokedex.features.items.domain.model.item_details
 
 import androidx.compose.ui.graphics.Color
 import com.arix.pokedex.core.Constants.ItemsScreenConst.NO_EFFECT_STRING
 import com.arix.pokedex.core.Constants.Language.ENGLISH_LANGUAGE_CODE
 import com.arix.pokedex.extensions.clearEndOfLineEscapeSequences
-import com.arix.pokedex.features.items.domain.model.move_details.raw.RawItemDetails
+import com.arix.pokedex.features.items.domain.model.Item
+import com.arix.pokedex.features.items.domain.model.item_details.raw.Category
+import com.arix.pokedex.features.items.domain.model.item_details.raw.RawItemDetails
 import com.arix.pokedex.theme.ItemCategoryColors
 
 data class ItemDetails(
@@ -15,16 +17,16 @@ data class ItemDetails(
     val effectText: String,
     val shortEffectText: String,
     val flavorText: String,
-    val id: Int,
-    val name: String,
+    override val id: Int,
+    override val name: String,
     val imageUrl: String,
     val categoryColor: Color
-) {
+): Item(id, name, Category(categoryName)) {
     companion object {
         fun fromRaw(raw: RawItemDetails): ItemDetails {
             with(raw) {
                 val effectEntry = effect_entries.last { it.language.name == ENGLISH_LANGUAGE_CODE }
-                val coloredCategory = mapCategoryToColoredCategory(category.name)
+                val coloredCategory = category.mapCategoryToColoredCategory()
                 return ItemDetails(
                     attributes.map { it.name },
                     coloredCategory.name,

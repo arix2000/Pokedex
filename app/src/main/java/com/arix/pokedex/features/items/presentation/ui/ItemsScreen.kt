@@ -4,10 +4,10 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.tooling.preview.Preview
-import com.arix.pokedex.core.Constants.ItemsScreenConst.ITEMS_LIMIT
+import com.arix.pokedex.features.common.search_view.domain.Page
 import com.arix.pokedex.features.common.search_view.domain.SearchParams
 import com.arix.pokedex.features.common.search_view.ui.SearchableLazyColumn
-import com.arix.pokedex.features.items.domain.model.move_details.ItemDetails
+import com.arix.pokedex.features.items.domain.model.Item
 import com.arix.pokedex.features.items.presentation.ItemsViewModel
 import com.arix.pokedex.features.items.presentation.ui.components.ItemBottomSheetContent
 import com.arix.pokedex.features.items.presentation.ui.components.ItemListItem
@@ -22,20 +22,15 @@ import org.koin.androidx.compose.getViewModel
 fun ItemsScreen(
     viewModel: ItemsViewModel = getViewModel()
 ) {
-    val state = viewModel.state.value
-    if (state.itemNames.isNotEmpty())
-        ItemsScreenContent(
-            state,
-            objectsFromNames = { viewModel.getItemsFromNames(it) })
+    ItemsScreenContent { offset, searchQuery -> viewModel.getItems(offset, searchQuery) }
 }
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 private fun ItemsScreenContent(
-    state: ItemsScreenState,
-    objectsFromNames: suspend (List<String>) -> List<ApiResponse<ItemDetails>>,
+    getItems: suspend (offset: Int, searchQuery: String) -> ApiResponse<Page<Item>>,
 ) {
-    var clickedItem: ItemDetails by remember { mutableStateOf(ItemDetails.EMPTY) }
+    var clickedItem: Item by remember { mutableStateOf(Item.EMPTY) }
     val coroutineScope = rememberCoroutineScope()
     val modalSheetState = rememberModalBottomSheetState(
         initialValue = ModalBottomSheetValue.Hidden,
@@ -54,10 +49,7 @@ private fun ItemsScreenContent(
     ) {
         SearchableLazyColumn(
             searchParams = SearchParams(
-                state.itemNames,
-                ITEMS_LIMIT,
-                ItemDetails.EMPTY,
-                objectsFromNames
+                getItems
             ), searchableContent = { items ->
                 items(items.size) {
                     ItemListItem(item = items[it], onClick = { item ->

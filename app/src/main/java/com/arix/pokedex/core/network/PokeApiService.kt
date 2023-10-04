@@ -1,24 +1,17 @@
 package com.arix.pokedex.core.network
 
 import com.arix.pokedex.features.items.domain.model.ItemList
-import com.arix.pokedex.features.items.domain.model.move_details.raw.RawItemDetails
-import com.arix.pokedex.features.moves.domain.model.RawMove
+import com.arix.pokedex.features.items.domain.model.item_details.raw.RawItemDetails
 import com.arix.pokedex.features.moves.domain.model.MoveList
+import com.arix.pokedex.features.moves.domain.model.RawMove
 import com.arix.pokedex.features.pokemon_details.domain.model.evolution_chain.PokemonEvolutionChain
 import com.arix.pokedex.features.pokemon_details.domain.model.species.PokemonSpecies
 import com.arix.pokedex.features.pokemon_list.domain.model.details.raw.RawPokemonDetails
-import com.arix.pokedex.features.pokemon_list.domain.model.list.PokemonList
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
-interface ApiService {
-
-    @GET("pokemon")
-    suspend fun getPokemonList(
-        @Query("limit") limit: Int,
-        @Query("offset") offset: Int
-    ): PokemonList
+interface PokeApiService {
 
     @GET("pokemon/{name}")
     suspend fun getPokemon(

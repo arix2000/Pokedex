@@ -15,4 +15,8 @@ sealed class ApiResponse<T>(val data: T? = null, val message: String? = null) {
             Success(converter(data!!))
         else Error(message!!, null)
     }
+
+    fun isSuccess(): Boolean {
+        return this is Success
+    }
 }

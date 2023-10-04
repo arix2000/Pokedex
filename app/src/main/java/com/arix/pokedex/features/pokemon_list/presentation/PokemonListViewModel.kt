@@ -3,36 +3,20 @@ package com.arix.pokedex.features.pokemon_list.presentation
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.arix.pokedex.features.pokemon_list.domain.model.details.PokemonDetails
-import com.arix.pokedex.features.pokemon_list.domain.use_cases.GetPokemonListByNamesUseCase
-import com.arix.pokedex.features.pokemon_list.domain.use_cases.GetPokemonNamesUseCase
+import com.arix.pokedex.features.common.search_view.domain.Page
+import com.arix.pokedex.features.pokemon_list.domain.model.list.PokemonItem
+import com.arix.pokedex.features.pokemon_list.domain.use_cases.GetPokemonListUseCase
 import com.arix.pokedex.features.pokemon_list.presentation.ui.PokemonListState
 import com.arix.pokedex.utils.ApiResponse
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
 
 class PokemonListViewModel(
-    val getPokemonListByNames: GetPokemonListByNamesUseCase,
-    val getPokemonNamesUseCase: GetPokemonNamesUseCase
+    private val getPokemonListUseCase: GetPokemonListUseCase
 ) : ViewModel() {
 
     private val _state = mutableStateOf(PokemonListState())
     val state: State<PokemonListState> = _state
 
-    private var getPokemonNamesJob: Job? = null
-
-    init {
-        getPokemonNames()
-    }
-
-    private fun getPokemonNames() {
-        getPokemonNamesJob = viewModelScope.launch {
-            getPokemonNamesUseCase().collect { _state.value = _state.value.copy(pokemonNames = it) }
-        }
-    }
-
-    suspend fun getPokemonListFrom(names: List<String>): List<ApiResponse<PokemonDetails>> {
-        return getPokemonListByNames(names)
+    suspend fun getPokemonList(offset: Int, searchQuery: String): ApiResponse<Page<PokemonItem>> {
+        return getPokemonListUseCase(offset = offset, searchQuery)
     }
 }

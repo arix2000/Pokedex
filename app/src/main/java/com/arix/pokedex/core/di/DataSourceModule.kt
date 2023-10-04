@@ -10,17 +10,17 @@ import com.arix.pokedex.features.pokemon_details.data.PokemonDetailsRemoteDataSo
 import org.koin.dsl.module
 
 val dataSourceModule = module {
-    factory { PokemonRemoteDataSource(get()) }
+    factory { PokemonRemoteDataSource(get(), get()) }
 
     factory { PokemonLocalDataSource(get()) }
 
     factory { PokemonDetailsRemoteDataSource(get()) }
 
-    factory { MovesRemoteDataSource(get()) }
+    factory { MovesRemoteDataSource(get(), get()) }
 
     factory { MovesLocalDataSource(get()) }
 
-    factory { ItemRemoteDataSource(get()) }
+    factory { ItemRemoteDataSource(get(), get()) }
 
     factory { ItemLocalDataSource(get()) }
 }

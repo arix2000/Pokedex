@@ -44,7 +44,7 @@ class MoveDetailsViewModel(
                 value = when (response) {
                     is ApiResponse.Success -> {
                         val move = response.data!!
-                        loadLearnedByPokemonList(move.learned_by_pokemon)
+                        loadLearnedByPokemonList(move.learnedByPokemon)
                         value.copy(
                             move = move,
                             isLoading = false

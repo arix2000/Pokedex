@@ -5,8 +5,10 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -17,14 +19,16 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.arix.pokedex.R
 import com.arix.pokedex.features.common.text.ExpandableText
-import com.arix.pokedex.features.items.domain.model.move_details.ItemDetails
+import com.arix.pokedex.features.items.domain.model.item_details.ItemDetails
 import com.arix.pokedex.theme.Gradients
 import com.arix.pokedex.theme.PokedexTheme
 import com.arix.pokedex.theme.Shapes
 import com.arix.pokedex.utils.MockResourceReader
+import com.arix.pokedex.views.shimmer_effect.ShimmerAnimatedBox
 
 @Composable
-fun ItemDetailsBaseInfoTile(item: ItemDetails, isLoading: MutableState<Boolean>) {
+fun ItemDetailsBaseInfoTile(item: ItemDetails) {
+    var isLoading by remember { mutableStateOf(false) }
     Box(
         modifier = Modifier
             .border(
@@ -37,10 +41,12 @@ fun ItemDetailsBaseInfoTile(item: ItemDetails, isLoading: MutableState<Boolean>)
                 model = item.imageUrl,
                 contentDescription = "Item image",
                 placeholder = painterResource(R.drawable.potion),
-                onLoading = { isLoading.value = true },
-                onSuccess = { isLoading.value = false },
+                onLoading = { isLoading = true },
+                onSuccess = { isLoading = false },//TODO add shimmer effect instead
                 modifier = Modifier.size(50.dp)
             )
+            if (isLoading)
+                ShimmerAnimatedBox()
             Spacer(modifier = Modifier.width(20.dp))
             ExpandableText(text = item.flavorText, maxLines = 2, textAlign = TextAlign.Start)
         }
@@ -55,7 +61,7 @@ private fun ItemDetailsBaseInfoTilePreview() {
     PokedexTheme {
         Surface {
             Box(Modifier.padding(5.dp)) {
-                ItemDetailsBaseInfoTile(item, remember { mutableStateOf(false) })
+                ItemDetailsBaseInfoTile(item)
             }
         }
     }

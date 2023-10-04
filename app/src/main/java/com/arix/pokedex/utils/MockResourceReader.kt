@@ -2,8 +2,8 @@ package com.arix.pokedex.utils
 
 import android.content.Context
 import com.arix.pokedex.R
-import com.arix.pokedex.features.items.domain.model.move_details.ItemDetails
-import com.arix.pokedex.features.items.domain.model.move_details.raw.RawItemDetails
+import com.arix.pokedex.features.items.domain.model.item_details.ItemDetails
+import com.arix.pokedex.features.items.domain.model.item_details.raw.RawItemDetails
 import com.arix.pokedex.features.move_details.domain.model.UiMove
 import com.arix.pokedex.features.moves.domain.model.RawMove
 import com.arix.pokedex.features.pokemon_details.domain.model.evolution_chain.PokemonEvolutionChain

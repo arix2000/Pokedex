@@ -1,14 +1,15 @@
 package com.arix.pokedex.features.move_details.presentation.ui.screens
 
 import androidx.lifecycle.ViewModel
-import com.arix.pokedex.features.pokemon_list.domain.model.details.PokemonDetails
-import com.arix.pokedex.features.pokemon_list.domain.use_cases.GetPokemonListByNamesUseCase
+import com.arix.pokedex.features.common.search_view.domain.Page
+import com.arix.pokedex.features.pokemon_list.domain.model.list.PokemonItem
+import com.arix.pokedex.features.pokemon_list.domain.use_cases.GetPokemonListUseCase
 import com.arix.pokedex.utils.ApiResponse
 
-class LearnedByPokemonFullListViewModel(val getPokemonListByNames: GetPokemonListByNamesUseCase) :
+class LearnedByPokemonFullListViewModel(private val getPokemonListUseCase: GetPokemonListUseCase) :
     ViewModel() {
 
-    suspend fun getPokemonListFrom(names: List<String>): List<ApiResponse<PokemonDetails>> {
-        return getPokemonListByNames(names)
+    suspend fun getPokemonList(offset: Int, searchQuery: String): ApiResponse<Page<PokemonItem>> {
+        return getPokemonListUseCase(offset, searchQuery)
     }
 }

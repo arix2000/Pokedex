@@ -1,7 +1,7 @@
 package com.arix.pokedex.features.items.domain.use_cases
 
 import com.arix.pokedex.features.items.data.ItemRepository
-import com.arix.pokedex.features.items.domain.model.move_details.ItemDetails
+import com.arix.pokedex.features.items.domain.model.item_details.ItemDetails
 import com.arix.pokedex.utils.ApiResponse
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

@@ -35,7 +35,7 @@ fun MoveDetailsTiles(move: UiMove) {
         BaseMoveInfo(move)
         EffectMoveInfo(move)
         MoveMetaData(move)
-        if (move.stat_changes.isNotEmpty())
+        if (move.statChanges.isNotEmpty())
             StatChanges(move)
     }
 }
@@ -206,14 +206,14 @@ private fun StatChanges(move: UiMove) {
                 Spacer(modifier = Modifier.height(10.dp))
                 Text(text = "Stat Changes:")
                 GridView(
-                    data = move.stat_changes,
+                    data = move.statChanges,
                     cells = 2,
                     alwaysFillSpace = true,
                     modifier = Modifier.padding(vertical = 5.dp, horizontal = 8.dp)
                 ) {
                     Text(
                         text = it.getStatChangeText(),
-                        textAlign = if (move.stat_changes.hasOneItem()) TextAlign.Center else null,
+                        textAlign = if (move.statChanges.hasOneItem()) TextAlign.Center else null,
                         fontWeight = FontWeight.SemiBold,
                         modifier = Modifier.fillMaxWidth()
                     )

@@ -97,7 +97,7 @@ fun LearnedByPokemonSectionContent(
     }
     GridView(data = pokemonList, cells = 2) {
         PokemonListItem(
-            pokemonDetails = it, modifier = Modifier
+            pokemonItem = it, modifier = Modifier
                 .fillMaxWidth()
                 .height(240.dp)
         ) {

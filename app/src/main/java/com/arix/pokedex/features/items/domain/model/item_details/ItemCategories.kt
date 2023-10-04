@@ -1,4 +1,4 @@
-package com.arix.pokedex.features.items.domain.model.move_details
+package com.arix.pokedex.features.items.domain.model.item_details
 
 object ItemCategories {
     val items = listOf(

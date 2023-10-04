@@ -4,20 +4,21 @@ import com.arix.pokedex.core.Constants.UnitsOfMeasure.KG
 import com.arix.pokedex.core.Constants.UnitsOfMeasure.M
 import com.arix.pokedex.extensions.formatToUserFriendlyString
 import com.arix.pokedex.features.pokemon_list.domain.model.details.raw.*
+import com.arix.pokedex.features.pokemon_list.domain.model.list.PokemonItem
 
 data class PokemonDetails(
     val abilities: List<Ability>,
     val height: Int,
-    val id: Int,
+    override val id: Int,
     val locationAreaEncounters: String,
     val moves: List<String>,
-    val name: String,
+    override val name: String,
     val species: Species,
     val sprites: Sprites,
     val stats: List<Stat>,
-    val types: List<Type>,
+    override val types: List<Type>,
     val weight: Int
-) {
+): PokemonItem(id, name, types, sprites.front_default) {
 
     fun getHeightInMeters() = (height.toFloat() / 10).formatToUserFriendlyString() + M
 

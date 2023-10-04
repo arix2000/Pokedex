@@ -21,7 +21,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.arix.pokedex.extensions.isPreview
 import com.arix.pokedex.extensions.toSentenceCase
-import com.arix.pokedex.features.items.domain.model.move_details.ItemDetails
+import com.arix.pokedex.features.items.domain.model.Item
+import com.arix.pokedex.features.items.domain.model.item_details.ItemDetails
+import com.arix.pokedex.features.items.presentation.ItemsViewModel
+import com.arix.pokedex.features.items.presentation.ui.ItemEvent
 import com.arix.pokedex.features.move_details.presentation.ui.components.BorderedTextTile
 import com.arix.pokedex.theme.FontSizes
 import com.arix.pokedex.theme.GrayA75
@@ -29,10 +32,29 @@ import com.arix.pokedex.theme.PokedexTheme
 import com.arix.pokedex.theme.Shapes
 import com.arix.pokedex.utils.MockResourceReader
 import com.arix.pokedex.views.DefaultProgressIndicatorScreen
+import com.arix.pokedex.views.ErrorScreenWithRetryButton
+import org.koin.androidx.compose.getViewModel
 
 @Composable
-fun ItemBottomSheetContent(item: ItemDetails) {
-    val isLoading = remember { mutableStateOf(false) }
+fun ItemBottomSheetContent(item: Item, viewModel: ItemsViewModel = getViewModel()) {
+    LaunchedEffect(key1 = true) {
+        viewModel.invokeEvent(ItemEvent.GetItemDetails(item.id.toString()))
+    }
+    val state = viewModel.state.value
+    when {
+        state.itemDetails != null -> ItemBottomSheetInnerContent(state.itemDetails)
+        state.isLoading && !isPreview() ->
+            Box(modifier = Modifier.background(Color.Black)) {
+                DefaultProgressIndicatorScreen(modifier = Modifier.fillMaxHeight(0.5f))
+            }
+        state.errorMessage != null -> ErrorScreenWithRetryButton {
+            viewModel.invokeEvent(ItemEvent.GetItemDetails(item.id.toString()))
+        }
+    }
+}
+
+@Composable
+private fun ItemBottomSheetInnerContent(item: ItemDetails) {
     Box {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -60,7 +82,7 @@ fun ItemBottomSheetContent(item: ItemDetails) {
             ) {
                 Text(text = item.categoryName)
             }
-            ItemDetailsBaseInfoTile(item, isLoading)
+            ItemDetailsBaseInfoTile(item)
             Spacer(modifier = Modifier.height(38.dp))
             BorderedTextTile(
                 text = getAnnotatedEffectString(item),
@@ -76,10 +98,6 @@ fun ItemBottomSheetContent(item: ItemDetails) {
             )
             Spacer(modifier = Modifier.height(20.dp))
         }
-        if (isLoading.value && !isPreview())
-            Box(modifier = Modifier.background(Color.Black)) {
-                DefaultProgressIndicatorScreen(modifier = Modifier.fillMaxHeight(0.5f))
-            }
     }
 }
 
@@ -99,7 +117,7 @@ private fun ItemBottomSheetContentPreview() {
     val item = remember { MockResourceReader(context).getPokemonItemMock() }
     PokedexTheme {
         Surface(modifier = Modifier.fillMaxWidth()) {
-            ItemBottomSheetContent(item)
+            ItemBottomSheetInnerContent(item)
         }
     }
 }

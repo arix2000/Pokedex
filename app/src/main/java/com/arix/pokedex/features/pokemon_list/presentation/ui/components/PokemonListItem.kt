@@ -23,8 +23,8 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.arix.pokedex.R
 import com.arix.pokedex.extensions.clickableOnceInTime
-import com.arix.pokedex.features.pokemon_list.domain.model.details.PokemonDetails
 import com.arix.pokedex.features.pokemon_list.domain.model.details.Type
+import com.arix.pokedex.features.pokemon_list.domain.model.list.PokemonItem
 import com.arix.pokedex.theme.FontSizes
 import com.arix.pokedex.theme.PokedexTheme
 import com.arix.pokedex.theme.Shapes
@@ -34,7 +34,7 @@ import com.arix.pokedex.views.shimmer_effect.ShimmerAnimatedBox
 
 @Composable
 fun PokemonListItem(
-    pokemonDetails: PokemonDetails,
+    pokemonItem: PokemonItem,
     modifier: Modifier = Modifier,
     onClick: (() -> Unit)? = null
 ) {
@@ -44,7 +44,7 @@ fun PokemonListItem(
         modifier = Modifier
             .padding(5.dp)
             .clip(Shapes.medium)
-            .background(brush = getBrushBasedOn(pokemonDetails.types, isImageLoading))
+            .background(brush = getBrushBasedOn(pokemonItem.types, isImageLoading))
             .clickableOnceInTime(enabled = onClick != null) {
                 onClick?.invoke()
             }
@@ -55,8 +55,8 @@ fun PokemonListItem(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             AsyncImage(
-                model = pokemonDetails.sprites.front_default,
-                contentDescription = pokemonDetails.name,
+                model = pokemonItem.imageUrl,
+                contentDescription = pokemonItem.name,
                 contentScale = ContentScale.FillWidth,
                 modifier = Modifier.fillMaxWidth(),
                 placeholder = painterResource(id = R.drawable.scyther),
@@ -66,12 +66,12 @@ fun PokemonListItem(
             )
             FadingHorizontalDivider()
             Text(
-                text = pokemonDetails.name.capitalize(LocaleList.current),
+                text = pokemonItem.name.capitalize(LocaleList.current),
                 fontSize = FontSizes.large,
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 1
             )
-            TypesSection(pokemonDetails.types, spacing = 2.dp, itemFontSize = FontSizes.minimum)
+            TypesSection(pokemonItem.types, spacing = 2.dp, itemFontSize = FontSizes.minimum)
             Spacer(modifier = Modifier.height(10.dp))
         }
         ShowShimmerIf(modifier = modifier, isImageLoading)

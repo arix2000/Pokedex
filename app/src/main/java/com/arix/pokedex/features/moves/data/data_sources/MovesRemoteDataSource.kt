@@ -1,18 +1,30 @@
 package com.arix.pokedex.features.moves.data.data_sources
 
 import com.arix.pokedex.core.base.RemoteDataSource
-import com.arix.pokedex.core.network.ApiService
+import com.arix.pokedex.core.network.PokeApiService
+import com.arix.pokedex.core.network.PokeListsApiService
+import com.arix.pokedex.features.common.search_view.domain.Page
+import com.arix.pokedex.features.moves.domain.model.MoveItem
 import com.arix.pokedex.features.moves.domain.model.RawMove
 import com.arix.pokedex.features.moves.domain.model.MoveList
 import com.arix.pokedex.utils.ApiResponse
 
-class MovesRemoteDataSource(private val apiService: ApiService) : RemoteDataSource() {
+class MovesRemoteDataSource(
+    private val pokeApiService: PokeApiService,
+    private val pokeListsApiService: PokeListsApiService
+) : RemoteDataSource() {
 
-    suspend fun getMoveList(limit: Int, offset: Int): ApiResponse<MoveList> {
-        return makeHttpRequest { apiService.getMoves(limit, offset) }
+    suspend fun getMoveList(
+        limit: Int,
+        offset: Int,
+        searchQuery: String
+    ): ApiResponse<Page<MoveItem>> {
+        return if (searchQuery.isBlank())
+            makeHttpRequest { pokeListsApiService.getMoveList(limit, offset) }
+        else makeHttpRequest { pokeListsApiService.getMoveList(limit, offset, searchQuery) }
     }
 
     suspend fun getMove(moveId: String): ApiResponse<RawMove> {
-        return makeHttpRequest { apiService.getMove(moveId) }
+        return makeHttpRequest { pokeApiService.getMove(moveId) }
     }
 }

@@ -18,7 +18,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.arix.pokedex.extensions.clickableOnceInTime
 import com.arix.pokedex.extensions.toSentenceCase
-import com.arix.pokedex.features.items.domain.model.move_details.ItemDetails
+import com.arix.pokedex.features.items.domain.model.Item
 import com.arix.pokedex.theme.FontSizes
 import com.arix.pokedex.theme.PokedexTheme
 import com.arix.pokedex.theme.Shapes
@@ -26,9 +26,10 @@ import com.arix.pokedex.utils.MockResourceReader
 
 @Composable
 fun ItemListItem(
-    item: ItemDetails,
-    onClick: (item: ItemDetails) -> Unit,
+    item: Item,
+    onClick: (item: Item) -> Unit,
 ) {
+    val itemCategoryColor = item.category.mapCategoryToColoredCategory()
     Box {
         Row(horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
@@ -37,7 +38,7 @@ fun ItemListItem(
                 .padding(5.dp)
                 .clip(Shapes.large)
                 .clickableOnceInTime { onClick(item) }
-                .background(getBrushBasedBy(item.categoryColor))
+                .background(getBrushBasedBy(itemCategoryColor.color))
                 .padding(vertical = 14.dp, horizontal = 20.dp)) {
             Text(
                 text = item.name.toSentenceCase(),
@@ -51,12 +52,12 @@ fun ItemListItem(
             )
             Card(
                 shape = Shapes.large,
-                backgroundColor = item.categoryColor,
+                backgroundColor = itemCategoryColor.color,
             ) {
                 Box(
                     Modifier.padding(horizontal = 7.dp, vertical = 2.dp)
                 ) {
-                    Text(text = item.categoryName)
+                    Text(text = item.category.name)
                 }
             }
         }

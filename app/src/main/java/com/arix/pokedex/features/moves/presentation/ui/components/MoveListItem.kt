@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import com.arix.pokedex.extensions.clickableOnceInTime
 import com.arix.pokedex.extensions.toSentenceCase
 import com.arix.pokedex.features.move_details.domain.model.UiMove
+import com.arix.pokedex.features.moves.domain.model.MoveItem
 import com.arix.pokedex.features.pokemon_list.domain.model.details.Type
 import com.arix.pokedex.features.pokemon_list.presentation.ui.components.TypeItem
 import com.arix.pokedex.theme.FontSizes
@@ -25,7 +26,7 @@ import com.arix.pokedex.theme.Shapes
 import com.arix.pokedex.utils.MockResourceReader
 
 @Composable
-fun MoveListItem(move: UiMove, onClick: (moveId: String) -> Unit) {
+fun MoveListItem(move: MoveItem, onClick: (moveId: String) -> Unit) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,

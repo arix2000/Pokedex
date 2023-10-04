@@ -1,4 +1,4 @@
-package com.arix.pokedex.features.items.domain.model.move_details.raw
+package com.arix.pokedex.features.items.domain.model.item_details.raw
 
 data class EffectEntry(
     val effect: String,
