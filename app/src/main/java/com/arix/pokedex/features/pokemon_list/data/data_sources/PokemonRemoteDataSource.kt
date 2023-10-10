@@ -16,12 +16,41 @@ class PokemonRemoteDataSource(
     suspend fun getPokemonList(
         offset: Int,
         searchQuery: String,
-        limit: Int
+        limit: Int,
+        limitedList: List<String>
     ): ApiResponse<Page<PokemonItem>> {
         return if (searchQuery.isBlank())
-            makeHttpRequest { pokeListsApiService.getPokemonList(limit, offset) }
+            makeHttpRequestWithLimitedListIfNeeded(offset, limit, limitedList)
         else
-            makeHttpRequest { pokeListsApiService.getPokemonList(searchQuery, limit, offset) }
+            makeHttpRequestWithLimitedListIfNeeded(offset, searchQuery, limit, limitedList)
+    }
+
+    private suspend fun makeHttpRequestWithLimitedListIfNeeded(
+        offset: Int,
+        limit: Int,
+        limitedList: List<String>
+    ): ApiResponse<Page<PokemonItem>> {
+        return if (limitedList.isNotEmpty())
+            makeHttpRequest { pokeListsApiService.getPokemonList(limit, offset, limitedList) }
+        else makeHttpRequest { pokeListsApiService.getPokemonList(limit, offset) }
+    }
+
+    private suspend fun makeHttpRequestWithLimitedListIfNeeded(
+        offset: Int,
+        searchQuery: String,
+        limit: Int,
+        limitedList: List<String>
+    ): ApiResponse<Page<PokemonItem>> {
+        return if (limitedList.isNotEmpty())
+            makeHttpRequest {
+                pokeListsApiService.getPokemonList(
+                    searchQuery,
+                    limit,
+                    offset,
+                    limitedList
+                )
+            }
+        else makeHttpRequest { pokeListsApiService.getPokemonList(searchQuery, limit, offset) }
     }
 
     suspend fun getPokemon(name: String): ApiResponse<RawPokemonDetails> {

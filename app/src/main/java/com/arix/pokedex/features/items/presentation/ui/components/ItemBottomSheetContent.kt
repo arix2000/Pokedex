@@ -37,16 +37,16 @@ import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun ItemBottomSheetContent(item: Item, viewModel: ItemsViewModel = getViewModel()) {
-    LaunchedEffect(key1 = true) {
+    LaunchedEffect(key1 = item.id) {
         viewModel.invokeEvent(ItemEvent.GetItemDetails(item.id.toString()))
     }
     val state = viewModel.state.value
     when {
-        state.itemDetails != null -> ItemBottomSheetInnerContent(state.itemDetails)
         state.isLoading && !isPreview() ->
             Box(modifier = Modifier.background(Color.Black)) {
                 DefaultProgressIndicatorScreen(modifier = Modifier.fillMaxHeight(0.5f))
             }
+        state.itemDetails != null -> ItemBottomSheetInnerContent(state.itemDetails)
         state.errorMessage != null -> ErrorScreenWithRetryButton {
             viewModel.invokeEvent(ItemEvent.GetItemDetails(item.id.toString()))
         }

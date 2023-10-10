@@ -34,7 +34,7 @@ private fun ItemsScreenContent(
     val coroutineScope = rememberCoroutineScope()
     val modalSheetState = rememberModalBottomSheetState(
         initialValue = ModalBottomSheetValue.Hidden,
-        confirmStateChange = { it != ModalBottomSheetValue.HalfExpanded },
+        confirmValueChange = { it != ModalBottomSheetValue.HalfExpanded },
     )
     BackHandler(modalSheetState.isVisible) {
         coroutineScope.launch { modalSheetState.hide() }

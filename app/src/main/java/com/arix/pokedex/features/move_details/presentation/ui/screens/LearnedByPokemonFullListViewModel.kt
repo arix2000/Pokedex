@@ -9,7 +9,11 @@ import com.arix.pokedex.utils.ApiResponse
 class LearnedByPokemonFullListViewModel(private val getPokemonListUseCase: GetPokemonListUseCase) :
     ViewModel() {
 
-    suspend fun getPokemonList(offset: Int, searchQuery: String): ApiResponse<Page<PokemonItem>> {
-        return getPokemonListUseCase(offset, searchQuery)
+    suspend fun getPokemonList(
+        offset: Int,
+        searchQuery: String,
+        limitedList: List<String>
+    ): ApiResponse<Page<PokemonItem>> {
+        return getPokemonListUseCase(offset, searchQuery, limitedList = limitedList)
     }
 }

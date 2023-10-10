@@ -17,9 +17,10 @@ class PokemonRepositoryImpl(
     override suspend fun getPokemonList(
         offset: Int,
         searchQuery: String,
-        limit: Int
+        limit: Int,
+        limitedList: List<String>
     ): ApiResponse<Page<PokemonItem>> {
-        return remoteDataSource.getPokemonList(offset, searchQuery, limit)
+        return remoteDataSource.getPokemonList(offset, searchQuery, limit, limitedList)
     }
 
     override suspend fun getPokemon(name: String): ApiResponse<RawPokemonDetails> {

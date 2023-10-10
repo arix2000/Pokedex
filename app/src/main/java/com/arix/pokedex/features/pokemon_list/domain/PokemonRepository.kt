@@ -7,7 +7,12 @@ import com.arix.pokedex.utils.ApiResponse
 import kotlinx.coroutines.flow.Flow
 
 interface PokemonRepository {
-    suspend fun getPokemonList(offset: Int, searchQuery: String, limit: Int): ApiResponse<Page<PokemonItem>>
+    suspend fun getPokemonList(
+        offset: Int,
+        searchQuery: String,
+        limit: Int,
+        limitedList: List<String>
+    ): ApiResponse<Page<PokemonItem>>
 
     suspend fun getPokemon(name: String): ApiResponse<RawPokemonDetails>
 

@@ -21,7 +21,7 @@ class MovesRemoteDataSource(
     ): ApiResponse<Page<MoveItem>> {
         return if (searchQuery.isBlank())
             makeHttpRequest { pokeListsApiService.getMoveList(limit, offset) }
-        else makeHttpRequest { pokeListsApiService.getMoveList(limit, offset, searchQuery) }
+        else makeHttpRequest { pokeListsApiService.getMoveList(searchQuery, limit, offset) }
     }
 
     suspend fun getMove(moveId: String): ApiResponse<RawMove> {

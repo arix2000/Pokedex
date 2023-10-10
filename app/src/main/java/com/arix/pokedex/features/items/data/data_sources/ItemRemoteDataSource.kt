@@ -21,7 +21,7 @@ class ItemRemoteDataSource(
         return if (searchQuery.isBlank())
             makeHttpRequest { pokeListsApiService.getItemList(limit, offset) }
         else
-            makeHttpRequest { pokeListsApiService.getItemList(limit, offset, searchQuery) }
+            makeHttpRequest { pokeListsApiService.getItemList(searchQuery, limit, offset) }
     }
 
     suspend fun getItem(itemId: String): ApiResponse<RawItemDetails> {

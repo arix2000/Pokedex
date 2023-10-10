@@ -18,6 +18,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.arix.pokedex.R
+import com.arix.pokedex.extensions.isPreview
 import com.arix.pokedex.features.common.text.ExpandableText
 import com.arix.pokedex.features.items.domain.model.item_details.ItemDetails
 import com.arix.pokedex.theme.Gradients
@@ -37,16 +38,18 @@ fun ItemDetailsBaseInfoTile(item: ItemDetails) {
             .padding(vertical = 10.dp, horizontal = 10.dp)
     ) {
         Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-            AsyncImage(
-                model = item.imageUrl,
-                contentDescription = "Item image",
-                placeholder = painterResource(R.drawable.potion),
-                onLoading = { isLoading = true },
-                onSuccess = { isLoading = false },//TODO add shimmer effect instead
-                modifier = Modifier.size(50.dp)
-            )
-            if (isLoading)
-                ShimmerAnimatedBox()
+            Box {
+                AsyncImage(
+                    model = item.imageUrl,
+                    contentDescription = "Item image",
+                    placeholder = painterResource(R.drawable.potion),
+                    onLoading = { isLoading = true },
+                    onSuccess = { isLoading = false },
+                    modifier = Modifier.size(50.dp)
+                )
+                if (isLoading && !isPreview())
+                    ShimmerAnimatedBox(modifier = Modifier.size(50.dp))
+            }
             Spacer(modifier = Modifier.width(20.dp))
             ExpandableText(text = item.flavorText, maxLines = 2, textAlign = TextAlign.Start)
         }

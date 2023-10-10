@@ -11,8 +11,9 @@ class GetPokemonListUseCase(private val repository: PokemonRepository) {
     suspend operator fun invoke(
         offset: Int,
         searchQuery: String,
-        limit: Int = POKEMON_LIST_ITEM_LIMIT
+        limit: Int = POKEMON_LIST_ITEM_LIMIT,
+        limitedList: List<String> = listOf()
     ): ApiResponse<Page<PokemonItem>> {
-        return repository.getPokemonList(offset, searchQuery, limit)
+        return repository.getPokemonList(offset, searchQuery, limit, limitedList)
     }
 }
