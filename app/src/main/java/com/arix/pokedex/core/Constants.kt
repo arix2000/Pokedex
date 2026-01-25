@@ -1,13 +1,15 @@
 package com.arix.pokedex.core
 
 import androidx.compose.ui.unit.dp
+import com.arix.pokedex.BuildConfig
 
 object Constants {
 
     object Network {
         const val POKE_API_BASE_URL = "https://pokeapi.co/api/v2/"
-        const val POKE_LIST_API_BASE_URL = "http://192.168.1.21:8080/"
-
+        const val POKE_LIST_API_BASE_URL = BuildConfig.API_URL
+        const val API_KEY_HEADER = "X-Api-Key"
+        const val API_KEY = BuildConfig.API_KEY
     }
 
     object UnitsOfMeasure {

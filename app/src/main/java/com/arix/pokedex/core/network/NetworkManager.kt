@@ -1,8 +1,11 @@
 package com.arix.pokedex.core.network
 
+import com.arix.pokedex.core.Constants.Network.API_KEY
+import com.arix.pokedex.core.Constants.Network.API_KEY_HEADER
 import com.arix.pokedex.core.Constants.Network.POKE_API_BASE_URL
 import com.arix.pokedex.core.Constants.Network.POKE_LIST_API_BASE_URL
 import com.google.gson.GsonBuilder
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -12,7 +15,7 @@ class NetworkManager {
     fun providePokeApiRetrofit(): Retrofit {
         return Retrofit.Builder()
             .baseUrl(POKE_API_BASE_URL)
-            .client(getOkHttpClient())
+            .client(getPokeApiOkHttpClient())
             .addConverterFactory(GsonConverterFactory.create(getGson()))
             .build()
     }
@@ -24,7 +27,7 @@ class NetworkManager {
     fun providePokeListsApiRetrofit(): Retrofit {
         return Retrofit.Builder()
             .baseUrl(POKE_LIST_API_BASE_URL)
-            .client(getOkHttpClient())
+            .client(getPokeListsOkHttpClient())
             .addConverterFactory(GsonConverterFactory.create(getGson()))
             .build()
     }
@@ -34,11 +37,28 @@ class NetworkManager {
     }
 
 
-    private fun getOkHttpClient(): OkHttpClient {
+    private fun getPokeApiOkHttpClient(): OkHttpClient {
         val interceptor = HttpLoggingInterceptor().apply {
             this.level = HttpLoggingInterceptor.Level.BODY
         }
         return OkHttpClient.Builder().addInterceptor(interceptor).build()
+    }
+
+    private fun getPokeListsOkHttpClient(): OkHttpClient {
+        val interceptor = HttpLoggingInterceptor().apply {
+            this.level = HttpLoggingInterceptor.Level.BODY
+        }
+
+        val headerInterceptor = Interceptor { chain ->
+            val request = chain.request().newBuilder()
+                .addHeader(API_KEY_HEADER, API_KEY)
+                .build()
+            chain.proceed(request)
+        }
+
+        return OkHttpClient.Builder()
+            .addInterceptor(interceptor).addInterceptor(headerInterceptor)
+            .build()
     }
 
     private fun getGson() = GsonBuilder().create()
