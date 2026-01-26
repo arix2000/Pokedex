@@ -50,29 +50,37 @@ fun PokemonListItem(
             }
     ) {
         Column(
-            modifier = modifier,
-            verticalArrangement = Arrangement.spacedBy(3.dp, Alignment.CenterVertically),
+            modifier = modifier
+                .padding(bottom = 10.dp)
+                .fillMaxHeight(),
+            verticalArrangement = Arrangement.spacedBy(3.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             AsyncImage(
                 model = pokemonItem.imageUrl,
                 contentDescription = pokemonItem.name,
-                contentScale = ContentScale.FillWidth,
-                modifier = Modifier.fillMaxWidth(),
+                contentScale = ContentScale.Fit,
                 placeholder = painterResource(id = R.drawable.scyther),
                 onSuccess = { isImageLoading = false },
                 onError = { isImageLoading = false },
-                error = painterResource(id = R.drawable.pokemon_not_found_image)
+                error = painterResource(id = R.drawable.pokemon_not_found_image),
+                modifier = Modifier.weight(1f)
             )
+
             FadingHorizontalDivider()
+
             Text(
                 text = pokemonItem.name.capitalize(LocaleList.current),
                 fontSize = FontSizes.large,
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 1
             )
-            TypesSection(pokemonItem.types, spacing = 2.dp, itemFontSize = FontSizes.minimum)
-            Spacer(modifier = Modifier.height(10.dp))
+
+            TypesSection(
+                pokemonItem.types,
+                spacing = 2.dp,
+                itemFontSize = FontSizes.minimum
+            )
         }
         ShowShimmerIf(modifier = modifier, isImageLoading)
     }
@@ -101,7 +109,9 @@ fun PokemonItemPreview() {
     val pokemonDetails = remember { MockResourceReader(context).getPokemonDetailsMock() }
     PokedexTheme {
         Surface {
-            PokemonListItem(pokemonDetails, Modifier.width(180.dp))
+            PokemonListItem(pokemonDetails, Modifier
+                .width(180.dp)
+                .height(250.dp))
         }
     }
 }

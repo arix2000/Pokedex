@@ -40,7 +40,7 @@ fun TypeItem(type: Type, modifier: Modifier = Modifier, itemFontSize: TextUnit) 
             .width(70.dp),
         contentAlignment = Alignment.Center
     ) {
-        Text(text = type.name, fontSize = itemFontSize)
+        Text(text = type.name, fontSize = itemFontSize, softWrap = false)
     }
 }
 
