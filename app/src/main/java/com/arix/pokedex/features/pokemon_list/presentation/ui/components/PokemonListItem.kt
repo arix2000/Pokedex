@@ -43,7 +43,7 @@ fun PokemonListItem(
     Box(
         modifier = Modifier
             .padding(5.dp)
-            .clip(Shapes.medium)
+            .clip(Shapes.pokemonListItem)
             .background(brush = getBrushBasedOn(pokemonItem.types, isImageLoading))
             .clickableOnceInTime(enabled = onClick != null) {
                 onClick?.invoke()

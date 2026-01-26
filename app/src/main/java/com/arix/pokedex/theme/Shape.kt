@@ -15,4 +15,5 @@ object Shapes {
     val large = RoundedCornerShape(22.dp)
 
     val bottomSheet = RoundedCornerShape(topStart = 22.dp, topEnd = 22.dp)
+    val pokemonListItem = RoundedCornerShape(18.dp)
 }

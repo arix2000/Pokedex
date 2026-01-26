@@ -1,10 +1,13 @@
 package com.arix.pokedex.features.common.search_view.ui
 
+import androidx.compose.foundation.layout.height
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.arix.pokedex.extensions.gridItems
 import com.arix.pokedex.features.items.presentation.ui.components.ItemListItem
 import com.arix.pokedex.features.moves.presentation.ui.components.MoveListItem
@@ -48,7 +51,7 @@ private fun SearchableLazyColumnMovesPreview() {
                     items = pokemonList,
                 ), {
                     gridItems(pokemonList, 2) {
-                        PokemonListItem(it)
+                        PokemonListItem(it, modifier = Modifier.height(250.dp))
                     }
                 }) {}
         }

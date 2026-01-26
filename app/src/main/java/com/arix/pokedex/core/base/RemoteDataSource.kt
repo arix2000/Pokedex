@@ -2,6 +2,7 @@ package com.arix.pokedex.core.base
 
 import android.util.Log
 import com.arix.pokedex.utils.ApiResponse
+import kotlin.coroutines.cancellation.CancellationException
 
 abstract class RemoteDataSource {
 
@@ -10,7 +11,7 @@ abstract class RemoteDataSource {
             request.invoke()
         } catch (e: Exception) {
             Log.e("SERVER_ERROR", e.stackTraceToString())
-            return ApiResponse.Error(e.message ?: "UnexpectedError")
+            return ApiResponse.Error(e.message ?: "UnexpectedError", exception = e)
         }
         return ApiResponse.Success(result)
     }

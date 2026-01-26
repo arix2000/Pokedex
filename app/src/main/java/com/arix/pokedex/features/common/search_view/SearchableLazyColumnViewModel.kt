@@ -8,13 +8,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.arix.pokedex.core.Constants.SearchableLazyColumn.INITIAL_OFFSET
 import com.arix.pokedex.core.errors.NoConnectionError
-import com.arix.pokedex.extensions.*
 import com.arix.pokedex.features.common.search_view.domain.Page
 import com.arix.pokedex.features.common.search_view.ui.SearchableLazyColumnEvent
 import com.arix.pokedex.features.common.search_view.ui.SearchableLazyColumnState
 import com.arix.pokedex.utils.ApiResponse
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlin.coroutines.cancellation.CancellationException
 
 class SearchableLazyColumnViewModel<T>(
     private val getItemList: suspend (offset: Int, searchQuery: String) -> ApiResponse<Page<T>>
@@ -51,9 +52,7 @@ class SearchableLazyColumnViewModel<T>(
         _state.run {
             if (searchQuery.isBlank() && previousQuery.isNotBlank()) {
                 value = value.copy(
-                    items = null,
-                    emptySearchResult = false,
-                    isListEndReached = false
+                    items = null, emptySearchResult = false, isListEndReached = false
                 )
                 getNextItems()
                 value = value.copy(searching = false)
@@ -74,6 +73,7 @@ class SearchableLazyColumnViewModel<T>(
         _state.run {
             getItemListJob?.cancel()
             getItemListJob = viewModelScope.launch {
+                delay(400)
                 val nextMoves = getItemList(offset, searchQuery)
                 handleResults(nextMoves)
             }
@@ -95,9 +95,12 @@ class SearchableLazyColumnViewModel<T>(
                     }
                 }
 
-                else -> value = value.copy(
-                    error = NoConnectionError(nextMoves.message)
-                )
+                else -> {
+                    if (nextMoves is ApiResponse.Error && nextMoves.exception is CancellationException) return
+                    value = value.copy(
+                        error = NoConnectionError(nextMoves.message)
+                    )
+                }
             }
         }
     }
