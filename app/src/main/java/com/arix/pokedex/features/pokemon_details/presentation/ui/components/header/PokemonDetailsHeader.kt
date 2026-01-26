@@ -66,6 +66,7 @@ fun PokemonDetailsHeader(
                     error = painterResource(id = R.drawable.pokemon_not_found_image),
                     onLoading = { isImageLoading = true },
                     onSuccess = { isImageLoading = false },
+                    onError = { isImageLoading = false }
                 )
                 if (isImageLoading)
                     DefaultProgressIndicatorScreen(
@@ -88,7 +89,8 @@ fun PokemonDetailsHeader(
                     .width(90.dp)
             )
         }
-        ShinyToggleButton(imageModel, pokemonDetails, onClick = { imageModel = it })
+        if (pokemonDetails.sprites.front_shiny != null)
+            ShinyToggleButton(imageModel, pokemonDetails, onClick = { imageModel = it })
     }
 }
 
@@ -114,7 +116,7 @@ fun ShinyToggleButton(
             onClick(
                 if (isShinyShowed)
                     pokemonDetails.sprites.front_default
-                else pokemonDetails.sprites.front_shiny
+                else pokemonDetails.sprites.front_shiny ?: ""
             )
         }) {
         Text(text = if (isShinyShowed) "Normal" else "Shiny")

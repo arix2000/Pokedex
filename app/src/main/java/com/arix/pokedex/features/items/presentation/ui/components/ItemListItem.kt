@@ -29,7 +29,7 @@ fun ItemListItem(
     item: Item,
     onClick: (item: Item) -> Unit,
 ) {
-    val itemCategoryColor = item.category.mapCategoryToColoredCategory()
+    val itemCategoryColor = item.category.mapToColoredCategory()
     Box {
         Row(horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
