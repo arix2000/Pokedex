@@ -29,7 +29,7 @@ fun ItemListItem(
     item: Item,
     onClick: (item: Item) -> Unit,
 ) {
-    val itemCategoryColor = item.category.mapToColoredCategory()
+    val itemColoredCategory = item.category.mapToColoredCategory()
     Box {
         Row(horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
@@ -38,7 +38,7 @@ fun ItemListItem(
                 .padding(5.dp)
                 .clip(Shapes.large)
                 .clickableOnceInTime { onClick(item) }
-                .background(getBrushBasedBy(itemCategoryColor.color))
+                .background(getBrushBasedBy(itemColoredCategory.color))
                 .padding(vertical = 14.dp, horizontal = 20.dp)) {
             Text(
                 text = item.name.toSentenceCase(),
@@ -52,12 +52,12 @@ fun ItemListItem(
             )
             Card(
                 shape = Shapes.large,
-                backgroundColor = itemCategoryColor.color,
+                backgroundColor = itemColoredCategory.color,
             ) {
                 Box(
                     Modifier.padding(horizontal = 7.dp, vertical = 2.dp)
                 ) {
-                    Text(text = item.category.name)
+                    Text(text = itemColoredCategory.name)
                 }
             }
         }
