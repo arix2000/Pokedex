@@ -25,7 +25,7 @@ fun Modifier.clickableOnceInTime(
     onClick: () -> Unit
 ) = composed {
     val multipleEventsCutter = remember { MultipleEventsCutter() }
-    Modifier.clickable(enabled = enabled,
+    clickable(enabled = enabled,
         onClickLabel = onClickLabel,
         onClick = {
             multipleEventsCutter.processEvent(delay) { onClick() }

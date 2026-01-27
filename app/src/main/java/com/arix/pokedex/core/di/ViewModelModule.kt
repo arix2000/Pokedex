@@ -4,15 +4,14 @@ import android.content.Context
 import com.arix.pokedex.extensions.dataStore
 import com.arix.pokedex.features.common.search_view.SearchableLazyColumnViewModel
 import com.arix.pokedex.features.items.domain.model.Item
-import com.arix.pokedex.features.items.domain.model.item_details.ItemDetails
 import com.arix.pokedex.features.items.presentation.ItemsViewModel
-import com.arix.pokedex.features.move_details.domain.model.UiMove
+import com.arix.pokedex.features.locations.domain.model.list.LocationItem
+import com.arix.pokedex.features.locations.presentation.LocationViewModel
 import com.arix.pokedex.features.move_details.presentation.MoveDetailsViewModel
 import com.arix.pokedex.features.move_details.presentation.ui.screens.LearnedByPokemonFullListViewModel
 import com.arix.pokedex.features.moves.domain.model.MoveItem
 import com.arix.pokedex.features.moves.presentation.MovesViewModel
 import com.arix.pokedex.features.pokemon_details.presentation.PokemonDetailsViewModel
-import com.arix.pokedex.features.pokemon_list.domain.model.details.PokemonDetails
 import com.arix.pokedex.features.pokemon_list.domain.model.list.PokemonItem
 import com.arix.pokedex.features.pokemon_list.presentation.PokemonListViewModel
 import com.arix.pokedex.features.splash_activity.SplashViewModel
@@ -35,6 +34,8 @@ val viewModelModule = module {
 
     viewModel { ItemsViewModel(get(), get()) }
 
+    viewModel { LocationViewModel(get()) }
+
     viewModel(named(PokemonItem::class.java.simpleName)) { params ->
         SearchableLazyColumnViewModel<PokemonItem>(
             getItemList = params.get()
@@ -49,6 +50,12 @@ val viewModelModule = module {
 
     viewModel(named(Item::class.java.simpleName)) { params ->
         SearchableLazyColumnViewModel<Item>(
+            getItemList = params.get()
+        )
+    }
+
+    viewModel(named(LocationItem::class.java.simpleName)) { params ->
+        SearchableLazyColumnViewModel<LocationItem>(
             getItemList = params.get()
         )
     }

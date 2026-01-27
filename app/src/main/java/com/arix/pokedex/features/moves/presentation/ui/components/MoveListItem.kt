@@ -1,7 +1,11 @@
 package com.arix.pokedex.features.moves.presentation.ui.components
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -16,7 +20,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.arix.pokedex.extensions.clickableOnceInTime
 import com.arix.pokedex.extensions.toSentenceCase
-import com.arix.pokedex.features.move_details.domain.model.UiMove
 import com.arix.pokedex.features.moves.domain.model.MoveItem
 import com.arix.pokedex.features.pokemon_list.domain.model.details.Type
 import com.arix.pokedex.features.pokemon_list.presentation.ui.components.TypeItem
@@ -48,7 +51,7 @@ fun MoveListItem(move: MoveItem, onClick: (moveId: String) -> Unit) {
         )
         Box {
             Surface(elevation = 2.dp, shape = Shapes.large, color = Color.Transparent) {
-                TypeItem(type = move.type, itemFontSize = FontSizes.minimum)
+                TypeItem(type = move.type, itemFontSize = FontSizes.normal)
             }
         }
     }

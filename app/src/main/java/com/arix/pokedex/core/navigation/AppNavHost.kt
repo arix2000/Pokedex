@@ -7,7 +7,7 @@ import androidx.navigation.compose.composable
 import com.arix.pokedex.extensions.getTypeOf
 import com.arix.pokedex.features.abilities.AbilitiesScreen
 import com.arix.pokedex.features.items.presentation.ui.ItemsScreen
-import com.arix.pokedex.features.locations.LocationsScreen
+import com.arix.pokedex.features.locations.presentation.ui.LocationsScreen
 import com.arix.pokedex.features.move_details.presentation.ui.screens.LearnedByPokemonFullList
 import com.arix.pokedex.features.move_details.presentation.ui.screens.MoveDetailsScreen
 import com.arix.pokedex.features.moves.presentation.ui.MovesScreen

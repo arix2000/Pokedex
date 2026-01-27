@@ -31,7 +31,8 @@ fun ItemListItem(
 ) {
     val itemColoredCategory = item.category.mapToColoredCategory()
     Box {
-        Row(horizontalArrangement = Arrangement.SpaceBetween,
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .fillMaxWidth()
@@ -57,7 +58,7 @@ fun ItemListItem(
                 Box(
                     Modifier.padding(horizontal = 7.dp, vertical = 2.dp)
                 ) {
-                    Text(text = itemColoredCategory.name)
+                    Text(text = itemColoredCategory.name, fontSize = FontSizes.normal)
                 }
             }
         }

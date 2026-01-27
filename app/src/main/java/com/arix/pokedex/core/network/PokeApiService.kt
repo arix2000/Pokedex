@@ -1,15 +1,12 @@
 package com.arix.pokedex.core.network
 
-import com.arix.pokedex.features.items.domain.model.ItemList
 import com.arix.pokedex.features.items.domain.model.item_details.raw.RawItemDetails
-import com.arix.pokedex.features.moves.domain.model.MoveList
 import com.arix.pokedex.features.moves.domain.model.RawMove
 import com.arix.pokedex.features.pokemon_details.domain.model.evolution_chain.PokemonEvolutionChain
 import com.arix.pokedex.features.pokemon_details.domain.model.species.PokemonSpecies
 import com.arix.pokedex.features.pokemon_list.domain.model.details.raw.RawPokemonDetails
 import retrofit2.http.GET
 import retrofit2.http.Path
-import retrofit2.http.Query
 
 interface PokeApiService {
 
@@ -32,18 +29,6 @@ interface PokeApiService {
     suspend fun getMove(
         @Path("moveId") moveId: String
     ): RawMove
-
-    @GET("move")
-    suspend fun getMoves(
-        @Query("limit") limit: Int,
-        @Query("offset") offset: Int
-    ): MoveList
-
-    @GET("item")
-    suspend fun getItems(
-        @Query("limit") limit: Int,
-        @Query("offset") offset: Int
-    ): ItemList
 
     @GET("item/{itemId}")
     suspend fun getItem(

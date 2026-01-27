@@ -57,3 +57,16 @@ object ItemCategoryColors {
     val battle = Color(0xFFA20808)
     val mail = Color(0xFF009688)
 }
+
+object RegionColors {
+    val kanto = Color(0xFFE53935)
+    val johto = Color(0xFFC5A059)
+    val hoenn = Color(0xFF00A8A8)
+    val sinnoh = Color(0xFF8C92AC)
+    val unova = Color(0xFF333333)
+    val kalos = Color(0xFFD81B60)
+    val alola = Color(0xFFFF8F00)
+    val galar = Color(0xFF154360)
+    val hisui = Color(0xFF4D6D53)
+    val paldea = Color(0xFF7E57C2)
+}

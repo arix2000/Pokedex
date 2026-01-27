@@ -1,0 +1,25 @@
+package com.arix.pokedex.features.locations.data
+
+import com.arix.pokedex.core.base.RemoteDataSource
+import com.arix.pokedex.core.network.PokeApiService
+import com.arix.pokedex.core.network.PokeListsApiService
+import com.arix.pokedex.features.common.search_view.domain.Page
+import com.arix.pokedex.features.locations.domain.model.list.LocationItem
+import com.arix.pokedex.utils.ApiResponse
+
+class LocationRemoteDataSource(
+    private val pokeApiService: PokeApiService,
+    private val pokeListsApiService: PokeListsApiService
+) : RemoteDataSource() {
+
+    suspend fun getLocations(
+        limit: Int,
+        offset: Int,
+        searchQuery: String
+    ): ApiResponse<Page<LocationItem>> {
+        return if (searchQuery.isBlank())
+            makeHttpRequest { pokeListsApiService.getLocationList(limit, offset) }
+        else
+            makeHttpRequest { pokeListsApiService.getLocationList(searchQuery, limit, offset) }
+    }
+}

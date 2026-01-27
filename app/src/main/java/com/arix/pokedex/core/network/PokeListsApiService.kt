@@ -2,6 +2,7 @@ package com.arix.pokedex.core.network
 
 import com.arix.pokedex.features.common.search_view.domain.Page
 import com.arix.pokedex.features.items.domain.model.Item
+import com.arix.pokedex.features.locations.domain.model.list.LocationItem
 import com.arix.pokedex.features.moves.domain.model.MoveItem
 import com.arix.pokedex.features.pokemon_list.domain.model.list.PokemonItem
 import retrofit2.http.Body
@@ -65,4 +66,17 @@ interface PokeListsApiService {
         @Query("limit") limit: Int,
         @Query("offset") offset: Int,
     ): Page<Item>
+
+    @GET("locationList")
+    suspend fun getLocationList(
+        @Query("limit") limit: Int,
+        @Query("offset") offset: Int
+    ): Page<LocationItem>
+
+    @GET("locationList/{searchQuery}")
+    suspend fun getLocationList(
+        @Path("searchQuery") searchQuery: String,
+        @Query("limit") limit: Int,
+        @Query("offset") offset: Int,
+    ): Page<LocationItem>
 }

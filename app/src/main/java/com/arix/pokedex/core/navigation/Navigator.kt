@@ -31,4 +31,8 @@ class Navigator {
             navController.navigate(route.putArgument(argumentKeys[0], moveId))
         }
     }
+
+    fun goToLocationDetails(locationId: Int) {
+
+    }
 }
