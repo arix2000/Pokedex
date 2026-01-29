@@ -1,11 +1,14 @@
 package com.arix.pokedex.features.common.drawer
 
+import android.R.attr.top
+import android.content.Intent
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.Colors
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -14,13 +17,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
@@ -29,12 +37,15 @@ import com.arix.pokedex.core.navigation.DrawerScreens
 import com.arix.pokedex.core.navigation.DrawerSpecs
 import com.arix.pokedex.theme.BlackLight
 import com.arix.pokedex.theme.BlackSoftA50
+import com.arix.pokedex.theme.DisabledColor
 import com.arix.pokedex.theme.PokedexTheme
+import com.arix.pokedex.theme.WhiteA50
 import com.arix.pokedex.views.FadingHorizontalDivider
 import kotlinx.coroutines.launch
 
 @Composable
 fun NavDrawerContent(navController: NavController, scaffoldState: ScaffoldState) {
+    val uriHandler = LocalUriHandler.current
     val drawerSpecsList = remember { DrawerScreens.values() }
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
@@ -66,6 +77,25 @@ fun NavDrawerContent(navController: NavController, scaffoldState: ScaffoldState)
                 scope.launch { scaffoldState.drawerState.close() }
             }
             Spacer(modifier = Modifier.height(5.dp))
+        }
+        Spacer(modifier = Modifier.weight(1F))
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 64.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(stringResource(R.string.powered_by_poke_api_label), color = WhiteA50)
+            Spacer(Modifier.height(8.dp))
+            Image(
+                painter = painterResource(R.drawable.pokeapi_logo),
+                contentDescription = "PokeapiLink",
+                modifier = Modifier
+                    .height(60.dp)
+                    .clickable {
+                        uriHandler.openUri("https://pokeapi.co/")
+                    }
+            )
         }
     }
 }
