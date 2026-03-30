@@ -24,4 +24,8 @@ sealed class ApiResponse<T>(
     fun isSuccess(): Boolean {
         return this is Success
     }
+
+    fun isError(): Boolean {
+        return this is Error
+    }
 }

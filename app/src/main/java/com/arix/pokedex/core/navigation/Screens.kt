@@ -32,6 +32,8 @@ sealed class Screen(
 
     object LocationsScreen : Screen("locationsScreen")
 
+    object LocationsDetailsScreen : Screen("locationsDetailsScreen", "locationId")
+
     object AbilitiesScreen : Screen("abilitiesScreen")
 
     object PokemonDetailsScreen

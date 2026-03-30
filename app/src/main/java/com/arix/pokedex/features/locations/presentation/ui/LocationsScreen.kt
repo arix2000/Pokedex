@@ -34,7 +34,7 @@ fun LocationsScreenContent(
         searchParams = SearchParams(getLocationList),
         searchableContent = { locations ->
             items(locations, key = { it.id }) { location ->
-                LocationListItem(location) { locationId -> navigator.goToLocationDetails(locationId) }
+                LocationListItem(location) { locationId -> navigator.goToLocationDetails(locationId.toString()) }
             }
         }
     )

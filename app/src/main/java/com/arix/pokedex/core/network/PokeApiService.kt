@@ -1,6 +1,8 @@
 package com.arix.pokedex.core.network
 
 import com.arix.pokedex.features.items.domain.model.item_details.raw.RawItemDetails
+import com.arix.pokedex.features.locations.domain.model.details.location_area.RawLocationAreaResponse
+import com.arix.pokedex.features.locations.domain.model.details.location_details.RawLocationDetails
 import com.arix.pokedex.features.moves.domain.model.RawMove
 import com.arix.pokedex.features.pokemon_details.domain.model.evolution_chain.PokemonEvolutionChain
 import com.arix.pokedex.features.pokemon_details.domain.model.species.PokemonSpecies
@@ -34,6 +36,16 @@ interface PokeApiService {
     suspend fun getItem(
         @Path("itemId") itemId: String
     ): RawItemDetails
+
+    @GET("location/{locationId}")
+    suspend fun getLocation(
+        @Path("locationId") locationId: String
+    ): RawLocationDetails
+
+    @GET("location-area/{locationAreaId}")
+    suspend fun getLocationArea(
+        @Path("locationAreaId") locationAreaId: String
+    ): RawLocationAreaResponse
 
 
 }

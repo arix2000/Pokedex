@@ -32,7 +32,9 @@ class Navigator {
         }
     }
 
-    fun goToLocationDetails(locationId: Int) {
-
+    fun goToLocationDetails(locationId: String) {
+        with(Screen.LocationsDetailsScreen) {
+            navController.navigate(route.putArgument(argumentKeys[0], locationId))
+        }
     }
 }
