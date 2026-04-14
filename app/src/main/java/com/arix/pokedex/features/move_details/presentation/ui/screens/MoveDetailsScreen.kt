@@ -18,7 +18,7 @@ import com.arix.pokedex.features.move_details.presentation.MoveDetailsViewModel
 import com.arix.pokedex.features.move_details.presentation.ui.MoveDetailsEvent
 import com.arix.pokedex.features.move_details.presentation.ui.components.MoveDetailsHeader
 import com.arix.pokedex.features.move_details.presentation.ui.components.MoveDetailsTiles
-import com.arix.pokedex.features.move_details.presentation.ui.components.learnedByPokemon.LearnedByPokemonSection
+import com.arix.pokedex.features.move_details.presentation.ui.components.learnedByPokemon.PokemonShortListSection
 import com.arix.pokedex.theme.PokedexTheme
 import com.arix.pokedex.utils.MockResourceReader
 import com.arix.pokedex.views.DefaultProgressIndicatorScreen
@@ -39,9 +39,11 @@ fun MoveDetailsScreen(
     val state = viewModel.state.value
     when {
         state.move != null -> {
-            MoveDetailsScreenContent(move = state.move
+            MoveDetailsScreenContent(
+                move = state.move
             )
         }
+
         state.isLoading -> DefaultProgressIndicatorScreen()
         state.errorMessage != null -> ErrorScreenWithRetryButton {
             viewModel.invokeEvent(MoveDetailsEvent.LoadMoveDetailsEvent(moveId))
@@ -60,7 +62,8 @@ private fun MoveDetailsScreenContent(move: UiMove, navigator: Navigator = get())
         FadingHorizontalDivider()
         MoveDetailsTiles(move)
         if (!isPreview())
-            LearnedByPokemonSection(move.learnedByPokemon,
+            PokemonShortListSection(
+                move.learnedByPokemon.map { it.name },
                 { navigator.goToLearnedByPokemonList(it, move.name) })
     }
 }

@@ -9,7 +9,6 @@ import com.arix.pokedex.features.move_details.domain.GetMoveUseCase
 import com.arix.pokedex.features.move_details.presentation.ui.MoveDetailsEvent
 import com.arix.pokedex.features.move_details.presentation.ui.MoveDetailsState
 import com.arix.pokedex.features.move_details.presentation.ui.components.learnedByPokemon.LearnedByPokemonState
-import com.arix.pokedex.features.pokemon_list.domain.model.list.PokemonBasicData
 import com.arix.pokedex.features.pokemon_list.domain.use_cases.GetPokemonListByNamesUseCase
 import com.arix.pokedex.utils.ApiResponse
 import kotlinx.coroutines.Job
@@ -44,7 +43,7 @@ class MoveDetailsViewModel(
                 value = when (response) {
                     is ApiResponse.Success -> {
                         val move = response.data!!
-                        loadLearnedByPokemonList(move.learnedByPokemon)
+                        loadLearnedByPokemonList(move.learnedByPokemon.map { it.name })
                         value.copy(
                             move = move,
                             isLoading = false
@@ -59,9 +58,9 @@ class MoveDetailsViewModel(
         }
     }
 
-    private fun loadLearnedByPokemonList(pokemonList: List<PokemonBasicData>) {
+    private fun loadLearnedByPokemonList(pokemonList: List<String>) {
         getPokemonDetailsJob = viewModelScope.launch {
-            val pokemonNames = pokemonList.take(LEARNED_BY_POKEMON_LIST_MAX_SIZE).map { it.name }
+            val pokemonNames = pokemonList.take(LEARNED_BY_POKEMON_LIST_MAX_SIZE)
             learnedByPokemonState.run {
                 value = value.copy(isLoading = true)
                 val response = getPokemonListByNamesUseCase(pokemonNames)

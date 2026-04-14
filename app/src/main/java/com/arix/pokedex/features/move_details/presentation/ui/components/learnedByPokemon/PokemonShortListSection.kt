@@ -1,6 +1,13 @@
 package com.arix.pokedex.features.move_details.presentation.ui.components.learnedByPokemon
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Button
 import androidx.compose.material.Icon
 import androidx.compose.material.Surface
@@ -23,11 +30,10 @@ import com.arix.pokedex.features.move_details.presentation.MoveDetailsViewModel
 import com.arix.pokedex.features.move_details.presentation.ui.MoveDetailsEvent
 import com.arix.pokedex.features.move_details.presentation.ui.components.GridView
 import com.arix.pokedex.features.pokemon_list.domain.model.details.PokemonDetails
-import com.arix.pokedex.features.pokemon_list.domain.model.list.PokemonBasicData
 import com.arix.pokedex.features.pokemon_list.presentation.ui.components.PokemonListItem
+import com.arix.pokedex.theme.FontSizes
 import com.arix.pokedex.theme.PokedexTheme
 import com.arix.pokedex.theme.Shapes
-import com.arix.pokedex.theme.FontSizes
 import com.arix.pokedex.utils.MockResourceReader
 import com.arix.pokedex.views.DefaultProgressIndicatorScreen
 import com.arix.pokedex.views.ErrorScreenWithRetryButton
@@ -35,20 +41,23 @@ import org.koin.androidx.compose.get
 import org.koin.androidx.compose.getViewModel
 
 @Composable
-fun LearnedByPokemonSection(
-    pokemonNames: List<PokemonBasicData>,
+fun PokemonShortListSection(
+    pokemonNames: List<String>,
     onSeeAllClicked: (List<String>) -> Unit,
-    viewModel: MoveDetailsViewModel = getViewModel()
+    viewModel: MoveDetailsViewModel = getViewModel(),
+    title: String = stringResource(R.string.can_be_learned_by_title),
+    showMoreButton: Boolean = true
 ) {
-
     val state = viewModel.learnedByPokemonState.value
-
     when {
-        state.pokemonList != null -> LearnedByPokemonSectionContent(
+        state.pokemonList != null -> PokemonShortListSection(
             state.pokemonList,
             onSeeAllClicked,
-            pokemonNames.map { it.name },
+            pokemonNames,
+            title,
+            showMoreButton
         )
+
         state.isLoading -> DefaultProgressIndicatorScreen(modifier = Modifier.height(100.dp))
         state.errorMessage != null -> ErrorScreenWithRetryButton {
             viewModel.invokeEvent(MoveDetailsEvent.LoadLearnedBySection(pokemonNames))
@@ -57,11 +66,13 @@ fun LearnedByPokemonSection(
 }
 
 @Composable
-fun LearnedByPokemonSectionContent(
+fun PokemonShortListSection(
     pokemonList: List<PokemonDetails>,
     onSeeAllClicked: (pokemonNames: List<String>) -> Unit,
     pokemonNames: List<String>,
-    navigator: Navigator = get()
+    titleRes: String,
+    showMoreButton: Boolean,
+    navigator: Navigator = get(),
 ) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -71,7 +82,7 @@ fun LearnedByPokemonSectionContent(
             .padding(5.dp)
     ) {
         Text(
-            text = stringResource(R.string.can_be_learned_by_title),
+            text = titleRes,
             fontSize = FontSizes.large,
             fontWeight = FontWeight.SemiBold
         )
@@ -118,7 +129,14 @@ private fun LearnedByPokemonSectionPreview() {
     PokedexTheme {
         Surface {
             Column {
-                LearnedByPokemonSectionContent(pokeList, {}, pokeNames, Navigator())
+                PokemonShortListSection(
+                    pokeList,
+                    {},
+                    pokeNames,
+                    titleRes = stringResource(R.string.show_all),
+                    showMoreButton = true,
+                    Navigator()
+                )
             }
         }
     }
