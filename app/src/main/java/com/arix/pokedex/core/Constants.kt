@@ -22,6 +22,7 @@ object Constants {
 
     object PokemonListScreen {
         const val POKEMON_LIST_ITEM_LIMIT = 30
+        const val SINGLE_PAGE_BY_NAMES_LIMIT = 50
     }
 
     object Language {
@@ -70,5 +71,4 @@ object Constants {
         const val ITEMS_LIMIT = 30
         const val NO_EFFECT_STRING = "No effect."
     }
-
 }

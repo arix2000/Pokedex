@@ -4,6 +4,8 @@ import android.content.Context
 import com.arix.pokedex.R
 import com.arix.pokedex.features.items.domain.model.item_details.ItemDetails
 import com.arix.pokedex.features.items.domain.model.item_details.raw.RawItemDetails
+import com.arix.pokedex.features.locations.domain.model.details.LocationDetails
+import com.arix.pokedex.features.locations.domain.model.details.UiLocationArea
 import com.arix.pokedex.features.move_details.domain.model.UiMove
 import com.arix.pokedex.features.moves.domain.model.RawMove
 import com.arix.pokedex.features.pokemon_details.domain.model.evolution_chain.PokemonEvolutionChain
@@ -14,7 +16,6 @@ import com.arix.pokedex.features.pokemon_list.domain.model.details.raw.RawPokemo
 import com.arix.pokedex.theme.ItemCategoryColors
 import com.google.gson.Gson
 
-/** Use for Preview only **/
 class MockResourceReader(private val context: Context) {
 
     fun getPokemonDetailsMock(): PokemonDetails {
@@ -83,5 +84,22 @@ class MockResourceReader(private val context: Context) {
             item3, item2, item, item3, item5, item4, item5, item3, item,
             item, item5, item2, item, item2, item5, item4, item, item4
         )
+    }
+
+    fun getLocationDetailsMock(): LocationDetails {
+        val locationDetailsJson = context.resources.openRawResource(R.raw.location_details_example)
+            .reader()
+            .readText()
+
+        return Gson().fromJson(locationDetailsJson, LocationDetails::class.java)
+            ?: throw Exception("Exception in preview")
+    }
+
+    fun getLocationAreasMock(): List<UiLocationArea> {
+        val locationAreasJson = context.resources.openRawResource(R.raw.location_areas_example)
+            .reader()
+            .readText()
+
+        return Gson().fromJson(locationAreasJson, Array<UiLocationArea>::class.java).toList()
     }
 }

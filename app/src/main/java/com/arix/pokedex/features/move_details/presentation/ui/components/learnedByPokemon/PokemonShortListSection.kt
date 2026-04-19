@@ -30,6 +30,7 @@ import com.arix.pokedex.features.move_details.presentation.MoveDetailsViewModel
 import com.arix.pokedex.features.move_details.presentation.ui.MoveDetailsEvent
 import com.arix.pokedex.features.move_details.presentation.ui.components.GridView
 import com.arix.pokedex.features.pokemon_list.domain.model.details.PokemonDetails
+import com.arix.pokedex.features.pokemon_list.domain.model.list.PokemonItem
 import com.arix.pokedex.features.pokemon_list.presentation.ui.components.PokemonListItem
 import com.arix.pokedex.theme.FontSizes
 import com.arix.pokedex.theme.PokedexTheme
@@ -67,7 +68,7 @@ fun PokemonShortListSection(
 
 @Composable
 fun PokemonShortListSection(
-    pokemonList: List<PokemonDetails>,
+    pokemonList: List<PokemonItem>,
     onSeeAllClicked: (pokemonNames: List<String>) -> Unit,
     pokemonNames: List<String>,
     titleRes: String,

@@ -1,6 +1,7 @@
 package com.arix.pokedex.features.locations.presentation.ui
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Surface
@@ -8,13 +9,14 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
-import com.arix.pokedex.features.locations.domain.model.details.LocationDetails
 import com.arix.pokedex.features.locations.presentation.LocationViewModel
 import com.arix.pokedex.theme.PokedexTheme
+import com.arix.pokedex.utils.MockResourceReader
 import com.arix.pokedex.views.DefaultProgressIndicatorScreen
 import com.arix.pokedex.views.ErrorScreenWithRetryButton
-import com.google.gson.Gson
+import com.arix.pokedex.views.FadingHorizontalDivider
 import org.koin.androidx.compose.getViewModel
 
 @Composable
@@ -26,8 +28,8 @@ fun LocationDetailsScreen(
         viewModel.fetchLocationDetails(id)
     }
     when {
-        state.locationDetails != null -> {
-            LocationsDetailsScreenContent(location = state.locationDetails)
+        state.locationDetails != null && state.uiLocationAreas.isNotEmpty() -> {
+            LocationsDetailsScreenContent(state = state)
         }
 
         state.isLoading -> DefaultProgressIndicatorScreen()
@@ -39,20 +41,30 @@ fun LocationDetailsScreen(
 }
 
 @Composable
-fun LocationsDetailsScreenContent(location: LocationDetails) {
+fun LocationsDetailsScreenContent(state: LocationState) {
+    val locationDetails = state.locationDetails!!
     Box(
         modifier = Modifier.verticalScroll(rememberScrollState())
     ) {
-        Text(Gson().toJson(location))
+        Column {
+            Text(state.locationDetails.name)
+            FadingHorizontalDivider()
+        }
     }
 }
 
 @Preview
 @Composable
 private fun LocationDetailsScreenPreview() {
+    val mockResourceReader = MockResourceReader(LocalContext.current)
     PokedexTheme {
         Surface {
-            LocationsDetailsScreenContent(LocationDetails("", "", emptyList()))
+            LocationsDetailsScreenContent(
+                LocationState(
+                    locationDetails = mockResourceReader.getLocationDetailsMock(),
+                    uiLocationAreas = mockResourceReader.getLocationAreasMock()
+                )
+            )
         }
     }
 }

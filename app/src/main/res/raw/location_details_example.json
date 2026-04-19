@@ -1,0 +1,19 @@
+{
+  "areas": [
+    {
+      "name": "digletts-cave-area",
+      "pokemonNames": [
+        "zubat",
+        "diglett",
+        "dugtrio",
+        "chansey",
+        "makuhita",
+        "absol",
+        "chingling",
+        "bronzor"
+      ]
+    }
+  ],
+  "name": "digletts-cave",
+  "regionName": "kanto"
+}

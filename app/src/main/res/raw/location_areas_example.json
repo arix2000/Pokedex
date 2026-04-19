@@ -1,0 +1,93 @@
+[
+  {
+    "name": "digletts-cave-area",
+    "pokemonNames": [
+      {
+        "id": 41,
+        "image_url": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/41.png",
+        "name": "zubat",
+        "types": [
+          {
+            "name": "poison"
+          },
+          {
+            "name": "flying"
+          }
+        ]
+      },
+      {
+        "id": 50,
+        "image_url": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/50.png",
+        "name": "diglett",
+        "types": [
+          {
+            "name": "ground"
+          }
+        ]
+      },
+      {
+        "id": 51,
+        "image_url": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/51.png",
+        "name": "dugtrio",
+        "types": [
+          {
+            "name": "ground"
+          }
+        ]
+      },
+      {
+        "id": 113,
+        "image_url": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/113.png",
+        "name": "chansey",
+        "types": [
+          {
+            "name": "normal"
+          }
+        ]
+      },
+      {
+        "id": 296,
+        "image_url": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/296.png",
+        "name": "makuhita",
+        "types": [
+          {
+            "name": "fighting"
+          }
+        ]
+      },
+      {
+        "id": 359,
+        "image_url": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/359.png",
+        "name": "absol",
+        "types": [
+          {
+            "name": "dark"
+          }
+        ]
+      },
+      {
+        "id": 433,
+        "image_url": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/433.png",
+        "name": "chingling",
+        "types": [
+          {
+            "name": "psychic"
+          }
+        ]
+      },
+      {
+        "id": 436,
+        "image_url": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/436.png",
+        "name": "bronzor",
+        "types": [
+          {
+            "name": "steel"
+          },
+          {
+            "name": "psychic"
+          }
+        ]
+      }
+    ]
+  }
+]

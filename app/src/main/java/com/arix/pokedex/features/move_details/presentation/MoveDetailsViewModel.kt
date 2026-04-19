@@ -4,7 +4,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.arix.pokedex.core.Constants.MoveScreen.LEARNED_BY_POKEMON_LIST_MAX_SIZE
-import com.arix.pokedex.extensions.ifAllErrors
 import com.arix.pokedex.features.move_details.domain.GetMoveUseCase
 import com.arix.pokedex.features.move_details.presentation.ui.MoveDetailsEvent
 import com.arix.pokedex.features.move_details.presentation.ui.MoveDetailsState
@@ -49,6 +48,7 @@ class MoveDetailsViewModel(
                             isLoading = false
                         )
                     }
+
                     is ApiResponse.Error -> value.copy(
                         errorMessage = response.message,
                         isLoading = false
@@ -64,12 +64,18 @@ class MoveDetailsViewModel(
             learnedByPokemonState.run {
                 value = value.copy(isLoading = true)
                 val response = getPokemonListByNamesUseCase(pokemonNames)
-                value = when {
-                    response.ifAllErrors() -> value.copy(
-                        errorMessage = response.firstOrNull()?.message,
+                value = when (response) {
+                    is ApiResponse.Success -> {
+                        value.copy(
+                            pokemonList = response.data!!,
+                            isLoading = false
+                        )
+                    }
+
+                    is ApiResponse.Error -> value.copy(
+                        errorMessage = response.message,
                         isLoading = false
                     )
-                    else -> value.copy(pokemonList = response.map { it.data!! }, isLoading = false)
                 }
             }
         }

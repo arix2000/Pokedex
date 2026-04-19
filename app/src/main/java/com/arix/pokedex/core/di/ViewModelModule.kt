@@ -34,7 +34,7 @@ val viewModelModule = module {
 
     viewModel { ItemsViewModel(get(), get()) }
 
-    viewModel { LocationViewModel(get(), get()) }
+    viewModel { LocationViewModel(get(), get(), get()) }
 
     viewModel(named(PokemonItem::class.java.simpleName)) { params ->
         SearchableLazyColumnViewModel<PokemonItem>(
