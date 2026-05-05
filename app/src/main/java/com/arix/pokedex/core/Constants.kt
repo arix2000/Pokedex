@@ -71,4 +71,10 @@ object Constants {
         const val ITEMS_LIMIT = 30
         const val NO_EFFECT_STRING = "No effect."
     }
+
+    object LocationsScreenConst {
+        const val AREA_LIMIT = 4
+        const val NO_REGION_STRING = "No region"
+        const val SINGLE_AREA_SUFFIX = "area"
+    }
 }

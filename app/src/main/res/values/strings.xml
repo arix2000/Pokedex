@@ -39,4 +39,5 @@
     <string name="desc_not_found">Description not found</string>
     <string name="effect_desc_not_found">Effect description not found</string>
     <string name="powered_by_poke_api_label">Powered by</string>
+    <string name="pokemon_encounters">These Pokémon might be encountered here: </string>
 </resources>
