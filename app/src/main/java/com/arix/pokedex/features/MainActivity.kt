@@ -3,11 +3,18 @@ package com.arix.pokedex.features
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
 import androidx.compose.material.rememberScaffoldState
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.navigation.compose.rememberNavController
@@ -19,6 +26,7 @@ import com.arix.pokedex.features.common.AppTopBar
 import com.arix.pokedex.features.common.drawer.NavDrawerContent
 import com.arix.pokedex.theme.BlackA70
 import com.arix.pokedex.theme.BlackLight
+import com.arix.pokedex.theme.BlackSoft
 import com.arix.pokedex.theme.PokedexTheme
 import org.koin.androidx.compose.get
 
@@ -53,17 +61,24 @@ fun AppContainer() {
         }
     }
 
-    Surface(modifier = Modifier.fillMaxSize()) {
-        Scaffold(
-            scaffoldState = scaffoldState,
-            topBar = { AppTopBar(navController, showBackButton, scaffoldState, topBarTitle) },
-            drawerContent = { NavDrawerContent(navController, scaffoldState) },
-            drawerScrimColor = BlackA70,
-            drawerBackgroundColor = BlackLight,
-            drawerShape = RectangleShape,
-            drawerGesturesEnabled = enableDrawer
-        ) {
-            AppNavHost(navController)
+    Surface(
+        modifier = Modifier.fillMaxSize(),
+        color = BlackSoft
+    ) {
+        Box(modifier = Modifier.systemBarsPadding()) {
+            Scaffold(
+                scaffoldState = scaffoldState,
+                topBar = { AppTopBar(navController, showBackButton, scaffoldState, topBarTitle) },
+                drawerContent = { NavDrawerContent(navController, scaffoldState) },
+                drawerScrimColor = BlackA70,
+                drawerBackgroundColor = BlackLight,
+                drawerShape = RectangleShape,
+                drawerGesturesEnabled = enableDrawer
+            ) { paddingValues ->
+                Box(modifier = Modifier.padding(paddingValues)) {
+                    AppNavHost(navController)
+                }
+            }
         }
     }
 }
