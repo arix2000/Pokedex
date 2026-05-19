@@ -120,7 +120,7 @@ private fun NavDrawerListItem(
     ) {
         Image(painter = painterResource(id = drawerSpecs.iconId), contentDescription = null)
         Spacer(modifier = Modifier.width(10.dp))
-        Text(text = drawerSpecs.title)
+        Text(text = drawerSpecs.title, color = Color.LightGray)
     }
 }
 
