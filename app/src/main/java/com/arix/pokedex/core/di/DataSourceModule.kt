@@ -3,8 +3,9 @@ package com.arix.pokedex.core.di
 import com.arix.pokedex.features.items.data.data_sources.ItemRemoteDataSource
 import com.arix.pokedex.features.locations.data.LocationRemoteDataSource
 import com.arix.pokedex.features.moves.data.data_sources.MovesRemoteDataSource
-import com.arix.pokedex.features.pokemon_list.data.data_sources.PokemonRemoteDataSource
 import com.arix.pokedex.features.pokemon_details.data.PokemonDetailsRemoteDataSource
+import com.arix.pokedex.features.pokemon_list.data.data_sources.PokemonRemoteDataSource
+import com.arix.pokedex.features.type_effectiveness.data.TypeEffectivenessRemoteDataSource
 import org.koin.dsl.module
 
 val dataSourceModule = module {
@@ -17,4 +18,7 @@ val dataSourceModule = module {
     factory { ItemRemoteDataSource(get(), get()) }
 
     factory { LocationRemoteDataSource(get(), get()) }
+
+    factory { TypeEffectivenessRemoteDataSource(get()) }
+
 }

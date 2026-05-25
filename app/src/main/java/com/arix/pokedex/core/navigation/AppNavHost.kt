@@ -5,7 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.arix.pokedex.extensions.getTypeOf
-import com.arix.pokedex.features.type_comparison.TypeComparisonScreen
+import com.arix.pokedex.features.type_effectiveness.presentation.TypeEffectivenessScreen
 import com.arix.pokedex.features.items.presentation.ui.ItemsScreen
 import com.arix.pokedex.features.locations.presentation.ui.LocationDetailsScreen
 import com.arix.pokedex.features.locations.presentation.ui.LocationsScreen
@@ -67,7 +67,7 @@ fun AppNavHost(navController: NavHostController) {
         }
 
         composable(Screen.AbilitiesScreen.route) {
-            TypeComparisonScreen()
+            TypeEffectivenessScreen()
         }
     }
 }

@@ -16,6 +16,7 @@ import com.arix.pokedex.features.pokemon_list.data.PokemonRepositoryImpl
 import com.arix.pokedex.features.pokemon_list.domain.use_cases.GetPokemonListByNamesUseCase
 import com.arix.pokedex.features.pokemon_list.domain.use_cases.GetPokemonListUseCase
 import com.arix.pokedex.features.pokemon_list.domain.use_cases.GetPokemonUseCase
+import com.arix.pokedex.features.type_effectiveness.domain.usecases.GetTypesUseCase
 import org.koin.dsl.module
 
 val useCaseModule = module {
@@ -42,4 +43,6 @@ val useCaseModule = module {
     factory { GetLocationsUseCase(get()) }
 
     factory { GetLocationDetailsUseCase(get()) }
+
+    factory { GetTypesUseCase(get()) }
 }

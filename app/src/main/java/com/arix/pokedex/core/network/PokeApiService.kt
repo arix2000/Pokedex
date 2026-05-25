@@ -7,8 +7,11 @@ import com.arix.pokedex.features.moves.domain.model.RawMove
 import com.arix.pokedex.features.pokemon_details.domain.model.evolution_chain.PokemonEvolutionChain
 import com.arix.pokedex.features.pokemon_details.domain.model.species.PokemonSpecies
 import com.arix.pokedex.features.pokemon_list.domain.model.details.raw.RawPokemonDetails
+import com.arix.pokedex.features.type_effectiveness.domain.model.RawTypeDetails
+import com.arix.pokedex.features.type_effectiveness.domain.model.TypesResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface PokeApiService {
 
@@ -47,5 +50,14 @@ interface PokeApiService {
         @Path("locationAreaId") locationAreaId: String
     ): RawLocationAreaResponse
 
+    @GET("type")
+    suspend fun getTypes(
+        @Query("limit") limit: Int = 10000,
+        @Query("offset") offset: Int = 0
+    ): TypesResponse
 
+    @GET("type/{id}")
+    suspend fun getType(
+        @Path("id") id: Int
+    ): RawTypeDetails
 }

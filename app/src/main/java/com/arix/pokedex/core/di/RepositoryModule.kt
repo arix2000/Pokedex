@@ -3,8 +3,9 @@ package com.arix.pokedex.core.di
 import com.arix.pokedex.features.items.data.ItemRepositoryImpl
 import com.arix.pokedex.features.locations.data.LocationRepository
 import com.arix.pokedex.features.moves.data.MovesRepositoryImpl
-import com.arix.pokedex.features.pokemon_list.data.PokemonRepositoryImpl
 import com.arix.pokedex.features.pokemon_details.data.PokemonDetailsRepositoryImpl
+import com.arix.pokedex.features.pokemon_list.data.PokemonRepositoryImpl
+import com.arix.pokedex.features.type_effectiveness.data.TypeEffectivenessRepository
 import org.koin.dsl.module
 
 val repositoryModule = module {
@@ -17,4 +18,6 @@ val repositoryModule = module {
     factory { ItemRepositoryImpl(get()) }
 
     factory { LocationRepository(get()) }
+
+    factory { TypeEffectivenessRepository(get()) }
 }
