@@ -15,6 +15,7 @@ import com.arix.pokedex.features.pokemon_details.presentation.PokemonDetailsView
 import com.arix.pokedex.features.pokemon_list.domain.model.list.PokemonItem
 import com.arix.pokedex.features.pokemon_list.presentation.PokemonListViewModel
 import com.arix.pokedex.features.splash_activity.SplashViewModel
+import com.arix.pokedex.features.type_effectiveness.presentation.ui.TypeEffectivenessViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
@@ -35,6 +36,8 @@ val viewModelModule = module {
     viewModel { ItemsViewModel(get(), get()) }
 
     viewModel { LocationViewModel(get(), get(), get()) }
+
+    viewModel { TypeEffectivenessViewModel(get()) }
 
     viewModel(named(PokemonItem::class.java.simpleName)) { params ->
         SearchableLazyColumnViewModel<PokemonItem>(

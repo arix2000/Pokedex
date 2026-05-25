@@ -25,7 +25,6 @@ class LocationViewModel(
     val state: State<LocationState> = _state
     private var getLocationDetailsJob: Job? = null
 
-
     fun fetchLocationDetails(locationId: Int) {
         getLocationDetailsJob?.cancel()
         getLocationDetailsJob = viewModelScope.launch {
@@ -48,7 +47,6 @@ class LocationViewModel(
             }
         }
     }
-
 
     suspend fun getLocations(offset: Int, searchQuery: String): ApiResponse<Page<LocationItem>> {
         return getLocationListUseCase(offset, searchQuery = searchQuery)
