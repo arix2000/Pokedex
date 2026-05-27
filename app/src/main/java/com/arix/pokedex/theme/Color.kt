@@ -18,6 +18,7 @@ val WhiteA50 = Color(0x80FFFFFF)
 val GrayA75 = Color(0xBFFFFFFF)
 
 val WarningColor = Color(0xB2FF9800)
+val SuccessColor = Color(0xFF0E9B04)
 
 val GanderMaleColor = Color(0xFFC03A87)
 val GanderFemaleColor =Color(0xFF006BDD)

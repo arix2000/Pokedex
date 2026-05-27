@@ -2,11 +2,12 @@ package com.arix.pokedex.features.type_effectiveness.presentation
 
 import com.arix.pokedex.features.pokemon_list.domain.model.details.Type
 import com.arix.pokedex.features.type_effectiveness.domain.model.DamageMultiplier
+import com.arix.pokedex.features.type_effectiveness.domain.model.SelectableType
 import com.arix.pokedex.features.type_effectiveness.domain.model.TypeEffectiveness
 
 val mockTypeEffectivenessList = listOf(
     TypeEffectiveness(
-        type = Type("Normal"),
+        type = SelectableType(type = Type("Normal")),
         multipliersToTypes = mapOf(
             DamageMultiplier.DOUBLE to emptyList(),
             DamageMultiplier.HALF to listOf(Type("Rock"), Type("Steel")),
@@ -20,7 +21,7 @@ val mockTypeEffectivenessList = listOf(
         )
     ),
     TypeEffectiveness(
-        type = Type("Fire"),
+        type = SelectableType(type = Type("Fire")),
         multipliersToTypes = mapOf(
             DamageMultiplier.DOUBLE to listOf(
                 Type("Grass"),
@@ -43,7 +44,7 @@ val mockTypeEffectivenessList = listOf(
         )
     ),
     TypeEffectiveness(
-        type = Type("Water"),
+        type = SelectableType(type = Type("Water")),
         multipliersToTypes = mapOf(
             DamageMultiplier.DOUBLE to listOf(Type("Fire"), Type("Ground"), Type("Rock")),
             DamageMultiplier.HALF to listOf(Type("Water"), Type("Grass"), Type("Dragon")),
@@ -56,7 +57,7 @@ val mockTypeEffectivenessList = listOf(
         )
     ),
     TypeEffectiveness(
-        type = Type("Grass"),
+        type = SelectableType(type = Type("Grass")),
         multipliersToTypes = mapOf(
             DamageMultiplier.DOUBLE to listOf(Type("Water"), Type("Ground"), Type("Rock")),
             DamageMultiplier.HALF to listOf(
