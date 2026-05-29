@@ -10,6 +10,7 @@ object Constants {
         const val POKE_LIST_API_BASE_URL = BuildConfig.API_URL
         const val API_KEY_HEADER = "X-Api-Key"
         const val API_KEY = BuildConfig.API_KEY
+        const val TIMEOUT_SECONDS = 30L
     }
 
     object UnitsOfMeasure {

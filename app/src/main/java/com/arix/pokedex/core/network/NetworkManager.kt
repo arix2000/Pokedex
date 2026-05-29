@@ -1,5 +1,6 @@
 package com.arix.pokedex.core.network
 
+import com.arix.pokedex.core.Constants
 import com.arix.pokedex.core.Constants.Network.API_KEY
 import com.arix.pokedex.core.Constants.Network.API_KEY_HEADER
 import com.arix.pokedex.core.Constants.Network.POKE_API_BASE_URL
@@ -10,6 +11,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 
 class NetworkManager {
     fun providePokeApiRetrofit(): Retrofit {
@@ -41,7 +43,12 @@ class NetworkManager {
         val interceptor = HttpLoggingInterceptor().apply {
             this.level = HttpLoggingInterceptor.Level.BODY
         }
-        return OkHttpClient.Builder().addInterceptor(interceptor).build()
+        return OkHttpClient.Builder()
+            .addInterceptor(interceptor)
+            .connectTimeout(Constants.Network.TIMEOUT_SECONDS, TimeUnit.SECONDS)
+            .readTimeout(Constants.Network.TIMEOUT_SECONDS, TimeUnit.SECONDS)
+            .writeTimeout(Constants.Network.TIMEOUT_SECONDS, TimeUnit.SECONDS)
+            .build()
     }
 
     private fun getPokeListsOkHttpClient(): OkHttpClient {
@@ -58,6 +65,9 @@ class NetworkManager {
 
         return OkHttpClient.Builder()
             .addInterceptor(interceptor).addInterceptor(headerInterceptor)
+            .connectTimeout(Constants.Network.TIMEOUT_SECONDS, TimeUnit.SECONDS)
+            .readTimeout(Constants.Network.TIMEOUT_SECONDS, TimeUnit.SECONDS)
+            .writeTimeout(Constants.Network.TIMEOUT_SECONDS, TimeUnit.SECONDS)
             .build()
     }
 
