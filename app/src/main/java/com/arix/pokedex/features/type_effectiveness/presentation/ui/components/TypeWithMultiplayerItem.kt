@@ -29,11 +29,11 @@ import com.arix.pokedex.theme.PokedexTheme
 
 @Composable
 fun TypeWithMultiplierItem(
-    typeWithMultiplier: Pair<Float, Type>,
+    typeWithMultiplier: Pair<Type, Double>,
     modifier: Modifier = Modifier
 ) {
-    val multiplier = typeWithMultiplier.first
-    val type = typeWithMultiplier.second
+    val type: Type = typeWithMultiplier.first
+    val multiplier: Double = typeWithMultiplier.second
     Box(
         modifier = modifier
             .background(type.getTypeColor(), CircleShape)
@@ -59,7 +59,7 @@ fun TypeWithMultiplierItem(
 }
 
 @Composable
-fun MultiplierText(multiplier: Float) {
+fun MultiplierText(multiplier: Double) {
     if (multiplier < 1 && multiplier > 0)
         FractionText(multiplier)
     else
@@ -72,7 +72,7 @@ fun MultiplierText(multiplier: Float) {
 }
 
 @Composable
-private fun FractionText(multiplier: Float) {
+private fun FractionText(multiplier: Double) {
     val noFontPaddingTextStyle = TextStyle(
         platformStyle = PlatformTextStyle(
             includeFontPadding = false
@@ -121,7 +121,7 @@ private fun SelectableTypeItemPreview() {
         Surface {
             Box(Modifier.padding(16.dp)) {
                 TypeWithMultiplierItem(
-                    typeWithMultiplier = Pair(0.5f, Type("ground"))
+                    typeWithMultiplier = Pair(Type("ground"), 0.5)
                 )
             }
         }

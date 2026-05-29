@@ -42,4 +42,8 @@
     <string name="pokemon_encounters">These Pokémon might be encountered here: </string>
     <string name="selected_types_label"> Select type or types: </string>
     <string name="selected_types_count">%1$s/2 </string>
+    <string name="damage_multiplier_normal_label">Damaged normally by:</string>
+    <string name="damage_multiplier_double_label">Weak to:</string>
+    <string name="damage_multiplier_no_damage_label">Immune to:</string>
+    <string name="damage_multiplier_half_label">Resistant to:</string>
 </resources>

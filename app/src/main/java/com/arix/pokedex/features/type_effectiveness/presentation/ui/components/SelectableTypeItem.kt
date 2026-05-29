@@ -42,7 +42,7 @@ fun SelectableTypeItem(
                     CircleShape
                 )
                 .background(selectableType.getTypeColor(), CircleShape)
-                .padding(vertical = 2.dp, horizontal = 24.dp),
+                .padding(vertical = 2.dp, horizontal = 20.dp),
             contentAlignment = Alignment.Center
         ) {
             Text(text = selectableType.name, softWrap = false, lineHeight = 0.6.em)
