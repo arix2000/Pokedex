@@ -32,11 +32,12 @@ fun SelectableTypeItem(
     modifier: Modifier = Modifier
 ) {
     val borderColor = Color.White
+    val borderWidth = 2.dp
     Box(modifier = modifier.clickable { onClick() }) {
         Box(
             modifier = modifier
                 .border(
-                    0.5.dp,
+                    borderWidth,
                     if (selectableType.isSelected) borderColor else Color.Transparent,
                     CircleShape
                 )
@@ -53,7 +54,7 @@ fun SelectableTypeItem(
                     .size(16.dp)
                     .offset(y = 4.dp, x = 4.dp)
                     .background(SuccessColor, CircleShape)
-                    .border(0.5.dp, borderColor, CircleShape)
+                    .border(borderWidth, borderColor, CircleShape)
                     .padding(2.dp)
 
             ) {

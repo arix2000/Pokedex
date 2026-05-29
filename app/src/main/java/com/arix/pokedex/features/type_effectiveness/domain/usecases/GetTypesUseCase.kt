@@ -12,7 +12,7 @@ class GetTypesUseCase(private val repository: TypeEffectivenessRepository) {
         val typesResponse: ApiResponse<List<RawTypeDetails>> = repository.getTypes()
         return typesResponse.mapSuccess { types ->
             val allTypes = types.map { Type(it.name) }
-            types.map { type ->
+            types.filterNot { listOf("unknown", "stellar", "shadow").contains(it.name) }.map { type ->
                 TypeEffectiveness(
                     type = SelectableType(type = Type(type.name)),
                     multipliersToTypes = type.damageRelations.mapToMultipliersToTypes(allTypes)

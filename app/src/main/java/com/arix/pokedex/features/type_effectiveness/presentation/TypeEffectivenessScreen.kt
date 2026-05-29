@@ -1,37 +1,66 @@
 package com.arix.pokedex.features.type_effectiveness.presentation
 
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.keyframes
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import com.arix.pokedex.R
+import com.arix.pokedex.features.type_effectiveness.domain.model.SelectableType
+import com.arix.pokedex.features.type_effectiveness.presentation.ui.TypeEffectivenessEvent
 import com.arix.pokedex.features.type_effectiveness.presentation.ui.TypeEffectivenessState
 import com.arix.pokedex.features.type_effectiveness.presentation.ui.TypeEffectivenessViewModel
 import com.arix.pokedex.features.type_effectiveness.presentation.ui.components.SelectableTypesList
+import com.arix.pokedex.theme.Accent
+import com.arix.pokedex.theme.FontSizes
+import com.arix.pokedex.theme.GrayA75
 import com.arix.pokedex.theme.PokedexTheme
 import com.arix.pokedex.views.DefaultProgressIndicatorScreen
 import com.arix.pokedex.views.ErrorScreenWithRetryButton
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun TypeEffectivenessScreen(viewModel: TypeEffectivenessViewModel = getViewModel()) {
-    val state = viewModel.state
+    val state = viewModel.state.value
     when {
-        state.typeEffectiveness.isNotEmpty() -> {
-            TypeEffectivenessScreenContent(state)
+        state.typeEffectivenessList.isNotEmpty() -> {
+            TypeEffectivenessScreenContent(state, { event -> viewModel.invokeEvent(event) })
         }
 
         state.isLoading -> DefaultProgressIndicatorScreen()
         state.errorMessage != null -> ErrorScreenWithRetryButton {
-            viewModel.getTypes()
+            viewModel.invokeEvent(TypeEffectivenessEvent.GetTypesEvent())
         }
     }
 }
 
 @Composable
 private fun TypeEffectivenessScreenContent(
-    state: TypeEffectivenessState
+    state: TypeEffectivenessState,
+    invokeEvent: (TypeEffectivenessEvent) -> Unit
 ) {
     /** TODO plan:
      * We have grid of selectable types, it will look like [com.arix.pokedex.features.pokemon_list.presentation.ui.components.TypeItem]
@@ -39,19 +68,90 @@ private fun TypeEffectivenessScreenContent(
      * user picks up to 2 types, then we show him (dynamically as he clicks) types grouped by effectiveness
      * with effectiveness multiplier on its left.
      * **/
-    Box(modifier = Modifier.verticalScroll(rememberScrollState())) {
-        SelectableTypesList(state.typeEffectiveness.map { it.type })
+    val coroutineScope = rememberCoroutineScope()
+
+    val selectedTypesCount = state.getSelectedCount()
+    var shouldHighlightSelectedTypesCounter by remember { mutableStateOf(false) }
+
+    val handleTypeClick: (SelectableType) -> Unit = { type: SelectableType ->
+        if (state.getSelectedCount() >= 2 && !type.isSelected) {
+            coroutineScope.launch {
+                shouldHighlightSelectedTypesCounter = true
+                delay(2000)
+                shouldHighlightSelectedTypesCounter = false
+            }
+        } else {
+            invokeEvent(TypeEffectivenessEvent.SelectTypeEvent(type))
+        }
     }
+
+    Box(modifier = Modifier.verticalScroll(rememberScrollState())) {
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 12.dp, vertical = 4.dp),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(
+                    text = stringResource(R.string.selected_types_label),
+                    fontSize = FontSizes.large
+                )
+                SelectedTypesCounter(shouldHighlightSelectedTypesCounter, selectedTypesCount)
+            }
+            SelectableTypesList(
+                state.typeEffectivenessList.map { it.type },
+                onTypeClick = handleTypeClick
+            )
+        }
+    }
+}
+
+@Composable
+private fun SelectedTypesCounter(
+    shouldHighlightSelectedTypesCounter: Boolean,
+    selectedTypesCount: Int
+) {
+    val rotation = remember { Animatable(0f) }
+    val color by animateColorAsState(if (shouldHighlightSelectedTypesCounter) Accent else GrayA75)
+
+    LaunchedEffect(shouldHighlightSelectedTypesCounter) {
+        if (shouldHighlightSelectedTypesCounter) {
+            rotation.animateTo(
+                targetValue = 0f,
+                animationSpec = keyframes {
+                    durationMillis = 300
+                    -8f at 50
+                    8f at 100
+                    -8f at 150
+                    8f at 200
+                    -8f at 250
+                    0f at 300
+                }
+            )
+        }
+    }
+
+    Text(
+        text = stringResource(R.string.selected_types_count, selectedTypesCount),
+        fontSize = FontSizes.large,
+        color = color,
+        modifier = Modifier.graphicsLayer {
+            rotationZ = rotation.value
+        }
+    )
 }
 
 @Preview
 @Composable
 private fun TypeEffectivenessScreenPreview() {
     PokedexTheme {
-        TypeEffectivenessScreenContent(
-            TypeEffectivenessState(
-                typeEffectiveness = mockTypeEffectivenessList
-            )
-        )
+        Surface {
+            TypeEffectivenessScreenContent(
+                TypeEffectivenessState(
+                    typeEffectivenessList = mockTypeEffectivenessList
+                )
+            ) { }
+        }
     }
 }

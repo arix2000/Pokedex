@@ -9,8 +9,8 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 class TypeEffectivenessViewModel(private val getTypesUseCase: GetTypesUseCase) : ViewModel() {
-    private val _state = mutableStateOf(TypeEffectivenessState())
-    val state: TypeEffectivenessState = _state.value
+    var state = mutableStateOf(TypeEffectivenessState())
+        private set
 
     var getTypesJob: Job? = null
 
@@ -18,22 +18,44 @@ class TypeEffectivenessViewModel(private val getTypesUseCase: GetTypesUseCase) :
         getTypes()
     }
 
+    fun invokeEvent(event: TypeEffectivenessEvent) {
+        when (event) {
+            is TypeEffectivenessEvent.SelectTypeEvent -> selectType(event)
+            is TypeEffectivenessEvent.GetTypesEvent -> getTypes()
+        }
+    }
+
+    private fun selectType(event: TypeEffectivenessEvent.SelectTypeEvent) {
+        state.value =
+            state.value.copy(typeEffectivenessList = state.value.typeEffectivenessList.map { typeEffectiveness ->
+                if (typeEffectiveness.type == event.selectableType) {
+                    typeEffectiveness.copy(type = typeEffectiveness.type.copy(isSelected = !typeEffectiveness.type.isSelected))
+                } else {
+                    typeEffectiveness
+                }
+            })
+    }
+
     fun getTypes() {
         getTypesJob?.cancel()
         getTypesJob = viewModelScope.launch {
-            _state.value = _state.value.copy(isLoading = true)
+            state.value = state.value.copy(isLoading = true)
             val response = getTypesUseCase()
             when (response) {
-                is ApiResponse.Success -> _state.value = _state.value.copy(
-                    typeEffectiveness = response.data!!,
-                    isLoading = false,
-                    errorMessage = null
-                )
+                is ApiResponse.Success -> {
+                    state.value = state.value.copy(
+                        typeEffectivenessList = response.data!!,
+                        isLoading = false,
+                        errorMessage = null
+                    )
+                }
 
-                is ApiResponse.Error -> _state.value = _state.value.copy(
-                    isLoading = false,
-                    errorMessage = response.message
-                )
+                is ApiResponse.Error -> {
+                    state.value = state.value.copy(
+                        isLoading = false,
+                        errorMessage = response.message
+                    )
+                }
             }
         }
     }
