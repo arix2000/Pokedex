@@ -8,242 +8,416 @@ import com.arix.pokedex.features.type_effectiveness.domain.model.TypeEffectivene
 val mockTypeEffectivenessList = listOf(
     TypeEffectiveness(
         type = SelectableType(type = Type("Normal")),
-        multipliersToTypes = mapOf(
-            DamageMultiplier.DOUBLE to emptyList(),
-            DamageMultiplier.HALF to listOf(Type("Rock"), Type("Steel")),
-            DamageMultiplier.NO_DAMAGE to listOf(Type("Ghost")),
-            DamageMultiplier.NORMAL to listOf(
-                Type("Normal"), Type("Fire"), Type("Water"), Type("Grass"),
-                Type("Electric"), Type("Ice"), Type("Fighting"), Type("Poison"),
-                Type("Ground"), Type("Flying"), Type("Psychic"), Type("Bug"),
-                Type("Dragon"), Type("Dark"), Type("Fairy")
-            )
+        typesToMultipliers = mapOf(
+            Type("Rock") to DamageMultiplier.HALF,
+            Type("Steel") to DamageMultiplier.HALF,
+            Type("Ghost") to DamageMultiplier.NO_DAMAGE,
+            Type("Normal") to DamageMultiplier.NORMAL,
+            Type("Fire") to DamageMultiplier.NORMAL,
+            Type("Water") to DamageMultiplier.NORMAL,
+            Type("Grass") to DamageMultiplier.NORMAL,
+            Type("Electric") to DamageMultiplier.NORMAL,
+            Type("Ice") to DamageMultiplier.NORMAL,
+            Type("Fighting") to DamageMultiplier.NORMAL,
+            Type("Poison") to DamageMultiplier.NORMAL,
+            Type("Ground") to DamageMultiplier.NORMAL,
+            Type("Flying") to DamageMultiplier.NORMAL,
+            Type("Psychic") to DamageMultiplier.NORMAL,
+            Type("Bug") to DamageMultiplier.NORMAL,
+            Type("Dragon") to DamageMultiplier.NORMAL,
+            Type("Dark") to DamageMultiplier.NORMAL,
+            Type("Fairy") to DamageMultiplier.NORMAL
         )
     ),
     TypeEffectiveness(
         type = SelectableType(type = Type("Fire")),
-        multipliersToTypes = mapOf(
-            DamageMultiplier.DOUBLE to listOf(Type("Grass"), Type("Bug"), Type("Ice"), Type("Steel")),
-            DamageMultiplier.HALF to listOf(Type("Fire"), Type("Water"), Type("Rock"), Type("Dragon")),
-            DamageMultiplier.NO_DAMAGE to emptyList(),
-            DamageMultiplier.NORMAL to listOf(
-                Type("Normal"), Type("Electric"), Type("Fighting"), Type("Poison"),
-                Type("Ground"), Type("Flying"), Type("Psychic"), Type("Ghost"),
-                Type("Dark"), Type("Fairy")
-            )
+        typesToMultipliers = mapOf(
+            Type("Grass") to DamageMultiplier.DOUBLE,
+            Type("Bug") to DamageMultiplier.DOUBLE,
+            Type("Ice") to DamageMultiplier.DOUBLE,
+            Type("Steel") to DamageMultiplier.DOUBLE,
+            Type("Fire") to DamageMultiplier.HALF,
+            Type("Water") to DamageMultiplier.HALF,
+            Type("Rock") to DamageMultiplier.HALF,
+            Type("Dragon") to DamageMultiplier.HALF,
+            Type("Normal") to DamageMultiplier.NORMAL,
+            Type("Electric") to DamageMultiplier.NORMAL,
+            Type("Fighting") to DamageMultiplier.NORMAL,
+            Type("Poison") to DamageMultiplier.NORMAL,
+            Type("Ground") to DamageMultiplier.NORMAL,
+            Type("Flying") to DamageMultiplier.NORMAL,
+            Type("Psychic") to DamageMultiplier.NORMAL,
+            Type("Ghost") to DamageMultiplier.NORMAL,
+            Type("Dark") to DamageMultiplier.NORMAL,
+            Type("Fairy") to DamageMultiplier.NORMAL
         )
     ),
     TypeEffectiveness(
         type = SelectableType(type = Type("Water")),
-        multipliersToTypes = mapOf(
-            DamageMultiplier.DOUBLE to listOf(Type("Fire"), Type("Ground"), Type("Rock")),
-            DamageMultiplier.HALF to listOf(Type("Water"), Type("Grass"), Type("Dragon")),
-            DamageMultiplier.NO_DAMAGE to emptyList(),
-            DamageMultiplier.NORMAL to listOf(
-                Type("Normal"), Type("Electric"), Type("Ice"), Type("Fighting"),
-                Type("Poison"), Type("Flying"), Type("Psychic"), Type("Bug"),
-                Type("Ghost"), Type("Dark"), Type("Steel"), Type("Fairy")
-            )
+        typesToMultipliers = mapOf(
+            Type("Fire") to DamageMultiplier.DOUBLE,
+            Type("Ground") to DamageMultiplier.DOUBLE,
+            Type("Rock") to DamageMultiplier.DOUBLE,
+            Type("Water") to DamageMultiplier.HALF,
+            Type("Grass") to DamageMultiplier.HALF,
+            Type("Dragon") to DamageMultiplier.HALF,
+            Type("Normal") to DamageMultiplier.NORMAL,
+            Type("Electric") to DamageMultiplier.NORMAL,
+            Type("Ice") to DamageMultiplier.NORMAL,
+            Type("Fighting") to DamageMultiplier.NORMAL,
+            Type("Poison") to DamageMultiplier.NORMAL,
+            Type("Flying") to DamageMultiplier.NORMAL,
+            Type("Psychic") to DamageMultiplier.NORMAL,
+            Type("Bug") to DamageMultiplier.NORMAL,
+            Type("Ghost") to DamageMultiplier.NORMAL,
+            Type("Dark") to DamageMultiplier.NORMAL,
+            Type("Steel") to DamageMultiplier.NORMAL,
+            Type("Fairy") to DamageMultiplier.NORMAL
         )
     ),
     TypeEffectiveness(
         type = SelectableType(type = Type("Grass")),
-        multipliersToTypes = mapOf(
-            DamageMultiplier.DOUBLE to listOf(Type("Water"), Type("Ground"), Type("Rock")),
-            DamageMultiplier.HALF to listOf(
-                Type("Fire"), Type("Grass"), Type("Poison"), Type("Flying"),
-                Type("Bug"), Type("Dragon"), Type("Steel")
-            ),
-            DamageMultiplier.NO_DAMAGE to emptyList(),
-            DamageMultiplier.NORMAL to listOf(
-                Type("Normal"), Type("Electric"), Type("Ice"), Type("Fighting"),
-                Type("Psychic"), Type("Ghost"), Type("Dark"), Type("Fairy")
-            )
+        typesToMultipliers = mapOf(
+            Type("Water") to DamageMultiplier.DOUBLE,
+            Type("Ground") to DamageMultiplier.DOUBLE,
+            Type("Rock") to DamageMultiplier.DOUBLE,
+            Type("Fire") to DamageMultiplier.HALF,
+            Type("Grass") to DamageMultiplier.HALF,
+            Type("Poison") to DamageMultiplier.HALF,
+            Type("Flying") to DamageMultiplier.HALF,
+            Type("Bug") to DamageMultiplier.HALF,
+            Type("Dragon") to DamageMultiplier.HALF,
+            Type("Steel") to DamageMultiplier.HALF,
+            Type("Normal") to DamageMultiplier.NORMAL,
+            Type("Electric") to DamageMultiplier.NORMAL,
+            Type("Ice") to DamageMultiplier.NORMAL,
+            Type("Fighting") to DamageMultiplier.NORMAL,
+            Type("Psychic") to DamageMultiplier.NORMAL,
+            Type("Ghost") to DamageMultiplier.NORMAL,
+            Type("Dark") to DamageMultiplier.NORMAL,
+            Type("Fairy") to DamageMultiplier.NORMAL
         )
     ),
     TypeEffectiveness(
         type = SelectableType(type = Type("Electric")),
-        multipliersToTypes = mapOf(
-            DamageMultiplier.DOUBLE to listOf(Type("Water"), Type("Flying")),
-            DamageMultiplier.HALF to listOf(Type("Electric"), Type("Grass"), Type("Dragon")),
-            DamageMultiplier.NO_DAMAGE to listOf(Type("Ground")),
-            DamageMultiplier.NORMAL to listOf(
-                Type("Normal"), Type("Fire"), Type("Ice"), Type("Fighting"),
-                Type("Poison"), Type("Psychic"), Type("Bug"), Type("Rock"),
-                Type("Ghost"), Type("Dark"), Type("Steel"), Type("Fairy")
-            )
+        typesToMultipliers = mapOf(
+            Type("Water") to DamageMultiplier.DOUBLE,
+            Type("Flying") to DamageMultiplier.DOUBLE,
+            Type("Electric") to DamageMultiplier.HALF,
+            Type("Grass") to DamageMultiplier.HALF,
+            Type("Dragon") to DamageMultiplier.HALF,
+            Type("Ground") to DamageMultiplier.NO_DAMAGE,
+            Type("Normal") to DamageMultiplier.NORMAL,
+            Type("Fire") to DamageMultiplier.NORMAL,
+            Type("Ice") to DamageMultiplier.NORMAL,
+            Type("Fighting") to DamageMultiplier.NORMAL,
+            Type("Poison") to DamageMultiplier.NORMAL,
+            Type("Psychic") to DamageMultiplier.NORMAL,
+            Type("Bug") to DamageMultiplier.NORMAL,
+            Type("Rock") to DamageMultiplier.NORMAL,
+            Type("Ghost") to DamageMultiplier.NORMAL,
+            Type("Dark") to DamageMultiplier.NORMAL,
+            Type("Steel") to DamageMultiplier.NORMAL,
+            Type("Fairy") to DamageMultiplier.NORMAL
         )
     ),
     TypeEffectiveness(
         type = SelectableType(type = Type("Ice")),
-        multipliersToTypes = mapOf(
-            DamageMultiplier.DOUBLE to listOf(Type("Grass"), Type("Ground"), Type("Flying"), Type("Dragon")),
-            DamageMultiplier.HALF to listOf(Type("Fire"), Type("Water"), Type("Ice"), Type("Steel")),
-            DamageMultiplier.NO_DAMAGE to emptyList(),
-            DamageMultiplier.NORMAL to listOf(
-                Type("Normal"), Type("Electric"), Type("Fighting"), Type("Poison"),
-                Type("Psychic"), Type("Bug"), Type("Rock"), Type("Ghost"),
-                Type("Dark"), Type("Fairy")
-            )
+        typesToMultipliers = mapOf(
+            Type("Grass") to DamageMultiplier.DOUBLE,
+            Type("Ground") to DamageMultiplier.DOUBLE,
+            Type("Flying") to DamageMultiplier.DOUBLE,
+            Type("Dragon") to DamageMultiplier.DOUBLE,
+            Type("Fire") to DamageMultiplier.HALF,
+            Type("Water") to DamageMultiplier.HALF,
+            Type("Ice") to DamageMultiplier.HALF,
+            Type("Steel") to DamageMultiplier.HALF,
+            Type("Normal") to DamageMultiplier.NORMAL,
+            Type("Electric") to DamageMultiplier.NORMAL,
+            Type("Fighting") to DamageMultiplier.NORMAL,
+            Type("Poison") to DamageMultiplier.NORMAL,
+            Type("Psychic") to DamageMultiplier.NORMAL,
+            Type("Bug") to DamageMultiplier.NORMAL,
+            Type("Rock") to DamageMultiplier.NORMAL,
+            Type("Ghost") to DamageMultiplier.NORMAL,
+            Type("Dark") to DamageMultiplier.NORMAL,
+            Type("Fairy") to DamageMultiplier.NORMAL
         )
     ),
     TypeEffectiveness(
         type = SelectableType(type = Type("Fighting")),
-        multipliersToTypes = mapOf(
-            DamageMultiplier.DOUBLE to listOf(Type("Normal"), Type("Ice"), Type("Rock"), Type("Dark"), Type("Steel")),
-            DamageMultiplier.HALF to listOf(Type("Poison"), Type("Flying"), Type("Psychic"), Type("Bug"), Type("Fairy")),
-            DamageMultiplier.NO_DAMAGE to listOf(Type("Ghost")),
-            DamageMultiplier.NORMAL to listOf(
-                Type("Fire"), Type("Water"), Type("Electric"), Type("Grass"),
-                Type("Fighting"), Type("Ground"), Type("Dragon")
-            )
+        typesToMultipliers = mapOf(
+            Type("Normal") to DamageMultiplier.DOUBLE,
+            Type("Ice") to DamageMultiplier.DOUBLE,
+            Type("Rock") to DamageMultiplier.DOUBLE,
+            Type("Dark") to DamageMultiplier.DOUBLE,
+            Type("Steel") to DamageMultiplier.DOUBLE,
+            Type("Poison") to DamageMultiplier.HALF,
+            Type("Flying") to DamageMultiplier.HALF,
+            Type("Psychic") to DamageMultiplier.HALF,
+            Type("Bug") to DamageMultiplier.HALF,
+            Type("Fairy") to DamageMultiplier.HALF,
+            Type("Ghost") to DamageMultiplier.NO_DAMAGE,
+            Type("Fire") to DamageMultiplier.NORMAL,
+            Type("Water") to DamageMultiplier.NORMAL,
+            Type("Electric") to DamageMultiplier.NORMAL,
+            Type("Grass") to DamageMultiplier.NORMAL,
+            Type("Fighting") to DamageMultiplier.NORMAL,
+            Type("Ground") to DamageMultiplier.NORMAL,
+            Type("Dragon") to DamageMultiplier.NORMAL
         )
     ),
     TypeEffectiveness(
         type = SelectableType(type = Type("Poison")),
-        multipliersToTypes = mapOf(
-            DamageMultiplier.DOUBLE to listOf(Type("Grass"), Type("Fairy")),
-            DamageMultiplier.HALF to listOf(Type("Poison"), Type("Ground"), Type("Rock"), Type("Ghost")),
-            DamageMultiplier.NO_DAMAGE to listOf(Type("Steel")),
-            DamageMultiplier.NORMAL to listOf(
-                Type("Normal"), Type("Fire"), Type("Water"), Type("Electric"),
-                Type("Ice"), Type("Fighting"), Type("Flying"), Type("Psychic"),
-                Type("Bug"), Type("Dragon"), Type("Dark")
-            )
+        typesToMultipliers = mapOf(
+            Type("Grass") to DamageMultiplier.DOUBLE,
+            Type("Fairy") to DamageMultiplier.DOUBLE,
+            Type("Poison") to DamageMultiplier.HALF,
+            Type("Ground") to DamageMultiplier.HALF,
+            Type("Rock") to DamageMultiplier.HALF,
+            Type("Ghost") to DamageMultiplier.HALF,
+            Type("Steel") to DamageMultiplier.NO_DAMAGE,
+            Type("Normal") to DamageMultiplier.NORMAL,
+            Type("Fire") to DamageMultiplier.NORMAL,
+            Type("Water") to DamageMultiplier.NORMAL,
+            Type("Electric") to DamageMultiplier.NORMAL,
+            Type("Ice") to DamageMultiplier.NORMAL,
+            Type("Fighting") to DamageMultiplier.NORMAL,
+            Type("Flying") to DamageMultiplier.NORMAL,
+            Type("Psychic") to DamageMultiplier.NORMAL,
+            Type("Bug") to DamageMultiplier.NORMAL,
+            Type("Dragon") to DamageMultiplier.NORMAL,
+            Type("Dark") to DamageMultiplier.NORMAL
         )
     ),
     TypeEffectiveness(
         type = SelectableType(type = Type("Ground")),
-        multipliersToTypes = mapOf(
-            DamageMultiplier.DOUBLE to listOf(Type("Fire"), Type("Electric"), Type("Poison"), Type("Rock"), Type("Steel")),
-            DamageMultiplier.HALF to listOf(Type("Grass"), Type("Bug")),
-            DamageMultiplier.NO_DAMAGE to listOf(Type("Flying")),
-            DamageMultiplier.NORMAL to listOf(
-                Type("Normal"), Type("Water"), Type("Ice"), Type("Fighting"),
-                Type("Ground"), Type("Psychic"), Type("Ghost"), Type("Dragon"),
-                Type("Dark"), Type("Fairy")
-            )
+        typesToMultipliers = mapOf(
+            Type("Fire") to DamageMultiplier.DOUBLE,
+            Type("Electric") to DamageMultiplier.DOUBLE,
+            Type("Poison") to DamageMultiplier.DOUBLE,
+            Type("Rock") to DamageMultiplier.DOUBLE,
+            Type("Steel") to DamageMultiplier.DOUBLE,
+            Type("Grass") to DamageMultiplier.HALF,
+            Type("Bug") to DamageMultiplier.HALF,
+            Type("Flying") to DamageMultiplier.NO_DAMAGE,
+            Type("Normal") to DamageMultiplier.NORMAL,
+            Type("Water") to DamageMultiplier.NORMAL,
+            Type("Ice") to DamageMultiplier.NORMAL,
+            Type("Fighting") to DamageMultiplier.NORMAL,
+            Type("Ground") to DamageMultiplier.NORMAL,
+            Type("Psychic") to DamageMultiplier.NORMAL,
+            Type("Ghost") to DamageMultiplier.NORMAL,
+            Type("Dragon") to DamageMultiplier.NORMAL,
+            Type("Dark") to DamageMultiplier.NORMAL,
+            Type("Fairy") to DamageMultiplier.NORMAL
         )
     ),
     TypeEffectiveness(
         type = SelectableType(type = Type("Flying")),
-        multipliersToTypes = mapOf(
-            DamageMultiplier.DOUBLE to listOf(Type("Grass"), Type("Fighting"), Type("Bug")),
-            DamageMultiplier.HALF to listOf(Type("Electric"), Type("Rock"), Type("Steel")),
-            DamageMultiplier.NO_DAMAGE to emptyList(),
-            DamageMultiplier.NORMAL to listOf(
-                Type("Normal"), Type("Fire"), Type("Water"), Type("Ice"),
-                Type("Poison"), Type("Ground"), Type("Flying"), Type("Psychic"),
-                Type("Ghost"), Type("Dragon"), Type("Dark"), Type("Fairy")
-            )
+        typesToMultipliers = mapOf(
+            Type("Grass") to DamageMultiplier.DOUBLE,
+            Type("Fighting") to DamageMultiplier.DOUBLE,
+            Type("Bug") to DamageMultiplier.DOUBLE,
+            Type("Electric") to DamageMultiplier.HALF,
+            Type("Rock") to DamageMultiplier.HALF,
+            Type("Steel") to DamageMultiplier.HALF,
+            Type("Normal") to DamageMultiplier.NORMAL,
+            Type("Fire") to DamageMultiplier.NORMAL,
+            Type("Water") to DamageMultiplier.NORMAL,
+            Type("Ice") to DamageMultiplier.NORMAL,
+            Type("Poison") to DamageMultiplier.NORMAL,
+            Type("Ground") to DamageMultiplier.NORMAL,
+            Type("Flying") to DamageMultiplier.NORMAL,
+            Type("Psychic") to DamageMultiplier.NORMAL,
+            Type("Ghost") to DamageMultiplier.NORMAL,
+            Type("Dragon") to DamageMultiplier.NORMAL,
+            Type("Dark") to DamageMultiplier.NORMAL,
+            Type("Fairy") to DamageMultiplier.NORMAL
         )
     ),
     TypeEffectiveness(
         type = SelectableType(type = Type("Psychic")),
-        multipliersToTypes = mapOf(
-            DamageMultiplier.DOUBLE to listOf(Type("Fighting"), Type("Poison")),
-            DamageMultiplier.HALF to listOf(Type("Psychic"), Type("Steel")),
-            DamageMultiplier.NO_DAMAGE to listOf(Type("Dark")),
-            DamageMultiplier.NORMAL to listOf(
-                Type("Normal"), Type("Fire"), Type("Water"), Type("Electric"),
-                Type("Grass"), Type("Ice"), Type("Ground"), Type("Flying"),
-                Type("Bug"), Type("Rock"), Type("Ghost"), Type("Dragon"), Type("Fairy")
-            )
+        typesToMultipliers = mapOf(
+            Type("Fighting") to DamageMultiplier.DOUBLE,
+            Type("Poison") to DamageMultiplier.DOUBLE,
+            Type("Psychic") to DamageMultiplier.HALF,
+            Type("Steel") to DamageMultiplier.HALF,
+            Type("Dark") to DamageMultiplier.NO_DAMAGE,
+            Type("Normal") to DamageMultiplier.NORMAL,
+            Type("Fire") to DamageMultiplier.NORMAL,
+            Type("Water") to DamageMultiplier.NORMAL,
+            Type("Electric") to DamageMultiplier.NORMAL,
+            Type("Grass") to DamageMultiplier.NORMAL,
+            Type("Ice") to DamageMultiplier.NORMAL,
+            Type("Ground") to DamageMultiplier.NORMAL,
+            Type("Flying") to DamageMultiplier.NORMAL,
+            Type("Bug") to DamageMultiplier.NORMAL,
+            Type("Rock") to DamageMultiplier.NORMAL,
+            Type("Ghost") to DamageMultiplier.NORMAL,
+            Type("Dragon") to DamageMultiplier.NORMAL,
+            Type("Fairy") to DamageMultiplier.NORMAL
         )
     ),
     TypeEffectiveness(
         type = SelectableType(type = Type("Bug")),
-        multipliersToTypes = mapOf(
-            DamageMultiplier.DOUBLE to listOf(Type("Grass"), Type("Psychic"), Type("Dark")),
-            DamageMultiplier.HALF to listOf(
-                Type("Fire"), Type("Fighting"), Type("Poison"), Type("Flying"),
-                Type("Ghost"), Type("Steel"), Type("Fairy")
-            ),
-            DamageMultiplier.NO_DAMAGE to emptyList(),
-            DamageMultiplier.NORMAL to listOf(
-                Type("Normal"), Type("Water"), Type("Electric"), Type("Ice"),
-                Type("Ground"), Type("Bug"), Type("Rock"), Type("Dragon")
-            )
+        typesToMultipliers = mapOf(
+            Type("Grass") to DamageMultiplier.DOUBLE,
+            Type("Psychic") to DamageMultiplier.DOUBLE,
+            Type("Dark") to DamageMultiplier.DOUBLE,
+            Type("Fire") to DamageMultiplier.HALF,
+            Type("Fighting") to DamageMultiplier.HALF,
+            Type("Poison") to DamageMultiplier.HALF,
+            Type("Flying") to DamageMultiplier.HALF,
+            Type("Ghost") to DamageMultiplier.HALF,
+            Type("Steel") to DamageMultiplier.HALF,
+            Type("Fairy") to DamageMultiplier.HALF,
+            Type("Normal") to DamageMultiplier.NORMAL,
+            Type("Water") to DamageMultiplier.NORMAL,
+            Type("Electric") to DamageMultiplier.NORMAL,
+            Type("Ice") to DamageMultiplier.NORMAL,
+            Type("Ground") to DamageMultiplier.NORMAL,
+            Type("Bug") to DamageMultiplier.NORMAL,
+            Type("Rock") to DamageMultiplier.NORMAL,
+            Type("Dragon") to DamageMultiplier.NORMAL
         )
     ),
     TypeEffectiveness(
         type = SelectableType(type = Type("Rock")),
-        multipliersToTypes = mapOf(
-            DamageMultiplier.DOUBLE to listOf(Type("Fire"), Type("Ice"), Type("Flying"), Type("Bug")),
-            DamageMultiplier.HALF to listOf(Type("Fighting"), Type("Ground"), Type("Steel")),
-            DamageMultiplier.NO_DAMAGE to emptyList(),
-            DamageMultiplier.NORMAL to listOf(
-                Type("Normal"), Type("Water"), Type("Electric"), Type("Grass"),
-                Type("Poison"), Type("Psychic"), Type("Rock"), Type("Ghost"),
-                Type("Dragon"), Type("Dark"), Type("Fairy")
-            )
+        typesToMultipliers = mapOf(
+            Type("Fire") to DamageMultiplier.DOUBLE,
+            Type("Ice") to DamageMultiplier.DOUBLE,
+            Type("Flying") to DamageMultiplier.DOUBLE,
+            Type("Bug") to DamageMultiplier.DOUBLE,
+            Type("Fighting") to DamageMultiplier.HALF,
+            Type("Ground") to DamageMultiplier.HALF,
+            Type("Steel") to DamageMultiplier.HALF,
+            Type("Normal") to DamageMultiplier.NORMAL,
+            Type("Water") to DamageMultiplier.NORMAL,
+            Type("Electric") to DamageMultiplier.NORMAL,
+            Type("Grass") to DamageMultiplier.NORMAL,
+            Type("Poison") to DamageMultiplier.NORMAL,
+            Type("Psychic") to DamageMultiplier.NORMAL,
+            Type("Rock") to DamageMultiplier.NORMAL,
+            Type("Ghost") to DamageMultiplier.NORMAL,
+            Type("Dragon") to DamageMultiplier.NORMAL,
+            Type("Dark") to DamageMultiplier.NORMAL,
+            Type("Fairy") to DamageMultiplier.NORMAL
         )
     ),
     TypeEffectiveness(
         type = SelectableType(type = Type("Ghost")),
-        multipliersToTypes = mapOf(
-            DamageMultiplier.DOUBLE to listOf(Type("Psychic"), Type("Ghost")),
-            DamageMultiplier.HALF to listOf(Type("Dark")),
-            DamageMultiplier.NO_DAMAGE to listOf(Type("Normal")),
-            DamageMultiplier.NORMAL to listOf(
-                Type("Fire"), Type("Water"), Type("Electric"), Type("Grass"),
-                Type("Ice"), Type("Fighting"), Type("Poison"), Type("Ground"),
-                Type("Flying"), Type("Bug"), Type("Rock"), Type("Dragon"),
-                Type("Steel"), Type("Fairy")
-            )
+        typesToMultipliers = mapOf(
+            Type("Psychic") to DamageMultiplier.DOUBLE,
+            Type("Ghost") to DamageMultiplier.DOUBLE,
+            Type("Dark") to DamageMultiplier.HALF,
+            Type("Normal") to DamageMultiplier.NO_DAMAGE,
+            Type("Fire") to DamageMultiplier.NORMAL,
+            Type("Water") to DamageMultiplier.NORMAL,
+            Type("Electric") to DamageMultiplier.NORMAL,
+            Type("Grass") to DamageMultiplier.NORMAL,
+            Type("Ice") to DamageMultiplier.NORMAL,
+            Type("Fighting") to DamageMultiplier.NORMAL,
+            Type("Poison") to DamageMultiplier.NORMAL,
+            Type("Ground") to DamageMultiplier.NORMAL,
+            Type("Flying") to DamageMultiplier.NORMAL,
+            Type("Bug") to DamageMultiplier.NORMAL,
+            Type("Rock") to DamageMultiplier.NORMAL,
+            Type("Dragon") to DamageMultiplier.NORMAL,
+            Type("Steel") to DamageMultiplier.NORMAL,
+            Type("Fairy") to DamageMultiplier.NORMAL
         )
     ),
     TypeEffectiveness(
         type = SelectableType(type = Type("Dragon")),
-        multipliersToTypes = mapOf(
-            DamageMultiplier.DOUBLE to listOf(Type("Dragon")),
-            DamageMultiplier.HALF to listOf(Type("Steel")),
-            DamageMultiplier.NO_DAMAGE to listOf(Type("Fairy")),
-            DamageMultiplier.NORMAL to listOf(
-                Type("Normal"), Type("Fire"), Type("Water"), Type("Electric"),
-                Type("Grass"), Type("Ice"), Type("Fighting"), Type("Poison"),
-                Type("Ground"), Type("Flying"), Type("Psychic"), Type("Bug"),
-                Type("Rock"), Type("Ghost"), Type("Dark")
-            )
+        typesToMultipliers = mapOf(
+            Type("Dragon") to DamageMultiplier.DOUBLE,
+            Type("Steel") to DamageMultiplier.HALF,
+            Type("Fairy") to DamageMultiplier.NO_DAMAGE,
+            Type("Normal") to DamageMultiplier.NORMAL,
+            Type("Fire") to DamageMultiplier.NORMAL,
+            Type("Water") to DamageMultiplier.NORMAL,
+            Type("Electric") to DamageMultiplier.NORMAL,
+            Type("Grass") to DamageMultiplier.NORMAL,
+            Type("Ice") to DamageMultiplier.NORMAL,
+            Type("Fighting") to DamageMultiplier.NORMAL,
+            Type("Poison") to DamageMultiplier.NORMAL,
+            Type("Ground") to DamageMultiplier.NORMAL,
+            Type("Flying") to DamageMultiplier.NORMAL,
+            Type("Psychic") to DamageMultiplier.NORMAL,
+            Type("Bug") to DamageMultiplier.NORMAL,
+            Type("Rock") to DamageMultiplier.NORMAL,
+            Type("Ghost") to DamageMultiplier.NORMAL,
+            Type("Dark") to DamageMultiplier.NORMAL
         )
     ),
     TypeEffectiveness(
         type = SelectableType(type = Type("Dark")),
-        multipliersToTypes = mapOf(
-            DamageMultiplier.DOUBLE to listOf(Type("Psychic"), Type("Ghost")),
-            DamageMultiplier.HALF to listOf(Type("Fighting"), Type("Dark"), Type("Fairy")),
-            DamageMultiplier.NO_DAMAGE to emptyList(),
-            DamageMultiplier.NORMAL to listOf(
-                Type("Normal"), Type("Fire"), Type("Water"), Type("Electric"),
-                Type("Grass"), Type("Ice"), Type("Poison"), Type("Ground"),
-                Type("Flying"), Type("Bug"), Type("Rock"), Type("Dragon"), Type("Steel")
-            )
+        typesToMultipliers = mapOf(
+            Type("Psychic") to DamageMultiplier.DOUBLE,
+            Type("Ghost") to DamageMultiplier.DOUBLE,
+            Type("Fighting") to DamageMultiplier.HALF,
+            Type("Dark") to DamageMultiplier.HALF,
+            Type("Fairy") to DamageMultiplier.HALF,
+            Type("Normal") to DamageMultiplier.NORMAL,
+            Type("Fire") to DamageMultiplier.NORMAL,
+            Type("Water") to DamageMultiplier.NORMAL,
+            Type("Electric") to DamageMultiplier.NORMAL,
+            Type("Grass") to DamageMultiplier.NORMAL,
+            Type("Ice") to DamageMultiplier.NORMAL,
+            Type("Poison") to DamageMultiplier.NORMAL,
+            Type("Ground") to DamageMultiplier.NORMAL,
+            Type("Flying") to DamageMultiplier.NORMAL,
+            Type("Bug") to DamageMultiplier.NORMAL,
+            Type("Rock") to DamageMultiplier.NORMAL,
+            Type("Dragon") to DamageMultiplier.NORMAL,
+            Type("Steel") to DamageMultiplier.NORMAL
         )
     ),
     TypeEffectiveness(
         type = SelectableType(type = Type("Steel")),
-        multipliersToTypes = mapOf(
-            DamageMultiplier.DOUBLE to listOf(Type("Ice"), Type("Rock"), Type("Fairy")),
-            DamageMultiplier.HALF to listOf(Type("Fire"), Type("Water"), Type("Electric"), Type("Steel")),
-            DamageMultiplier.NO_DAMAGE to emptyList(),
-            DamageMultiplier.NORMAL to listOf(
-                Type("Normal"), Type("Grass"), Type("Fighting"), Type("Poison"),
-                Type("Ground"), Type("Flying"), Type("Psychic"), Type("Bug"),
-                Type("Ghost"), Type("Dragon"), Type("Dark")
-            )
+        typesToMultipliers = mapOf(
+            Type("Ice") to DamageMultiplier.DOUBLE,
+            Type("Rock") to DamageMultiplier.DOUBLE,
+            Type("Fairy") to DamageMultiplier.DOUBLE,
+            Type("Fire") to DamageMultiplier.HALF,
+            Type("Water") to DamageMultiplier.HALF,
+            Type("Electric") to DamageMultiplier.HALF,
+            Type("Steel") to DamageMultiplier.HALF,
+            Type("Normal") to DamageMultiplier.NORMAL,
+            Type("Grass") to DamageMultiplier.NORMAL,
+            Type("Fighting") to DamageMultiplier.NORMAL,
+            Type("Poison") to DamageMultiplier.NORMAL,
+            Type("Ground") to DamageMultiplier.NORMAL,
+            Type("Flying") to DamageMultiplier.NORMAL,
+            Type("Psychic") to DamageMultiplier.NORMAL,
+            Type("Bug") to DamageMultiplier.NORMAL,
+            Type("Ghost") to DamageMultiplier.NORMAL,
+            Type("Dragon") to DamageMultiplier.NORMAL,
+            Type("Dark") to DamageMultiplier.NORMAL
         )
     ),
     TypeEffectiveness(
         type = SelectableType(type = Type("Fairy")),
-        multipliersToTypes = mapOf(
-            DamageMultiplier.DOUBLE to listOf(Type("Fighting"), Type("Dragon"), Type("Dark")),
-            DamageMultiplier.HALF to listOf(Type("Fire"), Type("Poison"), Type("Steel")),
-            DamageMultiplier.NO_DAMAGE to emptyList(),
-            DamageMultiplier.NORMAL to listOf(
-                Type("Normal"), Type("Water"), Type("Electric"), Type("Grass"),
-                Type("Ice"), Type("Ground"), Type("Flying"), Type("Psychic"),
-                Type("Bug"), Type("Rock"), Type("Ghost"), Type("Fairy")
-            )
+        typesToMultipliers = mapOf(
+            Type("Fighting") to DamageMultiplier.DOUBLE,
+            Type("Dragon") to DamageMultiplier.DOUBLE,
+            Type("Dark") to DamageMultiplier.DOUBLE,
+            Type("Fire") to DamageMultiplier.HALF,
+            Type("Poison") to DamageMultiplier.HALF,
+            Type("Steel") to DamageMultiplier.HALF,
+            Type("Normal") to DamageMultiplier.NORMAL,
+            Type("Water") to DamageMultiplier.NORMAL,
+            Type("Electric") to DamageMultiplier.NORMAL,
+            Type("Grass") to DamageMultiplier.NORMAL,
+            Type("Ice") to DamageMultiplier.NORMAL,
+            Type("Ground") to DamageMultiplier.NORMAL,
+            Type("Flying") to DamageMultiplier.NORMAL,
+            Type("Psychic") to DamageMultiplier.NORMAL,
+            Type("Bug") to DamageMultiplier.NORMAL,
+            Type("Rock") to DamageMultiplier.NORMAL,
+            Type("Ghost") to DamageMultiplier.NORMAL,
+            Type("Fairy") to DamageMultiplier.NORMAL
         )
     )
 )

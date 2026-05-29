@@ -15,7 +15,7 @@ class GetTypesUseCase(private val repository: TypeEffectivenessRepository) {
             types.filterNot { listOf("unknown", "stellar", "shadow").contains(it.name) }.map { type ->
                 TypeEffectiveness(
                     type = SelectableType(type = Type(type.name)),
-                    multipliersToTypes = type.damageRelations.mapToMultipliersToTypes(allTypes)
+                    typesToMultipliers = type.damageRelations.mapToMultipliersToTypes(allTypes)
                 )
             }
         }
