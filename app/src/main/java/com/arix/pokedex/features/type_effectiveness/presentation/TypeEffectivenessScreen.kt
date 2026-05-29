@@ -22,8 +22,10 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.arix.pokedex.R
@@ -32,9 +34,9 @@ import com.arix.pokedex.features.type_effectiveness.presentation.ui.TypeEffectiv
 import com.arix.pokedex.features.type_effectiveness.presentation.ui.TypeEffectivenessState
 import com.arix.pokedex.features.type_effectiveness.presentation.ui.TypeEffectivenessViewModel
 import com.arix.pokedex.features.type_effectiveness.presentation.ui.components.SelectableTypesList
+import com.arix.pokedex.features.type_effectiveness.presentation.ui.components.TypesWithMultiplierSection
 import com.arix.pokedex.theme.Accent
 import com.arix.pokedex.theme.FontSizes
-import com.arix.pokedex.theme.GrayA75
 import com.arix.pokedex.theme.PokedexTheme
 import com.arix.pokedex.views.DefaultProgressIndicatorScreen
 import com.arix.pokedex.views.ErrorScreenWithRetryButton
@@ -63,10 +65,8 @@ private fun TypeEffectivenessScreenContent(
     invokeEvent: (TypeEffectivenessEvent) -> Unit
 ) {
     /** TODO plan:
-     * We have grid of selectable types, it will look like [com.arix.pokedex.features.pokemon_list.presentation.ui.components.TypeItem]
-     * but will be selectable so we need to make another composable for it.
-     * user picks up to 2 types, then we show him (dynamically as he clicks) types grouped by effectiveness
-     * with effectiveness multiplier on its left.
+     * make clear types button
+     * and add animation to showing type effectiveness table
      * **/
     val coroutineScope = rememberCoroutineScope()
 
@@ -86,7 +86,7 @@ private fun TypeEffectivenessScreenContent(
     }
 
     Box(modifier = Modifier.verticalScroll(rememberScrollState())) {
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.padding(bottom = 56.dp)) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -95,7 +95,8 @@ private fun TypeEffectivenessScreenContent(
             ) {
                 Text(
                     text = stringResource(R.string.selected_types_label),
-                    fontSize = FontSizes.large
+                    fontSize = FontSizes.large,
+                    fontWeight = FontWeight.Medium
                 )
                 SelectedTypesCounter(shouldHighlightSelectedTypesCounter, selectedTypesCount)
             }
@@ -103,6 +104,14 @@ private fun TypeEffectivenessScreenContent(
                 state.typeEffectivenessList.map { it.type },
                 onTypeClick = handleTypeClick
             )
+            state.mergedTypeEffectiveness.forEach { typesWithMultiplier ->
+                if (typesWithMultiplier.typeToMultiplier.isNotEmpty())
+                    TypesWithMultiplierSection(
+                        stringResource(typesWithMultiplier.damageCategoryMultiplier.getTitleResId()),
+                        typesWithMultiplier.typeToMultiplier,
+                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
+                    )
+            }
         }
     }
 }
@@ -113,7 +122,7 @@ private fun SelectedTypesCounter(
     selectedTypesCount: Int
 ) {
     val rotation = remember { Animatable(0f) }
-    val color by animateColorAsState(if (shouldHighlightSelectedTypesCounter) Accent else GrayA75)
+    val color by animateColorAsState(if (shouldHighlightSelectedTypesCounter) Accent else Color.White)
 
     LaunchedEffect(shouldHighlightSelectedTypesCounter) {
         if (shouldHighlightSelectedTypesCounter) {
@@ -145,11 +154,13 @@ private fun SelectedTypesCounter(
 @Preview
 @Composable
 private fun TypeEffectivenessScreenPreview() {
+
     PokedexTheme {
         Surface {
             TypeEffectivenessScreenContent(
                 TypeEffectivenessState(
-                    typeEffectivenessList = mockTypeEffectivenessList
+                    typeEffectivenessList = mockTypeEffectivenessList,
+                    mergedTypeEffectiveness = mockTypesWithMultipliers
                 )
             ) { }
         }

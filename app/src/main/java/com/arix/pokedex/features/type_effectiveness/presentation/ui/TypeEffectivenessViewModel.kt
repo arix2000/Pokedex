@@ -3,6 +3,10 @@ package com.arix.pokedex.features.type_effectiveness.presentation.ui
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.arix.pokedex.features.pokemon_list.domain.model.details.Type
+import com.arix.pokedex.features.type_effectiveness.domain.model.DamageMultiplierCategory
+import com.arix.pokedex.features.type_effectiveness.domain.model.TypeEffectiveness
+import com.arix.pokedex.features.type_effectiveness.domain.model.TypesWithMultiplier
 import com.arix.pokedex.features.type_effectiveness.domain.usecases.GetTypesUseCase
 import com.arix.pokedex.utils.ApiResponse
 import kotlinx.coroutines.Job
@@ -26,14 +30,50 @@ class TypeEffectivenessViewModel(private val getTypesUseCase: GetTypesUseCase) :
     }
 
     private fun selectType(event: TypeEffectivenessEvent.SelectTypeEvent) {
-        state.value =
-            state.value.copy(typeEffectivenessList = state.value.typeEffectivenessList.map { typeEffectiveness ->
+        val typeEffectivenessListWithNewSelected =
+            state.value.typeEffectivenessList.map { typeEffectiveness ->
                 if (typeEffectiveness.type == event.selectableType) {
                     typeEffectiveness.copy(type = typeEffectiveness.type.copy(isSelected = !typeEffectiveness.type.isSelected))
                 } else {
                     typeEffectiveness
                 }
-            })
+            }
+        val mergedTypeEffectiveness =
+            mergeTypeEffectivenessIfNeeded(typeEffectivenessListWithNewSelected.filter { it.type.isSelected })
+
+        state.value =
+            state.value.copy(
+                typeEffectivenessList = typeEffectivenessListWithNewSelected,
+                mergedTypeEffectiveness = mergedTypeEffectiveness
+            )
+    }
+
+    private fun mergeTypeEffectivenessIfNeeded(typeEffectivenessList: List<TypeEffectiveness>): List<TypesWithMultiplier> {
+        val typesToMultipliersMap = mutableMapOf<Type, Double>()
+        typeEffectivenessList.forEach { typeEffectiveness ->
+            val newTypesToMultipliers: Map<Type, Double> =
+                typeEffectiveness.typesToMultipliers.mapValues { it.value.baseMultiplier }
+            if (typesToMultipliersMap.isEmpty()) {
+                typesToMultipliersMap.putAll(newTypesToMultipliers)
+            } else {
+                for ((key, entry) in typesToMultipliersMap) {
+                    typesToMultipliersMap[key] = entry * newTypesToMultipliers[key]!!
+                }
+            }
+        }
+        val typesWithMultiplierList = mutableListOf<TypesWithMultiplier>()
+        DamageMultiplierCategory.entries.forEach { damageMultiplierCategory ->
+            typesWithMultiplierList.add(
+                TypesWithMultiplier(
+                    damageMultiplierCategory,
+                    typesToMultipliersMap.filter { multiplier ->
+                        damageMultiplierCategory.multiplierRange.contains(
+                            multiplier.value
+                        )
+                    })
+            )
+        }
+        return typesWithMultiplierList
     }
 
     fun getTypes() {

@@ -11,8 +11,9 @@ class GetTypesUseCase(private val repository: TypeEffectivenessRepository) {
     suspend operator fun invoke(): ApiResponse<List<TypeEffectiveness>> {
         val typesResponse: ApiResponse<List<RawTypeDetails>> = repository.getTypes()
         return typesResponse.mapSuccess { types ->
-            val allTypes = types.map { Type(it.name) }
-            types.filterNot { listOf("unknown", "stellar", "shadow").contains(it.name) }.map { type ->
+            val allPokemonTypes = types.filterNot { listOf("unknown", "stellar", "shadow").contains(it.name) }
+            val allTypes = allPokemonTypes.map { Type(it.name) }
+            allPokemonTypes.map { type ->
                 TypeEffectiveness(
                     type = SelectableType(type = Type(type.name)),
                     typesToMultipliers = type.damageRelations.mapToMultipliersToTypes(allTypes)

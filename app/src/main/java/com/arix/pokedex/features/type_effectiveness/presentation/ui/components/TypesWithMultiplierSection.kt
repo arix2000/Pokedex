@@ -27,15 +27,19 @@ import com.arix.pokedex.views.FadingHorizontalDivider
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun TypesWithMultiplierSection(title: String, typesToMultiplier: Map<Type, Double>) {
+fun TypesWithMultiplierSection(
+    title: String,
+    typesToMultiplier: Map<Type, Double>,
+    modifier: Modifier = Modifier
+) {
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .background(BlackLight, shape = AppShapes.large)
             .padding(12.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        Text(text = title, fontSize = FontSizes.large, fontWeight = FontWeight.Bold)
+        Text(text = title, fontSize = FontSizes.large, fontWeight = FontWeight.Medium)
         FadingHorizontalDivider()
         FlowRow {
             typesToMultiplier.forEach {

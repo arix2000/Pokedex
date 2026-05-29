@@ -19,14 +19,14 @@ data class RawTypeDamageRelations(
     @SerializedName("no_damage_to")
     val noDamageTo: List<NamedApiResource>
 ) {
-    fun mapToMultipliersToTypes(allTypes: List<Type>): Map<Type, DamageMultiplier> {
-        val multipliersMap = mutableMapOf<Type, DamageMultiplier>()
+    fun mapToMultipliersToTypes(allTypes: List<Type>): Map<Type, DamageMultiplierCategory> {
+        val multipliersMap = mutableMapOf<Type, DamageMultiplierCategory>()
 
-        allTypes.forEach { multipliersMap[it] = DamageMultiplier.NORMAL }
+        allTypes.forEach { multipliersMap[it] = DamageMultiplierCategory.NORMAL }
 
-        doubleDamageFrom.forEach { multipliersMap[Type(it.name)] = DamageMultiplier.DOUBLE }
-        halfDamageFrom.forEach { multipliersMap[Type(it.name)] = DamageMultiplier.HALF }
-        noDamageFrom.forEach { multipliersMap[Type(it.name)] = DamageMultiplier.NO_DAMAGE }
+        doubleDamageFrom.forEach { multipliersMap[Type(it.name)] = DamageMultiplierCategory.DOUBLE }
+        halfDamageFrom.forEach { multipliersMap[Type(it.name)] = DamageMultiplierCategory.HALF }
+        noDamageFrom.forEach { multipliersMap[Type(it.name)] = DamageMultiplierCategory.NO_DAMAGE }
 
         return multipliersMap
     }
