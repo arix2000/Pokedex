@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -45,7 +46,7 @@ fun TypeWithMultiplierItem(
         ) {
             Box(
                 modifier = Modifier
-                    .size(22.dp)
+                    .size(32.dp)
                     .background(Color.White, shape = CircleShape),
                 contentAlignment = Alignment.Center
             ) {
@@ -67,7 +68,7 @@ fun MultiplierText(multiplier: Double) {
             modifier = Modifier.padding(2.dp),
             text = multiplier.toInt().toString() + "x",
             color = BlackSoft,
-            fontSize = 10.sp,
+            fontSize = 14.sp,
         )
 }
 
@@ -92,24 +93,24 @@ private fun FractionText(multiplier: Double) {
             Text(
                 text = numerator.toString(),
                 color = BlackSoft,
-                fontSize = 8.sp,
+                fontSize = 10.sp,
                 style = noFontPaddingTextStyle
             )
             Divider(
                 thickness = 0.5.dp,
                 color = BlackSoft,
-                modifier = Modifier.width(6.dp)
+                modifier = Modifier.width(7.dp)
             )
             Text(
                 text = dominator.toString(),
                 color = BlackSoft,
-                fontSize = 8.sp,
+                fontSize = 10.sp,
                 style = noFontPaddingTextStyle
             )
         }
         Text(
             "x", color = BlackSoft,
-            fontSize = 10.sp,
+            fontSize = 14.sp,
         )
     }
 }
@@ -119,9 +120,13 @@ private fun FractionText(multiplier: Double) {
 private fun SelectableTypeItemPreview() {
     PokedexTheme {
         Surface {
-            Box(Modifier.padding(16.dp)) {
+            Column(Modifier.padding(16.dp)) {
                 TypeWithMultiplierItem(
                     typeWithMultiplier = Pair(Type("ground"), 0.5)
+                )
+                Spacer(Modifier.height(12.dp))
+                TypeWithMultiplierItem(
+                    typeWithMultiplier = Pair(Type("ground"), 2.0)
                 )
             }
         }

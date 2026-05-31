@@ -26,7 +26,20 @@ class TypeEffectivenessViewModel(private val getTypesUseCase: GetTypesUseCase) :
         when (event) {
             is TypeEffectivenessEvent.SelectTypeEvent -> selectType(event)
             is TypeEffectivenessEvent.GetTypesEvent -> getTypes()
+            is TypeEffectivenessEvent.ClearTypesEvent -> clearTypes()
         }
+    }
+
+    private fun clearTypes() {
+        val typeEffectivenessListWithNewSelected =
+            state.value.typeEffectivenessList.map { typeEffectiveness ->
+                    typeEffectiveness.copy(type = typeEffectiveness.type.copy(isSelected = false))
+            }
+        state.value =
+            state.value.copy(
+                typeEffectivenessList = typeEffectivenessListWithNewSelected,
+                mergedTypeEffectiveness = emptyList()
+            )
     }
 
     private fun selectType(event: TypeEffectivenessEvent.SelectTypeEvent) {

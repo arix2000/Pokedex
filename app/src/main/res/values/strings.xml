@@ -46,4 +46,5 @@
     <string name="damage_multiplier_double_label">Weak to:</string>
     <string name="damage_multiplier_no_damage_label">Immune to:</string>
     <string name="damage_multiplier_half_label">Resistant to:</string>
+    <string name="clear_types_label">Clear selection</string>
 </resources>

@@ -3,6 +3,8 @@ package com.arix.pokedex.features.type_effectiveness.presentation
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.keyframes
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -10,9 +12,13 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.Icon
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -22,12 +28,14 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.arix.pokedex.R
 import com.arix.pokedex.features.type_effectiveness.domain.model.SelectableType
 import com.arix.pokedex.features.type_effectiveness.presentation.ui.TypeEffectivenessEvent
@@ -38,6 +46,7 @@ import com.arix.pokedex.features.type_effectiveness.presentation.ui.components.T
 import com.arix.pokedex.theme.Accent
 import com.arix.pokedex.theme.FontSizes
 import com.arix.pokedex.theme.PokedexTheme
+import com.arix.pokedex.theme.PrimarySemiTransparent
 import com.arix.pokedex.views.DefaultProgressIndicatorScreen
 import com.arix.pokedex.views.ErrorScreenWithRetryButton
 import kotlinx.coroutines.delay
@@ -86,7 +95,10 @@ private fun TypeEffectivenessScreenContent(
     }
 
     Box(modifier = Modifier.verticalScroll(rememberScrollState())) {
-        Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.padding(bottom = 56.dp)) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.padding(bottom = 56.dp)
+        ) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -104,6 +116,30 @@ private fun TypeEffectivenessScreenContent(
                 state.typeEffectivenessList.map { it.type },
                 onTypeClick = handleTypeClick
             )
+            if (state.getSelectedCount() > 0) {
+                Column(horizontalAlignment = Alignment.End, modifier = Modifier.fillMaxWidth()) {
+                    Row(
+                        modifier = Modifier
+                            .padding(horizontal = 12.dp, vertical = 8.dp)
+                            .clip(CircleShape)
+                            .background(color = PrimarySemiTransparent)
+                            .clickable {
+                                invokeEvent(TypeEffectivenessEvent.ClearTypesEvent())
+                            }
+                            .padding(vertical = 4.dp, horizontal = 18.dp),
+                        horizontalArrangement = Arrangement.spacedBy(
+                            4.dp,
+                            alignment = Alignment.End
+                        )
+                    ) {
+                        Text(
+                            text = stringResource(R.string.clear_types_label),
+                            fontSize = 18.sp,
+                        )
+                        Icon(imageVector = Icons.Default.Delete, contentDescription = null)
+                    }
+                }
+            }
             state.mergedTypeEffectiveness.forEach { typesWithMultiplier ->
                 if (typesWithMultiplier.typeToMultiplier.isNotEmpty())
                     TypesWithMultiplierSection(
