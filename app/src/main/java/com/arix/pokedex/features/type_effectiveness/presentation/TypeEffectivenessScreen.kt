@@ -1,5 +1,6 @@
 package com.arix.pokedex.features.type_effectiveness.presentation
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.keyframes
@@ -140,13 +141,22 @@ private fun TypeEffectivenessScreenContent(
                     }
                 }
             }
-            state.mergedTypeEffectiveness.forEach { typesWithMultiplier ->
-                if (typesWithMultiplier.typeToMultiplier.isNotEmpty())
-                    TypesWithMultiplierSection(
-                        stringResource(typesWithMultiplier.damageCategoryMultiplier.getTitleResId()),
-                        typesWithMultiplier.typeToMultiplier,
-                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
-                    )
+            AnimatedContent(
+                targetState = state.mergedTypeEffectiveness,
+            ) { targetList ->
+                if (targetList.isNotEmpty()) {
+                    Column {
+                        targetList.forEach { typesWithMultiplier ->
+                            if (typesWithMultiplier.typeToMultiplier.isNotEmpty()) {
+                                TypesWithMultiplierSection(
+                                    stringResource(typesWithMultiplier.damageCategoryMultiplier.getTitleResId()),
+                                    typesWithMultiplier.typeToMultiplier,
+                                    modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
+                                )
+                            }
+                        }
+                    }
+                }
             }
         }
     }
@@ -190,7 +200,6 @@ private fun SelectedTypesCounter(
 @Preview
 @Composable
 private fun TypeEffectivenessScreenPreview() {
-
     PokedexTheme {
         Surface {
             TypeEffectivenessScreenContent(
