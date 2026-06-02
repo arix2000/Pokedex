@@ -12,7 +12,7 @@ data class PokemonDetails(
     val height: Int,
     override val id: Int,
     val locationAreaEncounters: String,
-    val cry: String,
+    val cryUrl: String,
     val moves: List<String>,
     override val name: String,
     val species: Species,
