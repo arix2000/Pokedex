@@ -32,6 +32,10 @@
       "url": "https://pokeapi.co/api/v2/pokemon-form/123/"
     }
   ],
+  "cries": {
+    "latest": "",
+    "legacy": ""
+  },
   "game_indices": [
     {
       "game_index": 26,
