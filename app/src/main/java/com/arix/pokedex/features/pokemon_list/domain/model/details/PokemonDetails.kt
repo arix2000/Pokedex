@@ -3,7 +3,8 @@ package com.arix.pokedex.features.pokemon_list.domain.model.details
 import com.arix.pokedex.core.Constants.UnitsOfMeasure.KG
 import com.arix.pokedex.core.Constants.UnitsOfMeasure.M
 import com.arix.pokedex.extensions.formatToUserFriendlyString
-import com.arix.pokedex.features.pokemon_list.domain.model.details.raw.*
+import com.arix.pokedex.features.pokemon_list.domain.model.details.raw.RawPokemonDetails
+import com.arix.pokedex.features.pokemon_list.domain.model.details.raw.Species
 import com.arix.pokedex.features.pokemon_list.domain.model.list.PokemonItem
 
 data class PokemonDetails(
@@ -11,6 +12,7 @@ data class PokemonDetails(
     val height: Int,
     override val id: Int,
     val locationAreaEncounters: String,
+    val cry: String,
     val moves: List<String>,
     override val name: String,
     val species: Species,
@@ -18,7 +20,7 @@ data class PokemonDetails(
     val stats: List<Stat>,
     override val types: List<Type>,
     val weight: Int
-): PokemonItem(id, name, types, sprites.front_default) {
+) : PokemonItem(id, name, types, sprites.front_default) {
 
     fun getHeightInMeters() = (height.toFloat() / 10).formatToUserFriendlyString() + M
 
@@ -26,7 +28,7 @@ data class PokemonDetails(
 
     companion object {
         val EMPTY = PokemonDetails(
-            emptyList(), 1, 1, "",
+            emptyList(), 1, 1, "", "",
             emptyList(), "", Species("", ""), Sprites("", ""),
             emptyList(), emptyList(), 1,
         )
@@ -38,6 +40,7 @@ data class PokemonDetails(
                     height,
                     id,
                     location_area_encounters,
+                    cries.latest ?: cries.legacy ?: "",
                     moves.map { it.move.name },
                     name,
                     species,
