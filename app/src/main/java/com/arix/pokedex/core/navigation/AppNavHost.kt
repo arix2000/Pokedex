@@ -9,7 +9,7 @@ import com.arix.pokedex.features.type_effectiveness.presentation.TypeEffectivene
 import com.arix.pokedex.features.items.presentation.ui.ItemsScreen
 import com.arix.pokedex.features.locations.presentation.ui.LocationDetailsScreen
 import com.arix.pokedex.features.locations.presentation.ui.LocationsScreen
-import com.arix.pokedex.features.move_details.presentation.ui.screens.LearnedByPokemonFullList
+import com.arix.pokedex.features.move_details.presentation.ui.screens.LearnedByPokemonFullListScreen
 import com.arix.pokedex.features.move_details.presentation.ui.screens.MoveDetailsScreen
 import com.arix.pokedex.features.moves.presentation.ui.MovesScreen
 import com.arix.pokedex.features.pokemon_details.presentation.ui.PokemonDetailsScreen
@@ -45,7 +45,7 @@ fun AppNavHost(navController: NavHostController) {
         with(Screen.LearnedByPokemonFullList) {
             composable(route) { backStackEntry ->
                 backStackEntry.arguments?.getString(argumentKeys[0])?.let {
-                    LearnedByPokemonFullList(Gson().fromJson(it, getTypeOf<List<String>>()))
+                    LearnedByPokemonFullListScreen(Gson().fromJson(it, getTypeOf<List<String>>()))
                 }
             }
         }

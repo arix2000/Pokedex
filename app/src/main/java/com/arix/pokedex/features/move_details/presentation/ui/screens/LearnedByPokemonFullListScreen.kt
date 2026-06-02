@@ -12,7 +12,7 @@ import com.arix.pokedex.theme.PokedexTheme
 import org.koin.androidx.compose.getViewModel
 
 @Composable
-fun LearnedByPokemonFullList(
+fun LearnedByPokemonFullListScreen(
     pokemonNames: List<String>,
     viewModel: LearnedByPokemonFullListViewModel = getViewModel(),
 ) {
