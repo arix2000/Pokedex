@@ -1,10 +1,15 @@
 package com.arix.pokedex.features.items.presentation.ui.components
 
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -40,7 +45,7 @@ fun ItemDetailsBaseInfoTile(item: ItemDetails) {
         Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
             Box {
                 AsyncImage(
-                    model = item.imageUrl,
+                    model = item.sprites.default,
                     contentDescription = "Item image",
                     placeholder = painterResource(R.drawable.potion),
                     onLoading = { isLoading = true },

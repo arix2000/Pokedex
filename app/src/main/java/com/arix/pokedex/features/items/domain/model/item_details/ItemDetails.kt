@@ -9,6 +9,7 @@ import com.arix.pokedex.features.items.domain.model.item_details.raw.Category
 import com.arix.pokedex.features.items.domain.model.item_details.raw.EffectEntry
 import com.arix.pokedex.features.items.domain.model.item_details.raw.Language
 import com.arix.pokedex.features.items.domain.model.item_details.raw.RawItemDetails
+import com.arix.pokedex.features.items.domain.model.item_details.raw.Sprites
 
 data class ItemDetails(
     val attributes: List<String>,
@@ -20,9 +21,9 @@ data class ItemDetails(
     val flavorText: String,
     override val id: Int,
     override val name: String,
-    val imageUrl: String,
+    override val sprites: Sprites,
     val categoryColor: Color
-) : Item(id, name, Category(categoryName)) {
+) : Item(id, name, Category(categoryName), sprites) {
     companion object {
         fun fromRaw(raw: RawItemDetails): ItemDetails {
             val errorText = "no data"
@@ -48,7 +49,7 @@ data class ItemDetails(
                         ?: errorText,
                     id,
                     name,
-                    sprites.default ?: errorText,
+                    sprites,
                     coloredCategory.color
                 )
             }
