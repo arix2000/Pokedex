@@ -27,5 +27,6 @@ object FontSizes {
     val normal = 14.sp
     val medium = 16.sp
     val large = 20.sp
+    val larger = 22.sp
     val extraLarge = 26.sp
 }

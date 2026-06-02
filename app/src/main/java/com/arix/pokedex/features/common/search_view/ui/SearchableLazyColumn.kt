@@ -62,18 +62,6 @@ fun <T> SearchableLazyColumnContent(
 }
 
 @Composable
-fun NoResultsView() {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 25.dp),
-        contentAlignment = Alignment.Center
-    ) {
-        Text(text = "No results :(")
-    }
-}
-
-@Composable
 private fun <T> ItemListView(
     state: SearchableLazyColumnState<T>,
     invokeEvent: (SearchableLazyColumnEvent) -> Unit,
