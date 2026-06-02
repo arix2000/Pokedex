@@ -106,7 +106,7 @@ private fun PokemonGridSection(
     isSingleArea: Boolean,
     navigator: Navigator
 ) {
-    var showMoreButton: Boolean by remember { mutableStateOf(area.pokemonList.count() > AREA_LIMIT) }
+    var showMoreButton: Boolean by remember { mutableStateOf(area.pokemonList.size > AREA_LIMIT) }
     var shouldShowAllItems: Boolean by remember { mutableStateOf(false) }
 
     val sectionList = if (!showMoreButton || shouldShowAllItems)
@@ -171,7 +171,7 @@ private fun LocationDetailsScreenPreview() {
     val mockResourceReader = MockResourceReader(LocalContext.current)
     PokedexTheme {
         Surface {
-            Box(modifier = Modifier.verticalScroll(rememberScrollState())) {
+            Box {
                 Column {
                     LocationsDetailsScreenContent(
                         LocationState(
