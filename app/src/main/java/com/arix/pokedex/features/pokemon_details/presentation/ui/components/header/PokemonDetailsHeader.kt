@@ -1,5 +1,8 @@
 package com.arix.pokedex.features.pokemon_details.presentation.ui.components.header
 
+import android.media.AudioAttributes
+import android.media.MediaPlayer
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
@@ -9,13 +12,17 @@ import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.Icon
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -53,6 +60,33 @@ fun PokemonDetailsHeader(
         mutableStateOf(pokemonDetails.sprites.front_default)
     }
     var isImageLoading by remember { mutableStateOf(true) }
+
+    val mediaPlayer = if (!isPreview()) remember { MediaPlayer() } else null
+
+    DisposableEffect(Unit) {
+        onDispose {
+            mediaPlayer?.release()
+        }
+    }
+
+    fun playCrySound() {
+        try {
+            mediaPlayer?.reset()
+            mediaPlayer?.setAudioAttributes(
+                AudioAttributes.Builder()
+                    .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                    .setUsage(AudioAttributes.USAGE_MEDIA)
+                    .build()
+            )
+            mediaPlayer?.setDataSource(pokemonDetails.cryUrl)
+            mediaPlayer?.setOnPreparedListener { mp ->
+                mp.start()
+            }
+            mediaPlayer?.prepareAsync()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
 
     Box {
         BackgroundGradientBasedOn(pokemonDetails.types)
@@ -102,6 +136,27 @@ fun PokemonDetailsHeader(
         }
         if (pokemonDetails.sprites.front_shiny != null)
             ShinyToggleButton(imageModel, pokemonDetails, onClick = { imageModel = it })
+        if (pokemonDetails.cryUrl.isNotEmpty())
+            Box(
+                modifier = Modifier
+                    .padding(8.dp)
+                    .background(
+                        (pokemonDetails.types.getOrNull(1)
+                            ?: pokemonDetails.types.first()).getTypeColor(),
+                        shape = CircleShape
+                    )
+                    .padding(8.dp)
+                    .clickable {
+                        playCrySound()
+                    }
+                    .align(Alignment.TopEnd)
+            ) {
+                Icon(
+                    painter = painterResource(R.drawable.volume_up),
+                    contentDescription = "Cry",
+                    modifier = Modifier.size(20.dp)
+                )
+            }
     }
 }
 
