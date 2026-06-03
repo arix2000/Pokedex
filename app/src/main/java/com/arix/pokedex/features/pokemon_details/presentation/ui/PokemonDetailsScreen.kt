@@ -52,7 +52,7 @@ import org.koin.androidx.compose.getViewModel
  * TODO PLAN
  *
  * Base Stats sections based on [PokemonDetails.stats]
- * Abilities - [PokemonDetails.abilities] we need to fetch description and show in the existing section
+ * Abilities - [PokemonDetails.abilities] we need to fetch description and show in the existing section - DONE
  *
  * add cry button to hear pokemon cry, it should be placed under [PokemonDetails.cries]
  *
@@ -130,6 +130,7 @@ fun PokemonDetailsScreenContent(
                 VarietiesSection(pokemonDetails.name, species.varieties)
                 Spacer(modifier = Modifier.height(10.dp))
             }
+            Spacer(Modifier.height(64.dp))
         }
     }
     FullScreenImageDialog(

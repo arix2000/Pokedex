@@ -10,6 +10,7 @@ import com.arix.pokedex.features.move_details.domain.model.UiMove
 import com.arix.pokedex.features.moves.domain.model.RawMove
 import com.arix.pokedex.features.pokemon_details.domain.model.evolution_chain.PokemonEvolutionChain
 import com.arix.pokedex.features.pokemon_details.domain.model.species.PokemonSpecies
+import com.arix.pokedex.features.pokemon_list.domain.model.details.Ability
 import com.arix.pokedex.features.pokemon_list.domain.model.details.PokemonDetails
 import com.arix.pokedex.features.pokemon_list.domain.model.details.Type
 import com.arix.pokedex.features.pokemon_list.domain.model.details.raw.RawPokemonDetails
@@ -25,7 +26,7 @@ class MockResourceReader(private val context: Context) {
 
         val rawPokeDetails = Gson().fromJson(pokemonDetailsJson, RawPokemonDetails::class.java)
 
-        return PokemonDetails.fromRaw(rawPokeDetails)
+        return PokemonDetails.fromRaw(rawPokeDetails, getAbilitiesMock())
     }
 
     fun getPokemonSpeciesMock(): PokemonSpecies {
@@ -51,8 +52,10 @@ class MockResourceReader(private val context: Context) {
             .reader()
             .readText()
 
-        return UiMove.fromRaw(Gson().fromJson(pokemonMoveJson, RawMove::class.java)
-            ?: throw Exception("Exception in preview"))
+        return UiMove.fromRaw(
+            Gson().fromJson(pokemonMoveJson, RawMove::class.java)
+                ?: throw Exception("Exception in preview")
+        )
     }
 
     fun getPokemonMoveListMock(): List<UiMove> {
@@ -70,16 +73,24 @@ class MockResourceReader(private val context: Context) {
             .reader()
             .readText()
 
-        return ItemDetails.fromRaw(Gson().fromJson(pokemonMoveJson, RawItemDetails::class.java)
-            ?: throw Exception("Exception in preview"))
+        return ItemDetails.fromRaw(
+            Gson().fromJson(pokemonMoveJson, RawItemDetails::class.java)
+                ?: throw Exception("Exception in preview")
+        )
     }
 
     fun getPokemonItemListMock(): List<ItemDetails> {
         val item = getPokemonItemMock()
-        val item2 = getPokemonItemMock().copy(name = "ultra-ball", categoryColor = ItemCategoryColors.pokeBalls)
-        val item3 = getPokemonItemMock().copy(name = "x-attack", categoryColor = ItemCategoryColors.battle)
-        val item4 = getPokemonItemMock().copy(name = "flame-mail", categoryColor = ItemCategoryColors.mail)
-        val item5 = getPokemonItemMock().copy(name = "tm56", categoryColor = ItemCategoryColors.allMachines)
+        val item2 = getPokemonItemMock().copy(
+            name = "ultra-ball",
+            categoryColor = ItemCategoryColors.pokeBalls
+        )
+        val item3 =
+            getPokemonItemMock().copy(name = "x-attack", categoryColor = ItemCategoryColors.battle)
+        val item4 =
+            getPokemonItemMock().copy(name = "flame-mail", categoryColor = ItemCategoryColors.mail)
+        val item5 =
+            getPokemonItemMock().copy(name = "tm56", categoryColor = ItemCategoryColors.allMachines)
         return listOf(
             item3, item2, item, item3, item5, item4, item5, item3, item,
             item, item5, item2, item, item2, item5, item4, item, item4
@@ -101,5 +112,28 @@ class MockResourceReader(private val context: Context) {
             .readText()
 
         return Gson().fromJson(locationAreasJson, Array<UiLocationArea>::class.java).toList()
+    }
+
+    fun getAbilitiesMock(): List<Ability> {
+        return listOf(
+            Ability(
+                name = "Overgrow",
+                url = "https://pokeapi.co/api/v2/ability/65/",
+                isHidden = false,
+                description = "Powers up Grass-type moves when the Pokémon's HP is low."
+            ),
+            Ability(
+                name = "Chlorophyll",
+                url = "https://pokeapi.co/api/v2/ability/34/",
+                isHidden = true,
+                description = "Boosts the Pokémon's Speed stat in harsh sunlight."
+            ),
+            Ability(
+                name = "As One",
+                url = "https://pokeapi.co/api/v2/ability/266/",
+                isHidden = false,
+                description = "This Ability combines the effects of both Calyrex's Unnerve Ability and Glastrier's Chilling Neigh Ability. It prevents opposing Pokémon from consuming held Berries due to psychological pressure, while simultaneously increasing the user's Attack stat by one stage whenever it knocks out a target on the battlefield, making it incredibly dangerous in prolonged engagements."
+            )
+        )
     }
 }

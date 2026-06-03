@@ -4,6 +4,7 @@ import com.arix.pokedex.core.base.RemoteDataSource
 import com.arix.pokedex.core.network.PokeApiService
 import com.arix.pokedex.core.network.PokeListsApiService
 import com.arix.pokedex.features.common.search_view.domain.Page
+import com.arix.pokedex.features.pokemon_list.domain.model.RawAbilityDetails
 import com.arix.pokedex.features.pokemon_list.domain.model.details.raw.RawPokemonDetails
 import com.arix.pokedex.features.pokemon_list.domain.model.list.PokemonItem
 import com.arix.pokedex.utils.ApiResponse
@@ -55,5 +56,9 @@ class PokemonRemoteDataSource(
 
     suspend fun getPokemon(name: String): ApiResponse<RawPokemonDetails> {
         return makeHttpRequest { pokeApiService.getPokemon(name) }
+    }
+
+    suspend fun getAbility(abilityId: Int): ApiResponse<RawAbilityDetails> {
+        return makeHttpRequest { pokeApiService.getAbility(abilityId) }
     }
 }

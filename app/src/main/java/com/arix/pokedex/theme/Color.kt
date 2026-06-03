@@ -10,6 +10,7 @@ val DefaultBackgroundColorA90 = Color(0xE6121212)
 val BlackSoft = Color(0xFF090909)
 val BlackSoftA50 = Color(0x80090909)
 val BlackLight = Color(0xFF1C1C1C)
+val BlackLighter = Color(0xFF252525)
 
 val PrimarySemiTransparent = Color(0x80950101)
 

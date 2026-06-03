@@ -33,10 +33,10 @@ data class PokemonDetails(
             emptyList(), emptyList(), 1,
         )
 
-        fun fromRaw(raw: RawPokemonDetails): PokemonDetails {
+        fun fromRaw(raw: RawPokemonDetails, abilities: List<Ability>): PokemonDetails {
             with(raw) {
                 return PokemonDetails(
-                    abilities.map { Ability(it.ability.name, it.ability.url, it.is_hidden) },
+                    abilities,
                     height,
                     id,
                     location_area_encounters,

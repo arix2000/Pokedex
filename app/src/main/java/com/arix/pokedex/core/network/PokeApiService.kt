@@ -6,6 +6,7 @@ import com.arix.pokedex.features.locations.domain.model.details.location_details
 import com.arix.pokedex.features.moves.domain.model.RawMove
 import com.arix.pokedex.features.pokemon_details.domain.model.evolution_chain.PokemonEvolutionChain
 import com.arix.pokedex.features.pokemon_details.domain.model.species.PokemonSpecies
+import com.arix.pokedex.features.pokemon_list.domain.model.RawAbilityDetails
 import com.arix.pokedex.features.pokemon_list.domain.model.details.raw.RawPokemonDetails
 import com.arix.pokedex.features.type_effectiveness.domain.model.RawTypeDetails
 import com.arix.pokedex.features.type_effectiveness.domain.model.TypesResponse
@@ -60,4 +61,9 @@ interface PokeApiService {
     suspend fun getType(
         @Path("id") id: Int
     ): RawTypeDetails
+
+    @GET("ability/{id}")
+    suspend fun getAbility(
+        @Path("id") id: Int
+    ): RawAbilityDetails
 }

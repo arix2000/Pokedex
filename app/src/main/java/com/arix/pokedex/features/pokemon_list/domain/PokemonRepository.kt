@@ -1,6 +1,7 @@
 package com.arix.pokedex.features.pokemon_list.domain
 
 import com.arix.pokedex.features.common.search_view.domain.Page
+import com.arix.pokedex.features.pokemon_list.domain.model.RawAbilityDetails
 import com.arix.pokedex.features.pokemon_list.domain.model.details.raw.RawPokemonDetails
 import com.arix.pokedex.features.pokemon_list.domain.model.list.PokemonItem
 import com.arix.pokedex.utils.ApiResponse
@@ -14,4 +15,6 @@ interface PokemonRepository {
     ): ApiResponse<Page<PokemonItem>>
 
     suspend fun getPokemon(name: String): ApiResponse<RawPokemonDetails>
+
+    suspend fun getAbility(abilityId: Int): ApiResponse<RawAbilityDetails>
 }
