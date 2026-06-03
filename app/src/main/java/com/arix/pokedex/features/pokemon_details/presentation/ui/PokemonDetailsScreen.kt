@@ -1,12 +1,23 @@
 package com.arix.pokedex.features.pokemon_details.presentation.ui
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.rememberScaffoldState
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -23,6 +34,7 @@ import com.arix.pokedex.features.pokemon_details.domain.model.species.PokemonSpe
 import com.arix.pokedex.features.pokemon_details.domain.model.species.Variety
 import com.arix.pokedex.features.pokemon_details.presentation.PokemonDetailsViewModel
 import com.arix.pokedex.features.pokemon_details.presentation.ui.components.AbilityListItem
+import com.arix.pokedex.features.pokemon_details.presentation.ui.components.base_stats.BaseStatsView
 import com.arix.pokedex.features.pokemon_details.presentation.ui.components.details.DetailsView
 import com.arix.pokedex.features.pokemon_details.presentation.ui.components.evolution_chain.EvolutionChainView
 import com.arix.pokedex.features.pokemon_details.presentation.ui.components.expandable_section.ExpandableSection
@@ -35,6 +47,21 @@ import com.arix.pokedex.theme.PokedexTheme
 import com.arix.pokedex.utils.MockResourceReader
 import com.arix.pokedex.views.DefaultProgressIndicatorScreen
 import org.koin.androidx.compose.getViewModel
+
+/**
+ * TODO PLAN
+ *
+ * Base Stats sections based on [PokemonDetails.stats]
+ * Abilities - [PokemonDetails.abilities] we need to fetch description and show in the existing section
+ *
+ * add cry button to hear pokemon cry, it should be placed under [PokemonDetails.cries]
+ *
+ * location encounters - pokemon/[id]/encounters link is already in details, just fetch and get from
+ * list api limited list of locations (it should work on backend),
+ * we need to show like 10 of theme and rest should stay behind show all button, on dedicated screen, like in [com.arix.pokedex.features.move_details.presentation.ui.screens.MoveDetailsScreen] screen and its [com.arix.pokedex.features.move_details.presentation.ui.screens.LearnedByPokemonFullListScreen] screen
+ *
+ * Do the same for [PokemonDetails.moves] but here we have ready to sent list
+ * **/
 
 @Composable
 fun PokemonDetailsScreen(
@@ -70,6 +97,7 @@ fun PokemonDetailsScreenContent(
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(10.dp),
             modifier = Modifier
                 .fillMaxWidth()
                 .verticalScroll(rememberScrollState()),
@@ -78,25 +106,26 @@ fun PokemonDetailsScreenContent(
                 clickedImageUrl = it
                 isDialogShowed.value = true
             })
-            Spacer(modifier = Modifier.height(12.dp))
             ExpandableSection(
                 title = stringResource(R.string.details_title),
                 expandedInitially = true
             ) {
                 DetailsView(pokemonDetails, species)
             }
-            Spacer(modifier = Modifier.height(12.dp))
             ExpandableSection(title = stringResource(R.string.pokemon_description)) {
                 Text(text = species.getDescription())
             }
-            Spacer(modifier = Modifier.height(10.dp))
+            ExpandableSection(
+                title = stringResource(R.string.stats_title),
+                expandedInitially = false
+            ) {
+                BaseStatsView(pokemonDetails.stats)
+            }
             EvolutionChainSection(
                 pokemonDetails,
                 evolutionChain
             )
-            Spacer(modifier = Modifier.height(10.dp))
             AbilitiesSection(pokemonDetails.abilities)
-            Spacer(modifier = Modifier.height(10.dp))
             if (!(species.varieties.hasOneItem() && species.varieties.first().is_default)) {
                 VarietiesSection(pokemonDetails.name, species.varieties)
                 Spacer(modifier = Modifier.height(10.dp))

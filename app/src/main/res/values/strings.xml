@@ -24,6 +24,7 @@
     <string name="pokemon_is_male_only">There are only males</string>
     <string name="pokemon_is_female_only">There are only females</string>
     <string name="details_title">Details</string>
+    <string name="stats_title">Base stats</string>
     <string name="abilities_title">Abilities</string>
     <string name="hidden_label">hidden</string>
     <string name="power_label">Power:</string>
@@ -47,4 +48,11 @@
     <string name="damage_multiplier_no_damage_label">Immune to:</string>
     <string name="damage_multiplier_half_label">Resistant to:</string>
     <string name="clear_types_label">Clear selection</string>
+    <string name="stat_hp">HP</string>
+    <string name="stat_attack">Attack</string>
+    <string name="stat_defense">Defense</string>
+    <string name="stat_sp_attack">Sp.Attack</string>
+    <string name="stat_sp_defense">Sp.Defense</string>
+    <string name="stat_speed">Speed</string>
+
 </resources>

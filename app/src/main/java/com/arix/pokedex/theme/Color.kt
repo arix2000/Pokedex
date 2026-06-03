@@ -73,3 +73,13 @@ object RegionColors {
     val hisui = Color(0xFF4D6D53)
     val paldea = Color(0xFF7E57C2)
 }
+
+object StatsColors {
+    val StatHp = Color(0xFF69DC12)
+    val StatAttack = Color(0xFFEECC18)
+    val StatDefense = Color(0xFFE86412)
+    val StatSpeedAttack = Color(0xFF14C3F1)
+    val StatSpecialDefense = Color(0xFF4A6ADF)
+    val StatSpeed = Color(0xFFD51EAD)
+    val StatDefault = Color(0xFFD3D3D3)
+}
