@@ -4,6 +4,7 @@ import com.arix.pokedex.features.common.search_view.domain.Page
 import com.arix.pokedex.features.pokemon_list.data.data_sources.PokemonRemoteDataSource
 import com.arix.pokedex.features.pokemon_list.domain.PokemonRepository
 import com.arix.pokedex.features.pokemon_list.domain.model.RawAbilityDetails
+import com.arix.pokedex.features.pokemon_list.domain.model.RawPokemonEncounters
 import com.arix.pokedex.features.pokemon_list.domain.model.details.raw.RawPokemonDetails
 import com.arix.pokedex.features.pokemon_list.domain.model.list.PokemonItem
 import com.arix.pokedex.utils.ApiResponse
@@ -28,4 +29,9 @@ class PokemonRepositoryImpl(
     override suspend fun getAbility(abilityId: Int): ApiResponse<RawAbilityDetails> {
         return remoteDataSource.getAbility(abilityId)
     }
+
+    override suspend fun getPokemonEncounters(name: String): ApiResponse<List<RawPokemonEncounters>> {
+        return remoteDataSource.getPokemonEncounters(name)
+    }
+
 }

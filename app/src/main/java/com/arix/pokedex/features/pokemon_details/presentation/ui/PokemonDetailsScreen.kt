@@ -61,6 +61,8 @@ import org.koin.androidx.compose.getViewModel
  * we need to show like 10 of theme and rest should stay behind show all button, on dedicated screen, like in [com.arix.pokedex.features.move_details.presentation.ui.screens.MoveDetailsScreen] screen and its [com.arix.pokedex.features.move_details.presentation.ui.screens.LearnedByPokemonFullListScreen] screen
  *
  * Do the same for [PokemonDetails.moves] but here we have ready to sent list
+ *
+ * In [EvolutionChainSection] when user clicks item it should load item details in pottom sheet
  * **/
 
 @Composable

@@ -15,6 +15,15 @@ class LocationRepository(private val remoteDataSource: LocationRemoteDataSource)
         return remoteDataSource.getLocations(limit, offset, searchQuery)
     }
 
+    suspend fun getLocations(
+        limit: Int,
+        offset: Int,
+        searchQuery: String,
+        limitedList: List<String>
+    ): ApiResponse<Page<LocationItem>> {
+        return remoteDataSource.getLocations(limit, offset, searchQuery, limitedList)
+    }
+
     suspend fun getLocationDetails(locationId: Int): ApiResponse<RawLocationDetails> {
         return remoteDataSource.getLocationDetails(locationId)
     }

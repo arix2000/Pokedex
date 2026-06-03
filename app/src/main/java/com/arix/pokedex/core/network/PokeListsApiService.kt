@@ -47,11 +47,26 @@ interface PokeListsApiService {
         @Query("offset") offset: Int
     ): Page<MoveItem>
 
+    @POST("moveList")
+    suspend fun getMoveList(
+        @Query("limit") limit: Int,
+        @Query("offset") offset: Int,
+        @Body limitedList: List<String>
+    ): Page<MoveItem>
+
     @GET("moveList/{searchQuery}")
     suspend fun getMoveList(
         @Path("searchQuery") searchQuery: String,
         @Query("limit") limit: Int,
         @Query("offset") offset: Int,
+    ): Page<MoveItem>
+
+    @POST("moveList/{searchQuery}")
+    suspend fun getMoveList(
+        @Path("searchQuery") searchQuery: String,
+        @Query("limit") limit: Int,
+        @Query("offset") offset: Int,
+        @Body limitedList: List<String>
     ): Page<MoveItem>
 
     @GET("itemList")
@@ -70,7 +85,14 @@ interface PokeListsApiService {
     @GET("locationList")
     suspend fun getLocationList(
         @Query("limit") limit: Int,
-        @Query("offset") offset: Int
+        @Query("offset") offset: Int,
+    ): Page<LocationItem>
+
+    @POST("locationList")
+    suspend fun getLocationList(
+        @Query("limit") limit: Int,
+        @Query("offset") offset: Int,
+        @Body names: List<String>
     ): Page<LocationItem>
 
     @GET("locationList/{searchQuery}")
@@ -78,5 +100,13 @@ interface PokeListsApiService {
         @Path("searchQuery") searchQuery: String,
         @Query("limit") limit: Int,
         @Query("offset") offset: Int,
+    ): Page<LocationItem>
+
+    @POST("locationList/{searchQuery}")
+    suspend fun getLocationList(
+        @Path("searchQuery") searchQuery: String,
+        @Query("limit") limit: Int,
+        @Query("offset") offset: Int,
+        @Body names: List<String>
     ): Page<LocationItem>
 }

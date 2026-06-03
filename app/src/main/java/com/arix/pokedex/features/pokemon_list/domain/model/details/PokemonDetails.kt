@@ -3,6 +3,8 @@ package com.arix.pokedex.features.pokemon_list.domain.model.details
 import com.arix.pokedex.core.Constants.UnitsOfMeasure.KG
 import com.arix.pokedex.core.Constants.UnitsOfMeasure.M
 import com.arix.pokedex.extensions.formatToUserFriendlyString
+import com.arix.pokedex.features.locations.domain.model.list.LocationItem
+import com.arix.pokedex.features.moves.domain.model.MoveItem
 import com.arix.pokedex.features.pokemon_list.domain.model.details.raw.RawPokemonDetails
 import com.arix.pokedex.features.pokemon_list.domain.model.details.raw.Species
 import com.arix.pokedex.features.pokemon_list.domain.model.list.PokemonItem
@@ -11,9 +13,9 @@ data class PokemonDetails(
     val abilities: List<Ability>,
     val height: Int,
     override val id: Int,
-    val locationAreaEncounters: String,
+    val locations: List<LocationItem>,
     val cryUrl: String,
-    val moves: List<String>,
+    val moves: List<MoveItem>,
     override val name: String,
     val species: Species,
     val sprites: Sprites,
@@ -28,20 +30,25 @@ data class PokemonDetails(
 
     companion object {
         val EMPTY = PokemonDetails(
-            emptyList(), 1, 1, "", "",
+            emptyList(), 1, 1, emptyList(), "",
             emptyList(), "", Species("", ""), Sprites("", ""),
             emptyList(), emptyList(), 1,
         )
 
-        fun fromRaw(raw: RawPokemonDetails, abilities: List<Ability>): PokemonDetails {
+        fun fromRaw(
+            raw: RawPokemonDetails,
+            abilities: List<Ability>,
+            locations: List<LocationItem>,
+            moves: List<MoveItem>
+        ): PokemonDetails {
             with(raw) {
                 return PokemonDetails(
                     abilities,
                     height,
                     id,
-                    location_area_encounters,
+                    locations,
                     cries.latest ?: cries.legacy ?: "",
-                    moves.map { it.move.name },
+                    moves,
                     name,
                     species,
                     Sprites(

@@ -22,7 +22,7 @@ import org.koin.dsl.module
 val useCaseModule = module {
     factory { GetPokemonListUseCase(get<PokemonRepositoryImpl>()) }
 
-    factory { GetPokemonUseCase(get<PokemonRepositoryImpl>()) }
+    factory { GetPokemonUseCase(get<PokemonRepositoryImpl>(), get(), get<MovesRepositoryImpl>()) }
 
     factory { GetPokemonListByNamesUseCase(get<PokemonRepositoryImpl>()) }
 

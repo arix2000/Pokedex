@@ -9,5 +9,12 @@ interface MovesRepository {
 
     suspend fun getMoves(offset: Int, limit: Int, searchQuery: String): ApiResponse<Page<MoveItem>>
 
+    suspend fun getMoves(
+        offset: Int,
+        limit: Int,
+        searchQuery: String,
+        limitedList: List<String>
+    ): ApiResponse<Page<MoveItem>>
+
     suspend fun getMove(moveId: String): ApiResponse<RawMove>
 }

@@ -25,6 +25,25 @@ class LocationRemoteDataSource(
             makeHttpRequest { pokeListsApiService.getLocationList(searchQuery, limit, offset) }
     }
 
+    suspend fun getLocations(
+        limit: Int,
+        offset: Int,
+        searchQuery: String,
+        limitedList: List<String>
+    ): ApiResponse<Page<LocationItem>> {
+        return if (searchQuery.isBlank())
+            makeHttpRequest { pokeListsApiService.getLocationList(limit, offset, limitedList) }
+        else
+            makeHttpRequest {
+                pokeListsApiService.getLocationList(
+                    searchQuery,
+                    limit,
+                    offset,
+                    limitedList
+                )
+            }
+    }
+
     suspend fun getLocationDetails(locationId: Int): ApiResponse<RawLocationDetails> {
         return makeHttpRequest { pokeApiService.getLocation(locationId.toString()) }
     }
