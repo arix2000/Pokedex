@@ -51,7 +51,7 @@ import org.koin.androidx.compose.getViewModel
 /**
  * TODO PLAN
  *
- * Base Stats sections based on [PokemonDetails.stats]
+ * Base Stats sections based on [PokemonDetails.stats] - DONE
  * Abilities - [PokemonDetails.abilities] we need to fetch description and show in the existing section - DONE
  *
  * add cry button to hear pokemon cry, it should be placed under [PokemonDetails.cries]
