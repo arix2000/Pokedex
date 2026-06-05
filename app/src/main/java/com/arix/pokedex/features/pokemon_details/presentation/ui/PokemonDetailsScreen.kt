@@ -58,7 +58,9 @@ import org.koin.androidx.compose.getViewModel
  *
  * location encounters - pokemon/[id]/encounters link is already in details, just fetch and get from
  * list api limited list of locations (it should work on backend),
- * we need to show like 10 of theme and rest should stay behind show all button, on dedicated screen, like in [com.arix.pokedex.features.move_details.presentation.ui.screens.MoveDetailsScreen] screen and its [com.arix.pokedex.features.move_details.presentation.ui.screens.LearnedByPokemonFullListScreen] screen
+ * we need to show like 10 of theme and rest should stay behind show all button, on dedicated screen,
+ * like in [com.arix.pokedex.features.move_details.presentation.ui.screens.MoveDetailsScreen] screen
+ * and its [com.arix.pokedex.features.move_details.presentation.ui.screens.LearnedByPokemonFullListScreen] screen
  *
  * Do the same for [PokemonDetails.moves] but here we have ready to sent list
  *
