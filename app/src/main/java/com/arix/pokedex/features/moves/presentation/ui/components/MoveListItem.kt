@@ -29,13 +29,12 @@ import com.arix.pokedex.theme.Shapes
 import com.arix.pokedex.utils.MockResourceReader
 
 @Composable
-fun MoveListItem(move: MoveItem, onClick: (moveId: String) -> Unit) {
+fun MoveListItem(move: MoveItem, modifier: Modifier = Modifier, onClick: (moveId: String) -> Unit) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
-            .padding(5.dp)
             .clip(Shapes.large)
             .clickableOnceInTime { onClick(move.id.toString()) }
             .background(getBrushBasedBy(move.type))
@@ -47,7 +46,9 @@ fun MoveListItem(move: MoveItem, onClick: (moveId: String) -> Unit) {
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
             fontSize = FontSizes.large,
-            modifier = Modifier.fillMaxWidth().weight(1f)
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f)
         )
         Box {
             Surface(elevation = 2.dp, shape = Shapes.large, color = Color.Transparent) {

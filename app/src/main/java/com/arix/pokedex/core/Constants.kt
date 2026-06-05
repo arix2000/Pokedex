@@ -36,6 +36,7 @@ object Constants {
             "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/"
         const val PNG_EXT = ".png"
         const val VARIETIES_SCROLL_HINT_ANIM_DURATION = 600
+        const val LOCATIONS_AND_MOVES_LIMIT = 6
     }
 
     object FlavorTextEntriesVersion {

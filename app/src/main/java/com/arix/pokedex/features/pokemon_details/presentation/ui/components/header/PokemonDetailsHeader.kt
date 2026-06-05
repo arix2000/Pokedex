@@ -29,6 +29,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -140,15 +141,16 @@ fun PokemonDetailsHeader(
             Box(
                 modifier = Modifier
                     .padding(8.dp)
+                    .clip(CircleShape)
+                    .clickable {
+                        playCrySound()
+                    }
                     .background(
                         (pokemonDetails.types.getOrNull(1)
                             ?: pokemonDetails.types.first()).getTypeColor(),
                         shape = CircleShape
                     )
                     .padding(8.dp)
-                    .clickable {
-                        playCrySound()
-                    }
                     .align(Alignment.TopEnd)
             ) {
                 Icon(

@@ -18,10 +18,10 @@ class Navigator {
         }
     }
 
-    fun goToLearnedByPokemonList(pokemonNames: List<String>, title: String, type: LimitedListType) {
+    fun goToLimitedList(names: List<String>, title: String, type: LimitedListType) {
         with(Screen.LimitedListScreen) {
             navController.navigate(
-                route.putArgument(argumentKeys[0], Gson().toJson(pokemonNames))
+                route.putArgument(argumentKeys[0], Gson().toJson(names))
                     .putArgument(argumentKeys[1], title)
                     .putArgument(argumentKeys[2], type.name)
             )

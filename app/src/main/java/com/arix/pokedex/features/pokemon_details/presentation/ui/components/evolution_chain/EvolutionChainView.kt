@@ -175,7 +175,7 @@ fun EvolutionChainContentPreview() {
             val evolutionChain =
                 remember { MockResourceReader(context).getPokemonEvolutionChainMock() }
             Column {
-                ExpandableSection(title = "Evolution Chain", expandedInitially = true) {
+                ExpandableSection(title = "Evolution Chain") {
                     EvolutionChainContent(
                         pokemonDetails,
                         pokemonEvolutionSteps = listOf(

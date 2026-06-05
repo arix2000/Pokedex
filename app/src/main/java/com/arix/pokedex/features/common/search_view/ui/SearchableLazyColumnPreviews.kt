@@ -1,6 +1,7 @@
 package com.arix.pokedex.features.common.search_view.ui
 
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -29,7 +30,7 @@ private fun SearchableLazyColumnPokemonDetailsPreview() {
                     items = moves,
                 ), {
                     items(moves.size) {
-                        MoveListItem(move = moves[it]) {}
+                        MoveListItem(move = moves[it], modifier = Modifier.padding(5.dp)) {}
                     }
                 }) {}
         }

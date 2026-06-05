@@ -33,7 +33,7 @@ import com.arix.pokedex.theme.Shapes
 fun ExpandableSection(
     title: String,
     modifier: Modifier = Modifier,
-    expandedInitially: Boolean = false,
+    expandedInitially: Boolean = true,
     content: @Composable BoxScope.() -> Unit
 ) {
     var expanded by remember { mutableStateOf(expandedInitially) }
@@ -49,7 +49,7 @@ fun ExpandableSection(
                 .fillMaxWidth()
                 .clip(CircleShape)
                 .clickable { expanded = !expanded }
-                .padding(vertical = 8.dp, horizontal = 10.dp)
+                .padding(vertical = 10.dp, horizontal = 16.dp)
         ) {
             Text(text = title, fontSize = FontSizes.large)
             RotatingIcon(rotated = expanded, title)

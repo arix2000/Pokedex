@@ -35,7 +35,6 @@
     <string name="critical_rate_label">Critical rate:</string>
     <string name="priority_label">Priority:</string>
     <string name="can_be_learned_by_title">Can be learned by:</string>
-    <string name="can_be_learned_by_page_title">%1$s can be learned by:</string>
     <string name="show_all">Show all (%1$s)</string>
     <string name="desc_not_found">Description not found</string>
     <string name="effect_desc_not_found">Effect description not found</string>
@@ -54,5 +53,10 @@
     <string name="stat_sp_attack">Sp.Attack</string>
     <string name="stat_sp_defense">Sp.Defense</string>
     <string name="stat_speed">Speed</string>
+    <string name="moves_label">Moves</string>
+    <string name="locations_label">Locations</string>
+    <string name="pokemon_can_learn_moves_page_title">%1$s can learn:</string>
+    <string name="pokemon_can_be_encountered_page_title">%1$s can be encountered in:</string>
+    <string name="move_can_be_learned_by_page_title">%1$s can be learned by:</string>
 
 </resources>

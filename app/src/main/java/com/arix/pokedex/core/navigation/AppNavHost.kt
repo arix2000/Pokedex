@@ -12,10 +12,12 @@ import com.arix.pokedex.features.locations.presentation.ui.LocationDetailsScreen
 import com.arix.pokedex.features.locations.presentation.ui.LocationsScreen
 import com.arix.pokedex.features.move_details.presentation.ui.screens.MoveDetailsScreen
 import com.arix.pokedex.features.moves.presentation.ui.MovesScreen
+import com.arix.pokedex.features.pokemon_details.presentation.PokemonDetailsViewModel
 import com.arix.pokedex.features.pokemon_details.presentation.ui.PokemonDetailsScreen
 import com.arix.pokedex.features.pokemon_list.presentation.ui.PokemonListScreen
 import com.arix.pokedex.features.type_effectiveness.presentation.TypeEffectivenessScreen
 import com.google.gson.Gson
+import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun AppNavHost(navController: NavHostController) {
@@ -26,8 +28,9 @@ fun AppNavHost(navController: NavHostController) {
 
         with(Screen.PokemonDetailsScreen) {
             composable(route) { backStackEntry ->
+                val viewModel: PokemonDetailsViewModel = getViewModel(owner = backStackEntry)
                 backStackEntry.arguments?.getString(argumentKeys[0])?.let {
-                    PokemonDetailsScreen(it)
+                    PokemonDetailsScreen(it, viewModel)
                 }
             }
         }

@@ -1,15 +1,17 @@
 package com.arix.pokedex.features.moves.presentation.ui
 
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.arix.pokedex.core.navigation.Navigator
 import com.arix.pokedex.features.common.search_view.domain.Page
 import com.arix.pokedex.features.common.search_view.domain.SearchParams
 import com.arix.pokedex.features.common.search_view.ui.SearchableLazyColumn
-import com.arix.pokedex.features.move_details.domain.model.UiMove
 import com.arix.pokedex.features.moves.domain.model.MoveItem
 import com.arix.pokedex.features.moves.presentation.MovesViewModel
 import com.arix.pokedex.features.moves.presentation.ui.components.MoveListItem
@@ -22,7 +24,7 @@ import org.koin.androidx.compose.getViewModel
 fun MovesScreen(
     viewModel: MovesViewModel = getViewModel(),
 ) {
-    MovesScreenContent { offset, searchQuery ->  viewModel.getMoveList(offset, searchQuery) }
+    MovesScreenContent { offset, searchQuery -> viewModel.getMoveList(offset, searchQuery) }
 }
 
 @Composable
@@ -34,7 +36,10 @@ private fun MovesScreenContent(
         searchParams = SearchParams(getMoveList),
         searchableContent = { moves ->
             items(moves, key = { it.id }) { move ->
-                MoveListItem(move) { moveId -> navigator.goToMoveDetails(moveId) }
+                MoveListItem(
+                    move,
+                    modifier = Modifier.padding(5.dp)
+                ) { moveId -> navigator.goToMoveDetails(moveId) }
             }
         }
     )

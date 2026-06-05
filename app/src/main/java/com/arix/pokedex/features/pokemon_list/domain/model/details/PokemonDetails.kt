@@ -14,8 +14,10 @@ data class PokemonDetails(
     val height: Int,
     override val id: Int,
     val locations: List<LocationItem>,
+    val allLocationsNames: List<String>,
     val cryUrl: String,
     val moves: List<MoveItem>,
+    val allMovesNames: List<String>,
     override val name: String,
     val species: Species,
     val sprites: Sprites,
@@ -30,8 +32,8 @@ data class PokemonDetails(
 
     companion object {
         val EMPTY = PokemonDetails(
-            emptyList(), 1, 1, emptyList(), "",
-            emptyList(), "", Species("", ""), Sprites("", ""),
+            emptyList(), 1, 1, emptyList(), emptyList(), "",
+            emptyList(), emptyList(), "", Species("", ""), Sprites("", ""),
             emptyList(), emptyList(), 1,
         )
 
@@ -39,7 +41,8 @@ data class PokemonDetails(
             raw: RawPokemonDetails,
             abilities: List<Ability>,
             locations: List<LocationItem>,
-            moves: List<MoveItem>
+            moves: List<MoveItem>,
+            allLocationNames: List<String>
         ): PokemonDetails {
             with(raw) {
                 return PokemonDetails(
@@ -47,8 +50,10 @@ data class PokemonDetails(
                     height,
                     id,
                     locations,
+                    allLocationNames,
                     cries.latest ?: cries.legacy ?: "",
                     moves,
+                    raw.moves.map { it.move.name },
                     name,
                     species,
                     Sprites(

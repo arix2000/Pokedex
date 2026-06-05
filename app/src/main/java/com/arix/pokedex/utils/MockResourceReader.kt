@@ -34,7 +34,8 @@ class MockResourceReader(private val context: Context) {
             rawPokeDetails,
             getAbilitiesMock(),
             getLocationItemsMock(),
-            getPokemonMoveListMock()
+            getPokemonMoveListMock(),
+            getLocationItemsMock().map { it.name }
         )
     }
 

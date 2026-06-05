@@ -1,11 +1,14 @@
 package com.arix.pokedex.features.limited_list.presentation
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Surface
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.rememberNavController
 import com.arix.pokedex.core.navigation.Navigator
 import com.arix.pokedex.features.common.AppTopBar
@@ -63,7 +66,10 @@ private fun MovesList(
         searchParams = SearchParams(getMoveList),
         searchableContent = { moves ->
             items(moves, key = { it.id }) { move ->
-                MoveListItem(move) { moveId -> navigator.goToMoveDetails(moveId) }
+                MoveListItem(
+                    move,
+                    modifier = Modifier.padding(5.dp)
+                ) { moveId -> navigator.goToMoveDetails(moveId) }
             }
         }
     )
@@ -78,7 +84,7 @@ private fun LocationsList(
         searchParams = SearchParams(getLocationList),
         searchableContent = { locations ->
             items(locations, key = { it.id }) { location ->
-                LocationListItem(location) { locationId -> navigator.goToLocationDetails(locationId.toString()) }
+                LocationListItem(location, modifier = Modifier.padding(5.dp)) { locationId -> navigator.goToLocationDetails(locationId.toString()) }
             }
         }
     )

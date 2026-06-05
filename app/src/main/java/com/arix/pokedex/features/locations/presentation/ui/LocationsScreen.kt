@@ -1,10 +1,13 @@
 package com.arix.pokedex.features.locations.presentation.ui
 
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.arix.pokedex.core.navigation.Navigator
 import com.arix.pokedex.features.common.search_view.domain.Page
 import com.arix.pokedex.features.common.search_view.domain.SearchParams
@@ -34,7 +37,10 @@ fun LocationsScreenContent(
         searchParams = SearchParams(getLocationList),
         searchableContent = { locations ->
             items(locations, key = { it.id }) { location ->
-                LocationListItem(location) { locationId -> navigator.goToLocationDetails(locationId.toString()) }
+                LocationListItem(
+                    location,
+                    modifier = Modifier.padding(5.dp)
+                ) { locationId -> navigator.goToLocationDetails(locationId.toString()) }
             }
         }
     )

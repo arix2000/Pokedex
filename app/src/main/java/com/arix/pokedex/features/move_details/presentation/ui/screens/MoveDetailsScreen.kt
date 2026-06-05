@@ -68,9 +68,9 @@ private fun MoveDetailsScreenContent(move: UiMove, navigator: Navigator = get())
             PokemonShortListSection(
                 move.learnedByPokemon.map { it.name },
                 {
-                    navigator.goToLearnedByPokemonList(
+                    navigator.goToLimitedList(
                         it,
-                        context.getString(R.string.can_be_learned_by_page_title, move.name),
+                        context.getString(R.string.move_can_be_learned_by_page_title, move.name),
                         LimitedListType.POKEMONS
                     )
                 })

@@ -25,13 +25,12 @@ import com.arix.pokedex.theme.PokedexTheme
 import com.arix.pokedex.theme.Shapes
 
 @Composable
-fun LocationListItem(location: LocationItem, onClick: (id: Int) -> Unit) {
+fun LocationListItem(location: LocationItem, modifier: Modifier = Modifier, onClick: (id: Int) -> Unit) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
-            .padding(5.dp)
             .clip(Shapes.large)
             .clickableOnceInTime { onClick(location.id) }
             .background(getBrushBasedBy(location.region))
@@ -66,6 +65,7 @@ private fun LocationListItemPreview() {
     PokedexTheme {
         Surface {
             LocationListItem(
+                modifier = Modifier.padding(5.dp),
                 location = LocationItem(
                     1,
                     "Location name",
