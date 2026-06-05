@@ -15,13 +15,6 @@ sealed class Screen(
             return finalRoute
         }
 
-    fun getTopBarTitle(data: String? = null): String? {
-        return when(this) {
-           LearnedByPokemonFullList -> "$data can be learned by:"
-           else -> null
-        }
-    }
-
     object PokemonListScreen : Screen("pokemonListScreen")
 
     object MovesScreen : Screen("movesScreen")
@@ -39,6 +32,6 @@ sealed class Screen(
     object PokemonDetailsScreen
         : Screen("pokemonDetailsScreen", "pokemonName")
 
-    object LearnedByPokemonFullList
-        : Screen("learnedByPokemonFullList", "pokemonNames", "moveName")
+    object LimitedListScreen
+        : Screen("learnedByPokemonFullList", "pokemonNames", "title", "type")
 }

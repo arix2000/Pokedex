@@ -53,10 +53,6 @@ object Constants {
         const val GANDER_RATE_WHEN_ONLY_FEMALES = 8
     }
 
-    object SplashScreen {
-        const val MAX_LIMIT = 1000000
-    }
-
     object SearchableLazyColumn {
         const val INITIAL_OFFSET = 0
     }
@@ -65,7 +61,7 @@ object Constants {
         const val EFFECT_CHANCE_ARG = "\$effect_chance"
         val TEXT_TILES_HEIGHT = 80.dp
         const val LEARNED_BY_POKEMON_LIST_MAX_SIZE = 6
-        const val MOVES_ITEM_LIMIT = 30
+        const val ROW_ITEM_LIMIT = 30
     }
 
     object ItemsScreenConst {

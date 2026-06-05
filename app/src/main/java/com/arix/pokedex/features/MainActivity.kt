@@ -52,11 +52,9 @@ fun AppContainer() {
         addOnDestinationChangedListener { _, _, _ ->
             showBackButton = previousBackStackEntry != null
             enableDrawer =
-                DrawerScreens.values().any { it.screen.route == currentDestination?.route }
-            topBarTitle = if (currentDestination?.route == Screen.LearnedByPokemonFullList.route)
-                Screen.LearnedByPokemonFullList.getTopBarTitle(
-                    currentBackStackEntry?.arguments?.getString(Screen.LearnedByPokemonFullList.argumentKeys[1])
-                )
+                DrawerScreens.entries.any { it.screen.route == currentDestination?.route }
+            topBarTitle = if (currentDestination?.route == Screen.LimitedListScreen.route)
+                currentBackStackEntry?.arguments?.getString(Screen.LimitedListScreen.argumentKeys[1])
             else null
         }
     }

@@ -10,7 +10,8 @@ class GetLocationsUseCase(private val repository: LocationRepository) {
     suspend operator fun invoke(
         offset: Int,
         limit: Int = ITEMS_LIMIT,
-        searchQuery: String
+        searchQuery: String,
+        limitedList: List<String>? = null
     ): ApiResponse<Page<LocationItem>> {
         return repository.getLocations(limit, offset, searchQuery)
     }

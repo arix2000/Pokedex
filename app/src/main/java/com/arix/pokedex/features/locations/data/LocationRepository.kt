@@ -10,18 +10,13 @@ class LocationRepository(private val remoteDataSource: LocationRemoteDataSource)
     suspend fun getLocations(
         limit: Int,
         offset: Int,
-        searchQuery: String
-    ): ApiResponse<Page<LocationItem>> {
-        return remoteDataSource.getLocations(limit, offset, searchQuery)
-    }
-
-    suspend fun getLocations(
-        limit: Int,
-        offset: Int,
         searchQuery: String,
-        limitedList: List<String>
+        limitedList: List<String>? = null
     ): ApiResponse<Page<LocationItem>> {
-        return remoteDataSource.getLocations(limit, offset, searchQuery, limitedList)
+        return if (limitedList == null)
+            remoteDataSource.getLocations(limit, offset, searchQuery)
+        else
+            remoteDataSource.getLocations(limit, offset, searchQuery, limitedList)
     }
 
     suspend fun getLocationDetails(locationId: Int): ApiResponse<RawLocationDetails> {

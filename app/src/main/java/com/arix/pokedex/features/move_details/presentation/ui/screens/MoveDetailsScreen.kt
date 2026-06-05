@@ -11,8 +11,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import com.arix.pokedex.R
 import com.arix.pokedex.core.navigation.Navigator
 import com.arix.pokedex.extensions.isPreview
+import com.arix.pokedex.features.limited_list.domain.LimitedListType
 import com.arix.pokedex.features.move_details.domain.model.UiMove
 import com.arix.pokedex.features.move_details.presentation.MoveDetailsViewModel
 import com.arix.pokedex.features.move_details.presentation.ui.MoveDetailsEvent
@@ -53,6 +55,7 @@ fun MoveDetailsScreen(
 
 @Composable
 private fun MoveDetailsScreenContent(move: UiMove, navigator: Navigator = get()) {
+    val context = LocalContext.current
     Column(
         Modifier
             .fillMaxWidth()
@@ -64,7 +67,13 @@ private fun MoveDetailsScreenContent(move: UiMove, navigator: Navigator = get())
         if (!isPreview())
             PokemonShortListSection(
                 move.learnedByPokemon.map { it.name },
-                { navigator.goToLearnedByPokemonList(it, move.name) })
+                {
+                    navigator.goToLearnedByPokemonList(
+                        it,
+                        context.getString(R.string.can_be_learned_by_page_title, move.name),
+                        LimitedListType.POKEMONS
+                    )
+                })
     }
 }
 

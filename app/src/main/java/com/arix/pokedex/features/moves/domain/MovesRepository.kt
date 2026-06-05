@@ -7,13 +7,11 @@ import com.arix.pokedex.utils.ApiResponse
 
 interface MovesRepository {
 
-    suspend fun getMoves(offset: Int, limit: Int, searchQuery: String): ApiResponse<Page<MoveItem>>
-
     suspend fun getMoves(
         offset: Int,
         limit: Int,
         searchQuery: String,
-        limitedList: List<String>
+        limitedList: List<String>? = null
     ): ApiResponse<Page<MoveItem>>
 
     suspend fun getMove(moveId: String): ApiResponse<RawMove>

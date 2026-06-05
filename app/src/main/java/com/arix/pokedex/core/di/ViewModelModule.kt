@@ -5,10 +5,10 @@ import com.arix.pokedex.extensions.dataStore
 import com.arix.pokedex.features.common.search_view.SearchableLazyColumnViewModel
 import com.arix.pokedex.features.items.domain.model.Item
 import com.arix.pokedex.features.items.presentation.ItemsViewModel
+import com.arix.pokedex.features.limited_list.presentation.LearnedByPokemonFullListViewModel
 import com.arix.pokedex.features.locations.domain.model.list.LocationItem
 import com.arix.pokedex.features.locations.presentation.LocationViewModel
 import com.arix.pokedex.features.move_details.presentation.MoveDetailsViewModel
-import com.arix.pokedex.features.move_details.presentation.ui.screens.LearnedByPokemonFullListViewModel
 import com.arix.pokedex.features.moves.domain.model.MoveItem
 import com.arix.pokedex.features.moves.presentation.MovesViewModel
 import com.arix.pokedex.features.pokemon_details.presentation.PokemonDetailsViewModel
@@ -31,7 +31,7 @@ val viewModelModule = module {
 
     viewModel { SplashViewModel(get<Context>().dataStore) }
 
-    viewModel { LearnedByPokemonFullListViewModel(get()) }
+    viewModel { LearnedByPokemonFullListViewModel(get(), get(), get()) }
 
     viewModel { ItemsViewModel(get(), get()) }
 

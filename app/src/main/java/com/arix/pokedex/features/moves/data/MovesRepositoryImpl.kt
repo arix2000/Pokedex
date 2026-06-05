@@ -13,18 +13,13 @@ class MovesRepositoryImpl(
     override suspend fun getMoves(
         offset: Int,
         limit: Int,
-        searchQuery: String
-    ): ApiResponse<Page<MoveItem>> {
-        return remoteDataSource.getMoveList(limit, offset, searchQuery)
-    }
-
-    override suspend fun getMoves(
-        offset: Int,
-        limit: Int,
         searchQuery: String,
-        limitedList: List<String>
+        limitedList: List<String>?
     ): ApiResponse<Page<MoveItem>> {
-        return remoteDataSource.getMoveList(limit, offset, searchQuery)
+        return if (limitedList != null)
+            remoteDataSource.getMoveList(limit, offset, searchQuery, limitedList)
+        else
+            remoteDataSource.getMoveList(limit, offset, searchQuery)
     }
 
     override suspend fun getMove(moveId: String): ApiResponse<RawMove> {
