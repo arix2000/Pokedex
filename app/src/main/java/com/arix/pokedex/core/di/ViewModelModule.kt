@@ -26,7 +26,7 @@ val viewModelModule = module {
     viewModel {
         PokemonDetailsViewModel(
             get(), get(),
-            get(), get()
+            get()
         )
     }
 

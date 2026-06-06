@@ -5,7 +5,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.arix.pokedex.extensions.getIdFromUrl
-import com.arix.pokedex.features.items.domain.use_cases.GetItemDetailsUseCase
 import com.arix.pokedex.features.pokemon_details.domain.model.EvolutionStep
 import com.arix.pokedex.features.pokemon_details.domain.model.PokemonEvolutionDetails
 import com.arix.pokedex.features.pokemon_details.domain.model.RawEvolutionStep
@@ -28,8 +27,7 @@ import kotlinx.coroutines.launch
 class PokemonDetailsViewModel(
     val getPokemonUseCase: GetPokemonUseCase,
     val getPokemonSpeciesUseCase: GetPokemonSpeciesUseCase,
-    val getPokemonEvolutionChainUseCase: GetPokemonEvolutionChainUseCase,
-    val getItemDetailsUseCase: GetItemDetailsUseCase
+    val getPokemonEvolutionChainUseCase: GetPokemonEvolutionChainUseCase
 ) : ViewModel() {
 
     private var _state = mutableStateOf(PokemonDetailsState())

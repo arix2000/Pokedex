@@ -64,25 +64,6 @@ import com.arix.pokedex.views.DefaultProgressIndicatorScreen
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.get
 
-/**
- * TODO PLAN
- *
- * Base Stats sections based on [PokemonDetails.stats] - DONE
- * Abilities - [PokemonDetails.abilities] we need to fetch description and show in the existing section - DONE
- *
- * add cry button to hear pokemon cry, it should be placed under [PokemonDetails.cries] - DONE
- *
- * location encounters - pokemon/[id]/encounters link is already in details, just fetch and get from
- * list api limited list of locations (it should work on backend),
- * we need to show like 10 of theme and rest should stay behind show all button, on dedicated screen,
- * like in [com.arix.pokedex.features.move_details.presentation.ui.screens.MoveDetailsScreen] screen
- * and its [com.arix.pokedex.features.limited_list.presentation.LimitedListScreen] screen - DONE
- *
- * Do the same for [PokemonDetails.moves] but here we have ready to sent list - DONE
- *
- * In [EvolutionChainSection] when user clicks item it should load item details in bottom sheet
- * **/
-
 @Composable
 fun PokemonDetailsScreen(
     pokemonName: String,
