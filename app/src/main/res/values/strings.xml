@@ -67,5 +67,7 @@
     <string name="evolution_description_day">Evolve by day</string>
     <string name="evolution_description_night">Evolve by night</string>
     <string name="evolution_description_trade">Evolve by trade</string>
+    <string name="app_icon_change_warning_title">"Change App Icon"</string>
+    <string name="app_icon_change_warning_text">The app will close momentarily to apply the new icon. Do you want to proceed?</string>
 
 </resources>

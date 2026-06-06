@@ -11,6 +11,7 @@ val BlackSoft = Color(0xFF090909)
 val BlackSoftA50 = Color(0x80090909)
 val BlackLight = Color(0xFF1C1C1C)
 val BlackLighter = Color(0xFF252525)
+val BlackLighterAlternative = Color(0xFF2C2C2C)
 
 val PrimarySemiTransparent = Color(0x80950101)
 
@@ -18,6 +19,7 @@ val DisabledColor = Color(0xFF585858)
 
 val BlackA70 = Color(0xB3000000)
 val WhiteA50 = Color(0x80FFFFFF)
+val LightGray = Color(0xFFE3E3E3)
 val GrayA75 = Color(0xBFFFFFFF)
 
 val WarningColor = Color(0xB2FF9800)

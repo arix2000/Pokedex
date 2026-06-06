@@ -68,8 +68,7 @@ fun NavDrawerContent(navController: NavController, scaffoldState: ScaffoldState)
     Column {
         drawerSpecsList.forEach {
             NavDrawerListItem(
-                it.drawerSpecs,
-                selected = currentRoute == it.screen.route
+                it.drawerSpecs, selected = currentRoute == it.screen.route
             ) {
                 navController.navigate(it.screen.route) {
                     popUpTo(0)
@@ -85,6 +84,7 @@ fun NavDrawerContent(navController: NavController, scaffoldState: ScaffoldState)
                 .padding(bottom = 64.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            AppIconSelector()
             Text(stringResource(R.string.powered_by_poke_api_label), color = WhiteA50)
             Spacer(Modifier.height(8.dp))
             Image(
@@ -94,30 +94,25 @@ fun NavDrawerContent(navController: NavController, scaffoldState: ScaffoldState)
                     .height(60.dp)
                     .clickable {
                         uriHandler.openUri("https://pokeapi.co/")
-                    }
-            )
+                    })
         }
     }
 }
 
 @Composable
 private fun NavDrawerListItem(
-    drawerSpecs: DrawerSpecs,
-    selected: Boolean,
-    onClicked: () -> Unit
+    drawerSpecs: DrawerSpecs, selected: Boolean, onClicked: () -> Unit
 ) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 12.dp)
             .background(
-                if (selected) BlackSoftA50 else Color.Transparent,
-                shape = CircleShape
+                if (selected) BlackSoftA50 else Color.Transparent, shape = CircleShape
             )
             .clip(shape = CircleShape)
             .clickable { onClicked() }
-            .padding(16.dp)
-    ) {
+            .padding(16.dp)) {
         Image(painter = painterResource(id = drawerSpecs.iconId), contentDescription = null)
         Spacer(modifier = Modifier.width(10.dp))
         Text(text = drawerSpecs.title, color = Color.LightGray)
