@@ -52,6 +52,7 @@ import org.koin.androidx.compose.getViewModel
 fun EvolutionChainView(
     pokemonDetails: PokemonDetails,
     evolutionChain: PokemonEvolutionChain,
+    onItemClicked: (Int) -> Unit,
     viewModel: PokemonDetailsViewModel = getViewModel()
 ) {
     val state = viewModel.evolutionSectionState.value
@@ -75,7 +76,8 @@ fun EvolutionChainView(
         ) {
             EvolutionChainContent(
                 pokemonDetails,
-                state.pokemonEvolutionSteps
+                state.pokemonEvolutionSteps,
+                onItemClicked
             )
         }
         state.errorMessage != null -> Text(text = stringResource(R.string.unexpected_error))
@@ -86,6 +88,7 @@ fun EvolutionChainView(
 private fun EvolutionChainContent(
     rootPokemonDetails: PokemonDetails,
     pokemonEvolutionSteps: List<EvolutionStep>,
+    onItemClicked: (Int) -> Unit,
     navigator: Navigator = get()
 ) {
     val commonScrollState = rememberScrollState()
@@ -107,7 +110,7 @@ private fun EvolutionChainContent(
                     verticalArrangement = Arrangement.Bottom,
                     modifier = Modifier.padding(bottom = 115.dp)
                 ) {
-                    EvolutionRuleView(currentlyIndicated.value!!)
+                    EvolutionRuleView(currentlyIndicated.value!!, onItemClicked)
                     Spacer(modifier = Modifier.height(5.dp))
                     ArrowToNextEvolution(
                         rootPokemonDetails.types.first().getTypeColor(),
@@ -196,6 +199,7 @@ fun EvolutionChainContentPreview() {
                                 )
                             )
                         ),
+                        {},
                         Navigator()
                     )
                 }

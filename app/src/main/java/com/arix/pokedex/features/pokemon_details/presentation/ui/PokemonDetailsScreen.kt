@@ -10,14 +10,20 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.ModalBottomSheetLayout
+import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
+import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -32,6 +38,7 @@ import com.arix.pokedex.extensions.hasOneItem
 import com.arix.pokedex.extensions.isPreview
 import com.arix.pokedex.features.common.AppTopBar
 import com.arix.pokedex.features.common.buttons.ShowAllWithCountButton
+import com.arix.pokedex.features.items.presentation.ui.components.ItemBottomSheetContent
 import com.arix.pokedex.features.limited_list.domain.LimitedListType
 import com.arix.pokedex.features.locations.presentation.ui.composables.LocationListItem
 import com.arix.pokedex.features.moves.presentation.ui.components.MoveListItem
@@ -49,9 +56,12 @@ import com.arix.pokedex.features.pokemon_details.presentation.ui.components.full
 import com.arix.pokedex.features.pokemon_details.presentation.ui.components.header.PokemonDetailsHeader
 import com.arix.pokedex.features.pokemon_list.domain.model.details.Ability
 import com.arix.pokedex.features.pokemon_list.domain.model.details.PokemonDetails
+import com.arix.pokedex.theme.BlackSoft
 import com.arix.pokedex.theme.PokedexTheme
+import com.arix.pokedex.theme.Shapes
 import com.arix.pokedex.utils.MockResourceReader
 import com.arix.pokedex.views.DefaultProgressIndicatorScreen
+import kotlinx.coroutines.launch
 import org.koin.androidx.compose.get
 
 /**
@@ -66,9 +76,9 @@ import org.koin.androidx.compose.get
  * list api limited list of locations (it should work on backend),
  * we need to show like 10 of theme and rest should stay behind show all button, on dedicated screen,
  * like in [com.arix.pokedex.features.move_details.presentation.ui.screens.MoveDetailsScreen] screen
- * and its [com.arix.pokedex.features.limited_list.presentation.LimitedListScreen] screen
+ * and its [com.arix.pokedex.features.limited_list.presentation.LimitedListScreen] screen - DONE
  *
- * Do the same for [PokemonDetails.moves] but here we have ready to sent list
+ * Do the same for [PokemonDetails.moves] but here we have ready to sent list - DONE
  *
  * In [EvolutionChainSection] when user clicks item it should load item details in bottom sheet
  * **/
@@ -95,6 +105,7 @@ fun PokemonDetailsScreen(
         )
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun PokemonDetailsScreenContent(
     pokemonDetails: PokemonDetails,
@@ -105,43 +116,61 @@ fun PokemonDetailsScreenContent(
     val isDialogShowed = remember { mutableStateOf(false) }
     var clickedImageUrl by remember { mutableStateOf(pokemonDetails.sprites.front_default) }
 
-    Box(modifier = Modifier.fillMaxSize()) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(10.dp),
-            modifier = Modifier
-                .fillMaxWidth()
-                .verticalScroll(rememberScrollState()),
-        ) {
-            PokemonDetailsHeader(pokemonDetails, species, onImageClicked = {
-                clickedImageUrl = it
-                isDialogShowed.value = true
-            })
-            ExpandableSection(
-                title = stringResource(R.string.details_title),
+    var clickedItemId: Int by remember { mutableStateOf(0) }
+    val coroutineScope = rememberCoroutineScope()
+    val modalSheetState = rememberModalBottomSheetState(
+        initialValue = ModalBottomSheetValue.Hidden,
+        confirmValueChange = { it != ModalBottomSheetValue.HalfExpanded },
+    )
+
+    ModalBottomSheetLayout(
+        sheetState = modalSheetState,
+        sheetShape = Shapes.bottomSheet,
+        sheetContent = { ItemBottomSheetContent(clickedItemId) },
+        sheetBackgroundColor = BlackSoft,
+        scrimColor = MaterialTheme.colors.surface.copy(0.52f)
+    ) {
+        Box(modifier = Modifier.fillMaxSize()) {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(10.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .verticalScroll(rememberScrollState()),
             ) {
-                DetailsView(pokemonDetails, species)
+                PokemonDetailsHeader(pokemonDetails, species, onImageClicked = {
+                    clickedImageUrl = it
+                    isDialogShowed.value = true
+                })
+                ExpandableSection(
+                    title = stringResource(R.string.details_title),
+                ) {
+                    DetailsView(pokemonDetails, species)
+                }
+                ExpandableSection(title = stringResource(R.string.pokemon_description)) {
+                    Text(text = species.getDescription())
+                }
+                EvolutionChainSection(pokemonDetails, evolutionChain, onItemClicked = {
+                    clickedItemId = it
+                    coroutineScope.launch { modalSheetState.show() }
+                })
+                ExpandableSection(
+                    title = stringResource(R.string.stats_title),
+                ) {
+                    BaseStatsView(pokemonDetails.stats)
+                }
+                if (!(species.varieties.hasOneItem() && species.varieties.first().is_default)) {
+                    VarietiesSection(pokemonDetails.name, species.varieties)
+                }
+                ExpandableSection(title = stringResource(R.string.moves_label)) {
+                    MovesSectionContent(pokemonDetails, navigator)
+                }
+                ExpandableSection(title = stringResource(R.string.locations_label)) {
+                    LocationsSectionContent(pokemonDetails, navigator)
+                }
+                AbilitiesSection(pokemonDetails.abilities)
+                Spacer(Modifier.height(64.dp))
             }
-            ExpandableSection(title = stringResource(R.string.pokemon_description)) {
-                Text(text = species.getDescription())
-            }
-            EvolutionChainSection(pokemonDetails, evolutionChain)
-            ExpandableSection(
-                title = stringResource(R.string.stats_title),
-            ) {
-                BaseStatsView(pokemonDetails.stats)
-            }
-            if (!(species.varieties.hasOneItem() && species.varieties.first().is_default)) {
-                VarietiesSection(pokemonDetails.name, species.varieties)
-            }
-            ExpandableSection(title = stringResource(R.string.moves_label)) {
-                MovesSectionContent(pokemonDetails, navigator)
-            }
-            ExpandableSection(title = stringResource(R.string.locations_label)) {
-                LocationsSectionContent(pokemonDetails, navigator)
-            }
-            AbilitiesSection(pokemonDetails.abilities)
-            Spacer(Modifier.height(64.dp))
         }
     }
     FullScreenImageDialog(
@@ -211,17 +240,19 @@ fun LocationsSectionContent(
     }
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 private fun EvolutionChainSection(
     pokemonDetails: PokemonDetails,
-    evolutionChain: PokemonEvolutionChain
+    evolutionChain: PokemonEvolutionChain,
+    onItemClicked: (Int) -> Unit
 ) {
     ExpandableSection(
         title = stringResource(R.string.evolution_chain_title),
         expandedInitially = true
     ) {
         if (!isPreview())
-            EvolutionChainView(pokemonDetails, evolutionChain)
+            EvolutionChainView(pokemonDetails, evolutionChain,onItemClicked)
         else DefaultProgressIndicatorScreen(
             modifier = Modifier
                 .fillMaxWidth()
@@ -236,12 +267,12 @@ private fun AbilitiesSection(abilities: List<Ability>) {
         if (abilities.isEmpty())
             Text(text = stringResource(R.string.none))
         else
-        Column {
-            abilities.forEach {
-                AbilityListItem(ability = it)
-                Spacer(modifier = Modifier.height(5.dp))
+            Column {
+                abilities.forEach {
+                    AbilityListItem(ability = it)
+                    Spacer(modifier = Modifier.height(5.dp))
+                }
             }
-        }
     }
 }
 

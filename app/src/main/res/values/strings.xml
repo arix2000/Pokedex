@@ -58,5 +58,14 @@
     <string name="pokemon_can_learn_moves_page_title">%1$s can learn:</string>
     <string name="pokemon_can_be_encountered_page_title">%1$s can be encountered in:</string>
     <string name="move_can_be_learned_by_page_title">%1$s can be learned by:</string>
+    <string name="evolution_level">Level %1$d</string>
+    <string name="evolution_holding">Holding:</string>
+    <string name="evolution_happiness">Happy: %1$d</string>
+    <string name="evolution_known_move">Knows %1$s move</string>
+    <string name="evolution_known_move_type_start">Knows </string>
+    <string name="evolution_known_move_type_end"> type move.</string>
+    <string name="evolution_description_day">Evolve by day</string>
+    <string name="evolution_description_night">Evolve by night</string>
+    <string name="evolution_description_trade">Evolve by trade</string>
 
 </resources>
