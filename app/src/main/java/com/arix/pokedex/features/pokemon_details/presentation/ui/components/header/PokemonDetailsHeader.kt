@@ -1,18 +1,35 @@
 package com.arix.pokedex.features.pokemon_details.presentation.ui.components.header
 
+import android.media.AudioAttributes
+import android.media.MediaPlayer
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.Icon
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.ripple.rememberRipple
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -22,6 +39,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.arix.pokedex.R
+import com.arix.pokedex.extensions.isPreview
 import com.arix.pokedex.features.pokemon_details.domain.model.species.PokemonSpecies
 import com.arix.pokedex.features.pokemon_list.domain.model.details.PokemonDetails
 import com.arix.pokedex.features.pokemon_list.presentation.ui.components.TypesSection
@@ -44,6 +62,33 @@ fun PokemonDetailsHeader(
     }
     var isImageLoading by remember { mutableStateOf(true) }
 
+    val mediaPlayer = if (!isPreview()) remember { MediaPlayer() } else null
+
+    DisposableEffect(Unit) {
+        onDispose {
+            mediaPlayer?.release()
+        }
+    }
+
+    fun playCrySound() {
+        try {
+            mediaPlayer?.reset()
+            mediaPlayer?.setAudioAttributes(
+                AudioAttributes.Builder()
+                    .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                    .setUsage(AudioAttributes.USAGE_MEDIA)
+                    .build()
+            )
+            mediaPlayer?.setDataSource(pokemonDetails.cryUrl)
+            mediaPlayer?.setOnPreparedListener { mp ->
+                mp.start()
+            }
+            mediaPlayer?.prepareAsync()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
     Box {
         BackgroundGradientBasedOn(pokemonDetails.types)
         Column(
@@ -52,6 +97,11 @@ fun PokemonDetailsHeader(
                 .padding(top = 20.dp)
         ) {
             Box(Modifier.height(250.dp)) {
+                if (isImageLoading)
+                    DefaultProgressIndicatorScreen(
+                        modifier = Modifier
+                            .align(Alignment.Center)
+                    )
                 AsyncImage(
                     model = imageModel,
                     contentDescription = pokemonDetails.name,
@@ -64,14 +114,11 @@ fun PokemonDetailsHeader(
                             interactionSource = remember { MutableInteractionSource() }
                         ) { onImageClicked(imageModel) },
                     error = painterResource(id = R.drawable.pokemon_not_found_image),
+                    placeholder = if (isPreview()) painterResource(id = R.drawable.scyther) else null,
                     onLoading = { isImageLoading = true },
                     onSuccess = { isImageLoading = false },
+                    onError = { isImageLoading = false }
                 )
-                if (isImageLoading)
-                    DefaultProgressIndicatorScreen(
-                        modifier = Modifier
-                            .align(Alignment.Center)
-                    )
             }
             FadingHorizontalDivider(modifier = Modifier.padding(top = 12.dp, bottom = 8.dp))
             Text(
@@ -88,7 +135,30 @@ fun PokemonDetailsHeader(
                     .width(90.dp)
             )
         }
-        ShinyToggleButton(imageModel, pokemonDetails, onClick = { imageModel = it })
+        if (pokemonDetails.sprites.front_shiny != null)
+            ShinyToggleButton(imageModel, pokemonDetails, onClick = { imageModel = it })
+        if (pokemonDetails.cryUrl.isNotEmpty())
+            Box(
+                modifier = Modifier
+                    .padding(8.dp)
+                    .clip(CircleShape)
+                    .clickable {
+                        playCrySound()
+                    }
+                    .background(
+                        (pokemonDetails.types.getOrNull(1)
+                            ?: pokemonDetails.types.first()).getTypeColor(),
+                        shape = CircleShape
+                    )
+                    .padding(8.dp)
+                    .align(Alignment.TopEnd)
+            ) {
+                Icon(
+                    painter = painterResource(R.drawable.volume_up),
+                    contentDescription = "Cry",
+                    modifier = Modifier.size(20.dp)
+                )
+            }
     }
 }
 
@@ -114,7 +184,7 @@ fun ShinyToggleButton(
             onClick(
                 if (isShinyShowed)
                     pokemonDetails.sprites.front_default
-                else pokemonDetails.sprites.front_shiny
+                else pokemonDetails.sprites.front_shiny ?: ""
             )
         }) {
         Text(text = if (isShinyShowed) "Normal" else "Shiny")
@@ -128,7 +198,7 @@ fun PokemonDetailsHeaderPreview() {
     val pokemonDetails = remember { MockResourceReader(context).getPokemonDetailsMock() }
     val species = remember { MockResourceReader(context).getPokemonSpeciesMock() }
     PokedexTheme {
-        Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
+        Column {
             Surface(
                 modifier = Modifier
                     .fillMaxWidth()

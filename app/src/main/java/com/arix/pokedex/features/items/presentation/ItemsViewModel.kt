@@ -4,36 +4,54 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.arix.pokedex.features.items.domain.model.move_details.ItemDetails
-import com.arix.pokedex.features.items.domain.use_cases.GetItemNamesUseCase
-import com.arix.pokedex.features.items.domain.use_cases.GetItemsByNamesUseCase
+import com.arix.pokedex.features.common.search_view.domain.Page
+import com.arix.pokedex.features.items.domain.model.Item
+import com.arix.pokedex.features.items.domain.use_cases.GetItemDetailsUseCase
+import com.arix.pokedex.features.items.domain.use_cases.GetItemListUseCase
+import com.arix.pokedex.features.items.presentation.ui.ItemEvent
 import com.arix.pokedex.features.items.presentation.ui.ItemsScreenState
 import com.arix.pokedex.utils.ApiResponse
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 class ItemsViewModel(
-    private val getItemNamesUseCase: GetItemNamesUseCase,
-    private val getItemsByNamesUseCase: GetItemsByNamesUseCase
+    private val getItemListUseCase: GetItemListUseCase,
+    private val getItemUseCase: GetItemDetailsUseCase
 ) : ViewModel() {
 
     private val _state = mutableStateOf(ItemsScreenState())
     val state: State<ItemsScreenState> = _state
 
-    private var getItemNamesJob: Job? = null
+    private var getItemJob: Job? = null
 
-    init {
-        getItemNames()
-    }
-
-    private fun getItemNames() {
-        getItemNamesJob = viewModelScope.launch {
-            getItemNamesUseCase().collect { _state.value = _state.value.copy(itemNames = it) }
+    fun invokeEvent(event: ItemEvent) {
+        when (event) {
+            is ItemEvent.GetItemDetails -> getItem(event.itemId)
         }
     }
 
-    suspend fun getItemsFromNames(names: List<String>): List<ApiResponse<ItemDetails>> {
-        return getItemsByNamesUseCase(names)
+    suspend fun getItems(offset: Int, searchQuery: String): ApiResponse<Page<Item>> {
+        return getItemListUseCase(offset, searchQuery = searchQuery)
+    }
+
+    private fun getItem(itemId: String) {
+        getItemJob?.cancel()
+        getItemJob = viewModelScope.launch {
+            _state.run {
+                value = value.copy(isLoading = true)
+                val response = getItemUseCase(itemId)
+                value = when(response) {
+                    is ApiResponse.Success -> value.copy(
+                        itemDetails = response.data!!,
+                        isLoading = false
+                    )
+                    is ApiResponse.Error -> value.copy(
+                        errorMessage = response.message,
+                        isLoading = false
+                    )
+                }
+            }
+        }
     }
 
 }

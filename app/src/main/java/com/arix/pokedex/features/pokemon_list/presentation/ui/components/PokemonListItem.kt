@@ -23,8 +23,8 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.arix.pokedex.R
 import com.arix.pokedex.extensions.clickableOnceInTime
-import com.arix.pokedex.features.pokemon_list.domain.model.details.PokemonDetails
 import com.arix.pokedex.features.pokemon_list.domain.model.details.Type
+import com.arix.pokedex.features.pokemon_list.domain.model.list.PokemonItem
 import com.arix.pokedex.theme.FontSizes
 import com.arix.pokedex.theme.PokedexTheme
 import com.arix.pokedex.theme.Shapes
@@ -34,7 +34,7 @@ import com.arix.pokedex.views.shimmer_effect.ShimmerAnimatedBox
 
 @Composable
 fun PokemonListItem(
-    pokemonDetails: PokemonDetails,
+    pokemonItem: PokemonItem,
     modifier: Modifier = Modifier,
     onClick: (() -> Unit)? = null
 ) {
@@ -43,36 +43,44 @@ fun PokemonListItem(
     Box(
         modifier = Modifier
             .padding(5.dp)
-            .clip(Shapes.medium)
-            .background(brush = getBrushBasedOn(pokemonDetails.types, isImageLoading))
+            .clip(Shapes.pokemonListItem)
+            .background(brush = getBrushBasedOn(pokemonItem.types, isImageLoading))
             .clickableOnceInTime(enabled = onClick != null) {
                 onClick?.invoke()
             }
     ) {
         Column(
-            modifier = modifier,
-            verticalArrangement = Arrangement.spacedBy(3.dp, Alignment.CenterVertically),
+            modifier = modifier
+                .padding(bottom = 10.dp)
+                .fillMaxHeight(),
+            verticalArrangement = Arrangement.spacedBy(3.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             AsyncImage(
-                model = pokemonDetails.sprites.front_default,
-                contentDescription = pokemonDetails.name,
-                contentScale = ContentScale.FillWidth,
-                modifier = Modifier.fillMaxWidth(),
+                model = pokemonItem.imageUrl,
+                contentDescription = pokemonItem.name,
+                contentScale = ContentScale.Fit,
                 placeholder = painterResource(id = R.drawable.scyther),
                 onSuccess = { isImageLoading = false },
                 onError = { isImageLoading = false },
-                error = painterResource(id = R.drawable.pokemon_not_found_image)
+                error = painterResource(id = R.drawable.pokemon_not_found_image),
+                modifier = Modifier.weight(1f)
             )
+
             FadingHorizontalDivider()
+
             Text(
-                text = pokemonDetails.name.capitalize(LocaleList.current),
+                text = pokemonItem.name.capitalize(LocaleList.current),
                 fontSize = FontSizes.large,
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 1
             )
-            TypesSection(pokemonDetails.types, spacing = 2.dp, itemFontSize = FontSizes.minimum)
-            Spacer(modifier = Modifier.height(10.dp))
+
+            TypesSection(
+                pokemonItem.types,
+                spacing = 2.dp,
+                itemFontSize = FontSizes.minimum
+            )
         }
         ShowShimmerIf(modifier = modifier, isImageLoading)
     }
@@ -101,7 +109,9 @@ fun PokemonItemPreview() {
     val pokemonDetails = remember { MockResourceReader(context).getPokemonDetailsMock() }
     PokedexTheme {
         Surface {
-            PokemonListItem(pokemonDetails, Modifier.width(180.dp))
+            PokemonListItem(pokemonDetails, Modifier
+                .width(180.dp)
+                .height(250.dp))
         }
     }
 }

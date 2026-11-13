@@ -18,6 +18,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import coil.compose.AsyncImage
 import com.arix.pokedex.R
 import com.arix.pokedex.features.common.boxes.ZoomableBox
@@ -28,7 +29,11 @@ import com.arix.pokedex.theme.PokedexTheme
 fun FullScreenImageDialog(isDialogShowed: MutableState<Boolean>, imageUrl: String) {
     if (isDialogShowed.value)
         Dialog(
-            onDismissRequest = { isDialogShowed.value = false }) {
+            onDismissRequest = { isDialogShowed.value = false },
+            properties = DialogProperties(
+                usePlatformDefaultWidth = false
+            )
+        ) {
             ZoomableBox(
                 modifier = Modifier
                     .requiredWidth(LocalConfiguration.current.screenWidthDp.dp)
@@ -65,9 +70,9 @@ private fun ImageFullScreenDialogPreview() {
         Surface {
             FullScreenImageDialog(
                 isDialogShowed =
-                remember {
-                    mutableStateOf(true)
-                },
+                    remember {
+                        mutableStateOf(true)
+                    },
                 imageUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/123.png"
             )
         }

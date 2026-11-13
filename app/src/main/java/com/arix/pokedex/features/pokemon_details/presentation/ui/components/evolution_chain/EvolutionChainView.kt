@@ -1,12 +1,24 @@
 package com.arix.pokedex.features.pokemon_details.presentation.ui.components.evolution_chain
 
 import androidx.compose.foundation.horizontalScroll
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.onGloballyPositioned
@@ -20,8 +32,6 @@ import com.arix.pokedex.core.navigation.Navigator
 import com.arix.pokedex.extensions.hasOneItem
 import com.arix.pokedex.extensions.isLastElement
 import com.arix.pokedex.extensions.isNotFirstElement
-import com.arix.pokedex.features.pokemon_list.domain.model.details.PokemonDetails
-import com.arix.pokedex.features.pokemon_list.presentation.ui.components.PokemonListItem
 import com.arix.pokedex.features.pokemon_details.domain.model.EvolutionStep
 import com.arix.pokedex.features.pokemon_details.domain.model.PokemonEvolutionDetails
 import com.arix.pokedex.features.pokemon_details.domain.model.evolution_chain.EvolutionDetail
@@ -29,6 +39,8 @@ import com.arix.pokedex.features.pokemon_details.domain.model.evolution_chain.Po
 import com.arix.pokedex.features.pokemon_details.presentation.PokemonDetailsViewModel
 import com.arix.pokedex.features.pokemon_details.presentation.ui.PokemonDetailsEvent
 import com.arix.pokedex.features.pokemon_details.presentation.ui.components.expandable_section.ExpandableSection
+import com.arix.pokedex.features.pokemon_list.domain.model.details.PokemonDetails
+import com.arix.pokedex.features.pokemon_list.presentation.ui.components.PokemonListItem
 import com.arix.pokedex.theme.PokedexTheme
 import com.arix.pokedex.utils.MockResourceReader
 import com.arix.pokedex.utils.drawVerticalScrollbar
@@ -40,6 +52,7 @@ import org.koin.androidx.compose.getViewModel
 fun EvolutionChainView(
     pokemonDetails: PokemonDetails,
     evolutionChain: PokemonEvolutionChain,
+    onItemClicked: (Int) -> Unit,
     viewModel: PokemonDetailsViewModel = getViewModel()
 ) {
     val state = viewModel.evolutionSectionState.value
@@ -63,7 +76,8 @@ fun EvolutionChainView(
         ) {
             EvolutionChainContent(
                 pokemonDetails,
-                state.pokemonEvolutionSteps
+                state.pokemonEvolutionSteps,
+                onItemClicked
             )
         }
         state.errorMessage != null -> Text(text = stringResource(R.string.unexpected_error))
@@ -74,6 +88,7 @@ fun EvolutionChainView(
 private fun EvolutionChainContent(
     rootPokemonDetails: PokemonDetails,
     pokemonEvolutionSteps: List<EvolutionStep>,
+    onItemClicked: (Int) -> Unit,
     navigator: Navigator = get()
 ) {
     val commonScrollState = rememberScrollState()
@@ -95,7 +110,7 @@ private fun EvolutionChainContent(
                     verticalArrangement = Arrangement.Bottom,
                     modifier = Modifier.padding(bottom = 115.dp)
                 ) {
-                    EvolutionRuleView(currentlyIndicated.value!!)
+                    EvolutionRuleView(currentlyIndicated.value!!, onItemClicked)
                     Spacer(modifier = Modifier.height(5.dp))
                     ArrowToNextEvolution(
                         rootPokemonDetails.types.first().getTypeColor(),
@@ -125,7 +140,7 @@ private fun EvolutionChainContent(
                         }
                     })
                     PokemonListItem(
-                        pokemonDetails = it.pokemonDetails,
+                        pokemonItem = it.pokemonDetails,
                         modifier = Modifier
                             .width(155.dp)
                             .height(230.dp),
@@ -157,34 +172,37 @@ private fun onItemTopPositionChanged(
 @Composable
 fun EvolutionChainContentPreview() {
     PokedexTheme {
-        Surface {
+        Surface(modifier = Modifier.height(280.dp)) {
             val context = LocalContext.current
             val pokemonDetails = remember { MockResourceReader(context).getPokemonDetailsMock() }
             val evolutionChain =
                 remember { MockResourceReader(context).getPokemonEvolutionChainMock() }
-            ExpandableSection(title = "Evolution Chain", expandedInitially = true) {
-                EvolutionChainContent(
-                    pokemonDetails,
-                    pokemonEvolutionSteps = listOf(
-                        EvolutionStep(
-                            listOf(
-                                PokemonEvolutionDetails(
-                                    pokemonDetails,
-                                    evolutionChain.chain.evolution_details
+            Column {
+                ExpandableSection(title = "Evolution Chain") {
+                    EvolutionChainContent(
+                        pokemonDetails,
+                        pokemonEvolutionSteps = listOf(
+                            EvolutionStep(
+                                listOf(
+                                    PokemonEvolutionDetails(
+                                        pokemonDetails,
+                                        evolutionChain.chain.evolution_details
+                                    )
+                                )
+                            ),
+                            EvolutionStep(
+                                listOf(
+                                    PokemonEvolutionDetails(
+                                        pokemonDetails,
+                                        evolutionChain.chain.evolves_to.first().evolution_details
+                                    )
                                 )
                             )
                         ),
-                        EvolutionStep(
-                            listOf(
-                                PokemonEvolutionDetails(
-                                    pokemonDetails,
-                                    evolutionChain.chain.evolves_to.first().evolution_details
-                                )
-                            )
-                        )
-                    ),
-                    Navigator()
-                )
+                        {},
+                        Navigator()
+                    )
+                }
             }
         }
     }

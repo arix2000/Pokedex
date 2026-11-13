@@ -5,8 +5,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.arix.pokedex.extensions.getIdFromUrl
-import com.arix.pokedex.features.pokemon_list.domain.model.details.PokemonDetails
-import com.arix.pokedex.features.pokemon_list.domain.use_cases.GetPokemonUseCase
 import com.arix.pokedex.features.pokemon_details.domain.model.EvolutionStep
 import com.arix.pokedex.features.pokemon_details.domain.model.PokemonEvolutionDetails
 import com.arix.pokedex.features.pokemon_details.domain.model.RawEvolutionStep
@@ -17,8 +15,14 @@ import com.arix.pokedex.features.pokemon_details.presentation.ui.PokemonDetailsE
 import com.arix.pokedex.features.pokemon_details.presentation.ui.states.PokemonDetailsState
 import com.arix.pokedex.features.pokemon_details.presentation.ui.states.PokemonEvolutionState
 import com.arix.pokedex.features.pokemon_details.presentation.ui.states.PokemonVarietiesState
+import com.arix.pokedex.features.pokemon_list.domain.model.details.PokemonDetails
+import com.arix.pokedex.features.pokemon_list.domain.use_cases.GetPokemonUseCase
 import com.arix.pokedex.utils.ApiResponse
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.launch
 
 class PokemonDetailsViewModel(
     val getPokemonUseCase: GetPokemonUseCase,
@@ -54,6 +58,9 @@ class PokemonDetailsViewModel(
     }
 
     private fun getInitialData(pokemonName: String) {
+        if (isAlreadyPopulatedForCurrent(pokemonName))
+            return
+
         getPokemonInitialData?.cancel()
         getPokemonInitialData = viewModelScope.launch {
             _state.value = _state.value.copy(isLoading = true)
@@ -63,11 +70,17 @@ class PokemonDetailsViewModel(
                         _state.value = _state.value.copy(pokemonDetails = data)
                         getPokemonSpecies(data?.species?.name ?: "")
                     }
+
                     is ApiResponse.Error -> onError(message)
                 }
             }
         }
     }
+
+    private fun isAlreadyPopulatedForCurrent(pokemonName: String): Boolean =
+        _state.value.pokemonDetails?.name?.lowercase() == pokemonName.lowercase() &&
+                _state.value.species != null &&
+                _state.value.evolutionChain != null
 
     private fun getPokemonSpecies(pokemonSpeciesName: String) {
         viewModelScope.launch {
@@ -77,6 +90,7 @@ class PokemonDetailsViewModel(
                         _state.value = _state.value.copy(species = data)
                         getPokemonEvolutionChain(data?.evolution_chain?.url!!)
                     }
+
                     is ApiResponse.Error -> onError(message)
                 }
             }
@@ -89,6 +103,7 @@ class PokemonDetailsViewModel(
                 when (this) {
                     is ApiResponse.Success -> _state.value =
                         _state.value.copy(evolutionChain = data, isLoading = false)
+
                     is ApiResponse.Error -> onError(message)
                 }
             }

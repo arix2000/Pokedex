@@ -1,17 +1,23 @@
 package com.arix.pokedex.features.pokemon_list.domain
 
+import com.arix.pokedex.features.common.search_view.domain.Page
+import com.arix.pokedex.features.pokemon_list.domain.model.RawAbilityDetails
+import com.arix.pokedex.features.pokemon_list.domain.model.RawPokemonEncounters
 import com.arix.pokedex.features.pokemon_list.domain.model.details.raw.RawPokemonDetails
-import com.arix.pokedex.features.pokemon_list.domain.model.list.PokemonList
+import com.arix.pokedex.features.pokemon_list.domain.model.list.PokemonItem
 import com.arix.pokedex.utils.ApiResponse
-import kotlinx.coroutines.flow.Flow
 
 interface PokemonRepository {
-
-    suspend fun getPokemonList(offset: Int, limit: Int): ApiResponse<PokemonList>
+    suspend fun getPokemonList(
+        offset: Int,
+        searchQuery: String,
+        limit: Int,
+        limitedList: List<String>
+    ): ApiResponse<Page<PokemonItem>>
 
     suspend fun getPokemon(name: String): ApiResponse<RawPokemonDetails>
 
-    suspend fun getPokemonNames(): Flow<List<String>>
+    suspend fun getAbility(abilityId: Int): ApiResponse<RawAbilityDetails>
 
-    suspend fun savePokemonNames(names: List<String>)
+    suspend fun getPokemonEncounters(name: String): ApiResponse<List<RawPokemonEncounters>>
 }

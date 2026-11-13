@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
-import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -23,9 +22,10 @@ import com.arix.pokedex.core.errors.Error
 import com.arix.pokedex.features.common.search_view.SearchableLazyColumnViewModel
 import com.arix.pokedex.features.common.search_view.domain.SearchParams
 import com.arix.pokedex.features.pokemon_list.presentation.ui.components.SearchBar
-import com.arix.pokedex.theme.PokedexTheme
 import com.arix.pokedex.theme.FontSizes
+import com.arix.pokedex.theme.PokedexTheme
 import com.arix.pokedex.theme.WarningColor
+import com.arix.pokedex.views.DefaultProgressIndicator
 import com.arix.pokedex.views.ErrorScreenWithRetryButtonCondensed
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
@@ -36,7 +36,7 @@ inline fun <reified T> SearchableLazyColumn(
     searchParams: SearchParams<T>,
     viewModel: SearchableLazyColumnViewModel<T> = getViewModel(qualifier = named(T::class.java.simpleName)) {
         with(searchParams) {
-            parametersOf(itemNames, itemsLimit, emptyItem, objectsFromNames)
+            parametersOf(getItemList)
         }
     },
     noinline searchableContent: LazyListScope.(List<T>) -> Unit
@@ -58,18 +58,6 @@ fun <T> SearchableLazyColumnContent(
         )
         if (state.emptySearchResult) NoResultsView()
         ItemListView(state, invokeEvent, searchableContent)
-    }
-}
-
-@Composable
-fun NoResultsView() {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 25.dp),
-        contentAlignment = Alignment.Center
-    ) {
-        Text(text = "No results :(")
     }
 }
 
@@ -131,7 +119,7 @@ private fun LoadingOrError(
                 modifier = Modifier.fillMaxWidth()
             )
         else
-            CircularProgressIndicator()
+            DefaultProgressIndicator()
 
     }
 }

@@ -1,7 +1,11 @@
 package com.arix.pokedex.features.moves.presentation.ui.components
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -16,7 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.arix.pokedex.extensions.clickableOnceInTime
 import com.arix.pokedex.extensions.toSentenceCase
-import com.arix.pokedex.features.move_details.domain.model.UiMove
+import com.arix.pokedex.features.moves.domain.model.MoveItem
 import com.arix.pokedex.features.pokemon_list.domain.model.details.Type
 import com.arix.pokedex.features.pokemon_list.presentation.ui.components.TypeItem
 import com.arix.pokedex.theme.FontSizes
@@ -25,13 +29,12 @@ import com.arix.pokedex.theme.Shapes
 import com.arix.pokedex.utils.MockResourceReader
 
 @Composable
-fun MoveListItem(move: UiMove, onClick: (moveId: String) -> Unit) {
+fun MoveListItem(move: MoveItem, modifier: Modifier = Modifier, onClick: (moveId: String) -> Unit) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
-            .padding(5.dp)
             .clip(Shapes.large)
             .clickableOnceInTime { onClick(move.id.toString()) }
             .background(getBrushBasedBy(move.type))
@@ -43,11 +46,13 @@ fun MoveListItem(move: UiMove, onClick: (moveId: String) -> Unit) {
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
             fontSize = FontSizes.large,
-            modifier = Modifier.fillMaxWidth().weight(1f)
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f)
         )
         Box {
             Surface(elevation = 2.dp, shape = Shapes.large, color = Color.Transparent) {
-                TypeItem(type = move.type, itemFontSize = FontSizes.minimum)
+                TypeItem(type = move.type, itemFontSize = FontSizes.normal)
             }
         }
     }

@@ -62,7 +62,7 @@ private fun VariantsContentView(
     Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxWidth()) {
         LazyRow(state = lazyRowState, modifier = Modifier.drawHorizontalScrollbar(lazyRowState)) {
             items(pokemonDetails.size) {
-                PokemonListItem(pokemonDetails = pokemonDetails[it], modifier = Modifier
+                PokemonListItem(pokemonItem = pokemonDetails[it], modifier = Modifier
                     .width(155.dp)
                     .height(230.dp),
                     onClick = if (rootPokemonDetailsName != pokemonDetails[it].name) {

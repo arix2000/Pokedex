@@ -7,6 +7,7 @@ import com.arix.pokedex.core.Constants.FlavorTextEntriesVersion.MOVE_DESCRIPTION
 import com.arix.pokedex.core.Constants.Language.ENGLISH_LANGUAGE_CODE
 import com.arix.pokedex.core.Constants.MoveScreen.EFFECT_CHANCE_ARG
 import com.arix.pokedex.extensions.toSentenceCase
+import com.arix.pokedex.features.moves.domain.model.MoveItem
 import com.arix.pokedex.features.moves.domain.model.RawMove
 import com.arix.pokedex.features.moves.domain.model.move.FlavorTextEntry
 import com.arix.pokedex.features.moves.domain.model.move.Meta
@@ -14,8 +15,8 @@ import com.arix.pokedex.features.pokemon_list.domain.model.details.Type
 import com.arix.pokedex.features.pokemon_list.domain.model.list.PokemonBasicData
 
 data class UiMove(
-    val id: Int,
-    val name: String,
+    override val id: Int,
+    override val name: String,
     val accuracy: Int?,
     val power: Int,
     val pp: Int,
@@ -25,12 +26,12 @@ data class UiMove(
     val effectDesc: String?,
     val description: String?,
     val meta: Meta,
-    val stat_changes: List<UiStatChange>,
+    val statChanges: List<UiStatChange>,
     val target: String,
-    val type: Type,
+    override val type: Type,
     val typeColor: Color,
-    val learned_by_pokemon: List<PokemonBasicData>
-) {
+    val learnedByPokemon: List<PokemonBasicData>
+): MoveItem(id, name, type) {
     companion object {
         fun fromRaw(raw: RawMove): UiMove {
             with(raw) {

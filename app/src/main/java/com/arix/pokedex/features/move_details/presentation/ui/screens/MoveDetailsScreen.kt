@@ -11,14 +11,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import com.arix.pokedex.R
 import com.arix.pokedex.core.navigation.Navigator
 import com.arix.pokedex.extensions.isPreview
+import com.arix.pokedex.features.limited_list.domain.LimitedListType
 import com.arix.pokedex.features.move_details.domain.model.UiMove
 import com.arix.pokedex.features.move_details.presentation.MoveDetailsViewModel
 import com.arix.pokedex.features.move_details.presentation.ui.MoveDetailsEvent
 import com.arix.pokedex.features.move_details.presentation.ui.components.MoveDetailsHeader
 import com.arix.pokedex.features.move_details.presentation.ui.components.MoveDetailsTiles
-import com.arix.pokedex.features.move_details.presentation.ui.components.learnedByPokemon.LearnedByPokemonSection
+import com.arix.pokedex.features.move_details.presentation.ui.components.learnedByPokemon.PokemonShortListSection
 import com.arix.pokedex.theme.PokedexTheme
 import com.arix.pokedex.utils.MockResourceReader
 import com.arix.pokedex.views.DefaultProgressIndicatorScreen
@@ -39,9 +41,11 @@ fun MoveDetailsScreen(
     val state = viewModel.state.value
     when {
         state.move != null -> {
-            MoveDetailsScreenContent(move = state.move
+            MoveDetailsScreenContent(
+                move = state.move
             )
         }
+
         state.isLoading -> DefaultProgressIndicatorScreen()
         state.errorMessage != null -> ErrorScreenWithRetryButton {
             viewModel.invokeEvent(MoveDetailsEvent.LoadMoveDetailsEvent(moveId))
@@ -51,6 +55,7 @@ fun MoveDetailsScreen(
 
 @Composable
 private fun MoveDetailsScreenContent(move: UiMove, navigator: Navigator = get()) {
+    val context = LocalContext.current
     Column(
         Modifier
             .fillMaxWidth()
@@ -60,8 +65,15 @@ private fun MoveDetailsScreenContent(move: UiMove, navigator: Navigator = get())
         FadingHorizontalDivider()
         MoveDetailsTiles(move)
         if (!isPreview())
-            LearnedByPokemonSection(move.learned_by_pokemon,
-                { navigator.goToLearnedByPokemonList(it, move.name) })
+            PokemonShortListSection(
+                move.learnedByPokemon.map { it.name },
+                {
+                    navigator.goToLimitedList(
+                        it,
+                        context.getString(R.string.move_can_be_learned_by_page_title, move.name),
+                        LimitedListType.POKEMONS
+                    )
+                })
     }
 }
 

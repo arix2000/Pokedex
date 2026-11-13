@@ -5,15 +5,19 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.arix.pokedex.extensions.getTypeOf
-import com.arix.pokedex.features.abilities.AbilitiesScreen
 import com.arix.pokedex.features.items.presentation.ui.ItemsScreen
-import com.arix.pokedex.features.locations.LocationsScreen
-import com.arix.pokedex.features.move_details.presentation.ui.screens.LearnedByPokemonFullList
+import com.arix.pokedex.features.limited_list.domain.LimitedListType
+import com.arix.pokedex.features.limited_list.presentation.LimitedListScreen
+import com.arix.pokedex.features.locations.presentation.ui.LocationDetailsScreen
+import com.arix.pokedex.features.locations.presentation.ui.LocationsScreen
 import com.arix.pokedex.features.move_details.presentation.ui.screens.MoveDetailsScreen
 import com.arix.pokedex.features.moves.presentation.ui.MovesScreen
+import com.arix.pokedex.features.pokemon_details.presentation.PokemonDetailsViewModel
 import com.arix.pokedex.features.pokemon_details.presentation.ui.PokemonDetailsScreen
 import com.arix.pokedex.features.pokemon_list.presentation.ui.PokemonListScreen
+import com.arix.pokedex.features.type_effectiveness.presentation.TypeEffectivenessScreen
 import com.google.gson.Gson
+import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun AppNavHost(navController: NavHostController) {
@@ -24,8 +28,9 @@ fun AppNavHost(navController: NavHostController) {
 
         with(Screen.PokemonDetailsScreen) {
             composable(route) { backStackEntry ->
+                val viewModel: PokemonDetailsViewModel = getViewModel(owner = backStackEntry)
                 backStackEntry.arguments?.getString(argumentKeys[0])?.let {
-                    PokemonDetailsScreen(it)
+                    PokemonDetailsScreen(it, viewModel)
                 }
             }
         }
@@ -41,10 +46,17 @@ fun AppNavHost(navController: NavHostController) {
             }
         }
 
-        with(Screen.LearnedByPokemonFullList) {
+        with(Screen.LimitedListScreen) {
             composable(route) { backStackEntry ->
                 backStackEntry.arguments?.getString(argumentKeys[0])?.let {
-                    LearnedByPokemonFullList(Gson().fromJson(it, getTypeOf<List<String>>()))
+                    LimitedListScreen(
+                        pokemonNames = Gson().fromJson(it, getTypeOf<List<String>>()),
+                        type = LimitedListType.valueOf(
+                            backStackEntry.arguments?.getString(
+                                argumentKeys[2]
+                            ) ?: LimitedListType.POKEMONS.name
+                        )
+                    )
                 }
             }
         }
@@ -57,8 +69,16 @@ fun AppNavHost(navController: NavHostController) {
             LocationsScreen()
         }
 
+        with(Screen.LocationsDetailsScreen) {
+            composable(route) { backStackEntry ->
+                backStackEntry.arguments?.getString(argumentKeys[0])?.let {
+                    LocationDetailsScreen(it.toInt())
+                }
+            }
+        }
+
         composable(Screen.AbilitiesScreen.route) {
-            AbilitiesScreen()
+            TypeEffectivenessScreen()
         }
     }
 }
